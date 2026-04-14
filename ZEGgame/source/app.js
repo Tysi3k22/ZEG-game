@@ -4,7 +4,6 @@ const tileSize = 40; //ustawienie wielkosci kafelka
 let hp = document.getElementById('hp');
 let klucze = document.getElementById('klucze');
 
-let licznikKluczy = 0;
 
 //Swieder mapowanie masz tak map1[y][x]
 const map1 = [
@@ -22,8 +21,12 @@ const map1 = [
     [1,1,1,1,1,1,1,1,1,1,1,1]
 ];
 
+//podstawowe informacje o graczu
 let player = {
-    x: 1, y: 1 //podstawowe polozenie gracza
+    x: 1,
+    y: 1,
+    keys: 0,
+    hp: 100 
 };
 
 function Draw() {
@@ -77,8 +80,8 @@ function move(dx, dy) {
     }
     if(map1[py][px] == 3){
         alert("Zdobyłeś klucz!");
-        licznikKluczy++;
-        klucze.innerHTML = parseInt(licznikKluczy); 
+        player.keys++;
+        klucze.innerHTML = parseInt(player.keys); 
         map1[py][px] = 0; //usuwanie klucza z mapy po odebraniu
     }
     if(map1[py][px] == 4){
@@ -91,16 +94,11 @@ function move(dx, dy) {
 
 //system poruszania sie zaleznie od nacisnietego przycisku
 document.addEventListener('keydown', (e) => {
-    // sterowanie strzałkami
-    if(e.key == "ArrowUp") move(0,-1); 
-    if(e.key == "ArrowDown") move(0,1);
-    if(e.key == "ArrowLeft") move(-1,0);
-    if(e.key == "ArrowRight") move(1,0);
-    // sterowanie WASD
-    if(e.key == "w") move(0,-1); 
-    if(e.key == "s") move(0,1);
-    if(e.key == "a") move(-1,0);
-    if(e.key == "d") move(1,0);
+    // sterowanie strzałkami oraz wsad'em
+    if(e.key == "ArrowUp" || e.key == "w") move(0,-1); 
+    if(e.key == "ArrowDown" || e.key == "s") move(0,1);
+    if(e.key == "ArrowLeft" || e.key == "a") move(-1,0);
+    if(e.key == "ArrowRight" || e.key == "d") move(1,0);
 })
 
 //funkcjonalnosc przycisku zaczynajacego gre
