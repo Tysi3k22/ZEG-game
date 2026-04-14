@@ -2,7 +2,7 @@ const canvas = document.getElementById('game'); // pobranie canvasa
 const ctx = canvas.getContext('2d');
 const tileSize = 40; //ustawienie wielkosci kafelka
 
-const map1 = maps[0]; //wybranie mapy do gry (na razie tylko jedna mapa)
+const map1 = maps[0]; //wybranie mapy do gry 
 
 let hp = document.getElementById('hp');
 let klucze = document.getElementById('klucze');
