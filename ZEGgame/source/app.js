@@ -4,10 +4,10 @@ import {player, updateUI, message, resetPlayer} from './player.js';
 import {drawEnemy, updateEnemies} from './enemies.js'
 
 const canvas = document.getElementById('game'); // pobranie canvasa
-const ctx = canvas.getContext('2d');
+export const ctx = canvas.getContext('2d');
 
 let currentMapIndex = 0; //zmienna przechowujaca aktualna mape, mozna ja zmieniac aby przechodzic do kolejnych map
-let currentMap = maps[currentMapIndex]; //pobranie aktualnej mapy z tablicy maps
+export let currentMap = maps[currentMapIndex]; //pobranie aktualnej mapy z tablicy maps
 
 
 function Draw() {
@@ -29,7 +29,9 @@ function Draw() {
     //ustawienie pozycji oraz wygladu gracza
     ctx.fillStyle = COLORS.PLAYER;
     ctx.fillRect(player.x*TILE_SIZE, player.y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
-    
+
+    updateEnemies();
+    drawEnemy();
     //drawFog();
 }
 function drawFog() {
@@ -73,7 +75,7 @@ function move(dx, dy) {
     }
     if(tile === TILES.EXIT && player.keys === 2 ){ //TODO: blokuje wchodzenie na pole mety
         message("Wygrałeś!"); //dymek pokazujacy przescie labiryntu (trzeba zrobic menu glowne aby do niego przechodzic po skonczeniu)
-        nastepnaMapa(); //przejscie do kolejnej mapy po przejsciu obecnej
+        nextMap(); //przejscie do kolejnej mapy po przejsciu obecnej
     }
     if(tile === TILES.KEY){
         message("Zdobyłeś klucz!");
@@ -98,7 +100,7 @@ function move(dx, dy) {
     Draw();
 }
 
-function nastepnaMapa() {
+function nextMap() {
     currentMapIndex++;
 
     if (!maps[currentMapIndex]) {
@@ -123,9 +125,9 @@ document.addEventListener('keydown', (e) => {
 function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    updateEnemies();
+    // updateEnemies();
     Draw();
-    drawEnemy();
+    //drawEnemy();
     
     updateUI();
     requestAnimationFrame(gameLoop);
