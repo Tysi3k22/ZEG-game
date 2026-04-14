@@ -1,13 +1,13 @@
 const canvas = document.getElementById('game'); // pobranie canvasa
 const ctx = canvas.getContext('2d');
 const tileSize = 40; //ustawienie wielkosci kafelka
-maps = require('./maps.js'); //import map z maps.js
+
+const map1 = maps[0]; //wybranie mapy do gry (na razie tylko jedna mapa)
+
 let hp = document.getElementById('hp');
 let klucze = document.getElementById('klucze');
 
 let licznikKluczy = 0;
-
-const map1 = maps[0]; //wybranie mapy do gry (na razie tylko jedna mapa)
 
 let player = {
     x: 1, y: 1 //podstawowe polozenie gracza
@@ -15,8 +15,9 @@ let player = {
 
 function Draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height); //zresetowanie wszelkich rzeczy w canvasie
+    
     for(let y = 0; y < map1.length; y++){ //petle sprawdzajace indexy w mapie aby ustawic
-        for(let x = 0; x < map1.length; x++){
+        for(let x = 0; x < map1[y].length; x++){
             if(map1[y][x] === 1){
                 //utworzenie scian
                 ctx.fillStyle = '#222';

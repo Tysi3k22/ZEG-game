@@ -1,6 +1,6 @@
 // map[y][x]
 
-const map1 = [
+const lvl1 = [
     [1,1,1,1,1,1,1,1,1,1,1,1],//1 - sciana
     [1,0,0,0,1,3,0,0,0,0,2,1],//0 - droga
     [1,0,1,0,1,0,1,1,1,1,1,1],//2 - meta
@@ -15,9 +15,8 @@ const map1 = [
     [1,1,1,1,1,1,1,1,1,1,1,1]
 ];
 
-const map2 = [
+const lvl2 = [
     
 ];
 
-const maps = [map1, map2];
-module.exports = maps;
+const maps = [lvl1, lvl2];
