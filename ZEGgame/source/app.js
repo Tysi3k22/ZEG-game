@@ -77,23 +77,24 @@ function move(dx, dy) {
     if(tile === TILES.KEY){
         message("Zdobyłeś klucz!");
         player.keys++;
-        tile = TILES.EMPTY; //usuwanie klucza z mapy po odebraniu
+        currentMap[py][px] = TILES.EMPTY; //usuwanie klucza z mapy po odebraniu
     }
     if(tile === TILES.HEAL){
         message("Zdobyłeś leczenie!");
         player.hp = 100;
-        tile = TILES.EMPTY; //usuwanie leczenia z mapy po odebraniu
+        currentMap[py][px] = TILES.EMPTY; //usuwanie leczenia z mapy po odebraniu
     }
     if(tile === TILES.GATE){
         if (player.keys > 0) {
             message("Odblokowano przejście!");
             player.keys--;
             keys_html.innerHTML = parseInt(player.keys);
-            tile = TILES.EMPTY; //czyszczenie kafelki
+            currentMap[py][px] = TILES.EMPTY; //czyszczenie kafelki
         } else {
             message("Brakuje kluczy, aby odblokować przejście!");
         }
     }
+    updateUI();
     Draw();
 }
 
