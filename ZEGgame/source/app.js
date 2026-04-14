@@ -5,8 +5,8 @@ const tileSize = 40; //ustawienie wielkosci kafelka
 let indeksAktualnejMapy = 0; //zmienna przechowujaca aktualna mape, mozna ja zmieniac aby przechodzic do kolejnych map
 let aktualnaMapa = maps[indeksAktualnejMapy]; //pobranie aktualnej mapy z tablicy maps
 
-let hp = document.getElementById('hp');
-let klucze = document.getElementById('klucze');
+let hp_html = document.getElementById('hp');
+let keys_html = document.getElementById('klucze');
 
 
 //podstawowe informacje o graczu
@@ -19,9 +19,27 @@ let player = {
 hp.innerHTML = player.hp + "/100";
 klucze.innerHTML = parseInt(player.keys); 
 
-let player = {
-    x: 1, y: 1 //podstawowe polozenie gracza
-};
+function drawFog() {
+    const visibilityRadius = tileSize * 2; // Promień widoczności
+    ctx.save();
+
+    //srodek gracza
+    const playerCenterX = player.x * tileSize + tileSize / 2;
+    const playerCenterY = player.y * tileSize + tileSize / 2;
+
+    ctx.beginPath();
+    
+    //prostokat(mgla) na caly labirynt oprocz gracza oraz okregu dookola niego
+    ctx.rect(0, 0, canvas.width, canvas.height);
+    //narysowanie kola widocznosci
+    ctx.arc(playerCenterX, playerCenterY, visibilityRadius, 0, Math.PI * 2, true);
+    
+    //ustawienie mgly
+    ctx.fillStyle = "black"; 
+    ctx.fill();
+
+    ctx.restore();
+}
 
 function Draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height); //zresetowanie wszelkich rzeczy w canvasie
@@ -56,8 +74,10 @@ function Draw() {
         }
     }
     //ustawienie pozycji oraz wygladu gracza
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'red';
     ctx.fillRect(player.x*tileSize, player.y*tileSize, tileSize, tileSize);
+
+    drawFog();
 }
 
 function move(dx, dy) {
@@ -65,11 +85,11 @@ function move(dx, dy) {
     const px = player.x + dx;
     const py = player.y + dy;
     //blokada przed przejściem dalej bez kluczy
-    if (licznikKluczy <= 1 && aktualnaMapa[py][px] == 2) {
+    if (player.keys <= 1 && aktualnaMapa[py][px] == 2) {
         wiadomosc("Musisz zdobyć wszystkie klucze, aby przejść dalej!"); //dymek pokazujacy ze trzeba zdobyć wszystkie klucze aby przejsc dalej
         return; //zatrzymanie funkcji move, aby nie pozwolić na przejście dalej
     }
-    if (licznikKluczy <= 0 && aktualnaMapa[py][px] == 5) {
+    if (player.keys <= 0 && aktualnaMapa[py][px] == 5) {
         wiadomosc("Musisz zdobyć klucz, aby odblokować przejście!");
         return;
     }
@@ -79,26 +99,27 @@ function move(dx, dy) {
         player.x = px;
         player.y = py;
     }
-    if(aktualnaMapa[py][px] == 2 && licznikKluczy == 2 ){ //TODO: blokuje wchodzenie na pole mety
+    if(aktualnaMapa[py][px] == 2 && player.keys == 2 ){ //TODO: blokuje wchodzenie na pole mety
         wiadomosc("Wygrałeś!"); //dymek pokazujacy przescie labiryntu (trzeba zrobic menu glowne aby do niego przechodzic po skonczeniu)
         nastepnaMapa(); //przejscie do kolejnej mapy po przejsciu obecnej
     }
     if(aktualnaMapa[py][px] == 3){
         wiadomosc("Zdobyłeś klucz!");
-        licznikKluczy++;
-        klucze.innerHTML = parseInt(licznikKluczy); 
+        player.keys++;
+        klucze.innerHTML = parseInt(player.keys); 
         aktualnaMapa[py][px] = 0; //usuwanie klucza z mapy po odebraniu
     }
     if(aktualnaMapa[py][px] == 4){
         wiadomosc("Zdobyłeś leczenie!");
-        hp.innerHTML = "100/100";
+        player.hp = 100;
+        hp.innerHTML = player.hp + "/100";
         aktualnaMapa[py][px] = 0; //usuwanie leczenia z mapy po odebraniu
     }
     if(aktualnaMapa[py][px] == 5){
-        if (licznikKluczy > 0) {
+        if (player.keys > 0) {
             wiadomosc("Odblokowano przejście!");
-            licznikKluczy--;
-            klucze.innerHTML = parseInt(licznikKluczy);
+            player.keys--;
+            klucze.innerHTML = parseInt(player.keys);
             aktualnaMapa[py][px] = 0; //czyszczenie kafelki
         } else {
             wiadomosc("Brakuje kluczy, aby odblokować przejście!");
@@ -119,8 +140,8 @@ function nastepnaMapa() {
     //resetowanie pozycji gracza i liczby kluczy
     player.x = 1;
     player.y = 1;
-    licznikKluczy = 0;
-    klucze.innerHTML = parseInt(licznikKluczy);
+    player.keys = 0;
+    klucze.innerHTML = parseInt(player.keys);
 
     Draw();
 }
