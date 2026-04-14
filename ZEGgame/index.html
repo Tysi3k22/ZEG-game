@@ -4,10 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Echo w Korytarzach</title>
-    <link rel="icon" href="grafiki/logo.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
+    <div class="nav">
+        <img src="assets/logo.png" alt="Logo" width="20" height="20">
+        <h1>Echo w Korytarzach</h1>
+    </div>
+    <div class="game">
+        <canvas id="game" width="800" height="600"></canvas>
+        <button class="StartButton" onclick="startGame()">Start</button>
+    </div>
     
+    <script src="source/app.js"></script>
 </body>
 </html>
