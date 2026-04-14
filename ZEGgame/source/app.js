@@ -2,7 +2,7 @@ const canvas = document.getElementById('game'); // pobranie canvasa
 const ctx = canvas.getContext('2d');
 const tileSize = 40; //ustawienie wielkosci kafelka
 
-let indeksAktualnejMapy = 0; //zmienna przechowujaca aktualna mape, mozna ja zmieniac aby przechodzic do kolejnych map
+let indeksAktualnejMapy = 1; //zmienna przechowujaca aktualna mape, mozna ja zmieniac aby przechodzic do kolejnych map
 let aktualnaMapa = maps[indeksAktualnejMapy]; //pobranie aktualnej mapy z tablicy maps
 
 let hp = document.getElementById('hp');
@@ -37,6 +37,11 @@ function Draw() {
             if(aktualnaMapa[y][x] === 4){
                 //utworzenie wygladu leczenia
                 ctx.fillStyle = 'lightgreen';
+                ctx.fillRect(x*tileSize, y*tileSize, tileSize, tileSize);
+            }
+            if(aktualnaMapa[y][x] === 5){
+                //utworzenie wygladu leczenia
+                ctx.fillStyle = 'brown';
                 ctx.fillRect(x*tileSize, y*tileSize, tileSize, tileSize);
             }
         }
@@ -75,6 +80,14 @@ function move(dx, dy) {
         alert("Zdobyłeś leczenie!");
         hp.innerHTML = "100/100";
         aktualnaMapa[py][px] = 0; //usuwanie leczenia z mapy po odebraniu
+    }
+    if(aktualnaMapa[py][px] == 5){
+        if (licznikKluczy > 0) {
+            alert("Odblokowano przejście!");
+            licznikKluczy--;
+            klucze.innerHTML = parseInt(licznikKluczy);
+        }
+        aktualnaMapa[py][px] = 0; //czyszczenie kafelki
     }
     Draw();
 }
