@@ -6,8 +6,8 @@ let klucze = document.getElementById('klucze');
 
 let licznikKluczy = 0;
 
-//Swieder mapowanie masz tak map[y][x]
-const map = [
+//Swieder mapowanie masz tak map1[y][x]
+const map1 = [
     [1,1,1,1,1,1,1,1,1,1,1,1],//1 - sciana
     [1,0,0,0,1,3,0,0,0,0,2,1],//0 - droga
     [1,0,1,0,1,0,1,1,1,1,1,1],//2 - meta
@@ -28,24 +28,24 @@ let player = {
 
 function Draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height); //zresetowanie wszelkich rzeczy w canvasie
-    for(let y = 0; y < map.length; y++){ //petle sprawdzajace indexy w mapie aby ustawic
-        for(let x = 0; x < map.length; x++){
-            if(map[y][x] === 1){
+    for(let y = 0; y < map1.length; y++){ //petle sprawdzajace indexy w mapie aby ustawic
+        for(let x = 0; x < map1.length; x++){
+            if(map1[y][x] === 1){
                 //utworzenie scian
                 ctx.fillStyle = '#222';
                 ctx.fillRect(x*tileSize, y*tileSize, tileSize, tileSize);
             }
-            if(map[y][x] === 2){
+            if(map1[y][x] === 2){
                 //utworzenie wygladu konca
                 ctx.fillStyle = 'green';
                 ctx.fillRect(x*tileSize, y*tileSize, tileSize, tileSize);
             }
-            if(map[y][x] === 3){
+            if(map1[y][x] === 3){
                 //utworzenie wygladu klucza
                 ctx.fillStyle = 'yellow';
                 ctx.fillRect(x*tileSize, y*tileSize, tileSize, tileSize);
             }
-            if(map[y][x] === 4){
+            if(map1[y][x] === 4){
                 //utworzenie wygladu leczenia
                 ctx.fillStyle = 'lightgreen';
                 ctx.fillRect(x*tileSize, y*tileSize, tileSize, tileSize);
@@ -62,28 +62,29 @@ function move(dx, dy) {
     const px = player.x + dx;
     const py = player.y + dy;
     //blokada przed przejściem dalej bez kluczy
-    if (licznikKluczy <= 1 && map[py][px] == 2) {
+    if (licznikKluczy <= 1 && map1[py][px] == 2) {
         alert("Musisz zdobyć wszystkie klucze, aby przejść dalej!"); //alert pokazujacy ze trzeba zdobyć wszystkie klucze aby przejsc dalej
+        return; //zatrzymanie funkcji move, aby nie pozwolić na przejście dalej
     }
 
-    if(map[py][px] != 1){ 
+    if(map1[py][px] != 1){ 
         //mechanika sprawdzania czy nie wchodzi sie w sciane jezeli tak to nie zmienia sie polozenie
         player.x = px;
         player.y = py;
     }
-    if(map[py][px] == 2 && licznikKluczy == 2 ){ //TODO: blokuje wchodzenie na pole mety
+    if(map1[py][px] == 2 && licznikKluczy == 2 ){ //TODO: blokuje wchodzenie na pole mety
         alert("Wygrałeś!"); //alert pokazujacy przescie labiryntu (trzeba zrobic menu glowne aby do niego przechodzic po skonczeniu)
     }
-    if(map[py][px] == 3){
+    if(map1[py][px] == 3){
         alert("Zdobyłeś klucz!");
         licznikKluczy++;
         klucze.innerHTML = parseInt(licznikKluczy); 
-        map[py][px] = 0; //usuwanie klucza z mapy po odebraniu
+        map1[py][px] = 0; //usuwanie klucza z mapy po odebraniu
     }
-    if(map[py][px] == 4){
+    if(map1[py][px] == 4){
         alert("Zdobyłeś leczenie!");
         hp.innerHTML = "100/100";
-        map[py][px] = 0; //usuwanie leczenia z mapy po odebraniu
+        map1[py][px] = 0; //usuwanie leczenia z mapy po odebraniu
     }
     Draw();
 }
