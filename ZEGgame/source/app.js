@@ -2,7 +2,7 @@ const canvas = document.getElementById('game'); // pobranie canvasa
 const ctx = canvas.getContext('2d');
 const tileSize = 40; //ustawienie wielkosci kafelka
 
-let indeksAktualnejMapy = 1; //zmienna przechowujaca aktualna mape, mozna ja zmieniac aby przechodzic do kolejnych map
+let indeksAktualnejMapy = 0; //zmienna przechowujaca aktualna mape, mozna ja zmieniac aby przechodzic do kolejnych map
 let aktualnaMapa = maps[indeksAktualnejMapy]; //pobranie aktualnej mapy z tablicy maps
 
 let hp = document.getElementById('hp');
