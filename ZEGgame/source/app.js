@@ -8,7 +8,16 @@ let aktualnaMapa = maps[indeksAktualnejMapy]; //pobranie aktualnej mapy z tablic
 let hp = document.getElementById('hp');
 let klucze = document.getElementById('klucze');
 
-let licznikKluczy = 0;
+
+//podstawowe informacje o graczu
+let player = {
+    x: 1,
+    y: 1,
+    keys: 0,
+    hp: 20 
+};
+hp.innerHTML = player.hp + "/100";
+klucze.innerHTML = parseInt(player.keys); 
 
 let player = {
     x: 1, y: 1 //podstawowe polozenie gracza
@@ -127,16 +136,11 @@ function wiadomosc(text) {
 
 //system poruszania sie zaleznie od nacisnietego przycisku
 document.addEventListener('keydown', (e) => {
-    // sterowanie strzałkami
-    if(e.key == "ArrowUp") move(0,-1); 
-    if(e.key == "ArrowDown") move(0,1);
-    if(e.key == "ArrowLeft") move(-1,0);
-    if(e.key == "ArrowRight") move(1,0);
-    // sterowanie WASD
-    if(e.key == "w") move(0,-1); 
-    if(e.key == "s") move(0,1);
-    if(e.key == "a") move(-1,0);
-    if(e.key == "d") move(1,0);
+    // sterowanie strzałkami oraz wsad'em
+    if(e.key == "ArrowUp" || e.key == "w") move(0,-1); 
+    if(e.key == "ArrowDown" || e.key == "s") move(0,1);
+    if(e.key == "ArrowLeft" || e.key == "a") move(-1,0);
+    if(e.key == "ArrowRight" || e.key == "d") move(1,0);
 })
 
 //funkcjonalnosc przycisku zaczynajacego gre
