@@ -44,3 +44,4 @@ function Draw() {
 function startGame(){
     Draw();
 }
+Draw();
