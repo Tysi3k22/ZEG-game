@@ -1,26 +1,13 @@
 const canvas = document.getElementById('game'); // pobranie canvasa
 const ctx = canvas.getContext('2d');
 const tileSize = 40; //ustawienie wielkosci kafelka
+maps = require('./maps.js'); //import map z maps.js
 let hp = document.getElementById('hp');
 let klucze = document.getElementById('klucze');
 
 let licznikKluczy = 0;
 
-//Swieder mapowanie masz tak map1[y][x]
-const map1 = [
-    [1,1,1,1,1,1,1,1,1,1,1,1],//1 - sciana
-    [1,0,0,0,1,3,0,0,0,0,2,1],//0 - droga
-    [1,0,1,0,1,0,1,1,1,1,1,1],//2 - meta
-    [1,0,1,0,0,0,0,0,0,0,0,1],//3 - klucz
-    [1,0,1,1,1,1,1,1,1,1,0,1],//4 - leczenie
-    [1,0,0,0,0,0,0,0,3,1,0,1],
-    [1,1,1,1,1,1,1,1,0,1,0,1],
-    [1,0,0,0,0,0,0,1,0,1,0,1],
-    [1,0,1,1,1,1,0,1,0,1,0,1],
-    [1,0,0,0,0,1,0,0,0,1,0,1],
-    [1,0,1,1,0,0,4,1,0,0,0,1],  
-    [1,1,1,1,1,1,1,1,1,1,1,1]
-];
+const map1 = maps[0]; //wybranie mapy do gry (na razie tylko jedna mapa)
 
 let player = {
     x: 1, y: 1 //podstawowe polozenie gracza

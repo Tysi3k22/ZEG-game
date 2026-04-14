@@ -16,8 +16,8 @@ const map1 = [
 ];
 
 const map2 = [
-    [1,1,1,1,1,1,1,1,1,1,1,1],
-    [1,],
-    [1,],
-    [1,1,1,1,1,1,1,1,1,1,1,1]
+    
 ];
+
+const maps = [map1, map2];
+module.exports = maps;
