@@ -1,49 +1,13 @@
+import {TILE_SIZE, TILES, COLORS} from './constants.js';
+import {maps} from './maps.js';
+import {player, updateUI, message, resetPlayer} from './player.js';
+
 const canvas = document.getElementById('game'); // pobranie canvasa
 const ctx = canvas.getContext('2d');
-const tileSize = 40; //ustawienie wielkosci kafelka
 
-let indeksAktualnejMapy = 0; //zmienna przechowujaca aktualna mape, mozna ja zmieniac aby przechodzic do kolejnych map
-let currentMap = maps[indeksAktualnejMapy]; //pobranie aktualnej mapy z tablicy maps
+let currentMapIndex = 0; //zmienna przechowujaca aktualna mape, mozna ja zmieniac aby przechodzic do kolejnych map
+let currentMap = maps[currentMapIndex]; //pobranie aktualnej mapy z tablicy maps
 
-let hp_html = document.getElementById('hp');
-let keys_html = document.getElementById('klucze');
-
-
-//podstawowe informacje o graczu
-let player = {
-    x: 1,
-    y: 1,
-    keys: 0,
-    hp: 20 
-};
-
-function updateUI() {
-    hp.innerHTML = player.hp + "/100";
-    klucze.innerHTML = parseInt(player.keys); 
-}
-
-
-function drawFog() {
-    const visibilityRadius = tileSize * 2; // Promień widoczności
-    ctx.save();
-
-    //srodek gracza
-    const playerCenterX = player.x * tileSize + tileSize / 2;
-    const playerCenterY = player.y * tileSize + tileSize / 2;
-
-    ctx.beginPath();
-    
-    //prostokat(mgla) na caly labirynt oprocz gracza oraz okregu dookola niego
-    ctx.rect(0, 0, canvas.width, canvas.height);
-    //narysowanie kola widocznosci
-    ctx.arc(playerCenterX, playerCenterY, visibilityRadius, 0, Math.PI * 2, true);
-    
-    //ustawienie mgly
-    ctx.fillStyle = "rgba(0, 0, 0,0.98)"; 
-    ctx.fill();
-
-    ctx.restore();
-}
 
 function Draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height); //zresetowanie wszelkich rzeczy w canvasie
@@ -51,115 +15,100 @@ function Draw() {
     for(let y = 0; y < currentMap.length; y++){ //petle sprawdzajace indexy w mapie aby ustawic
         for(let x = 0; x < currentMap[y].length; x++){
             const tile = currentMap[y][x];
-            if(tile === 1){
-                //utworzenie scian
-                ctx.fillStyle = '#222';
-                ctx.fillRect(x*tileSize, y*tileSize, tileSize, tileSize);
-            }
-            if(tile === 2){
-                //utworzenie wygladu konca
-                ctx.fillStyle = 'green';
-                ctx.fillRect(x*tileSize, y*tileSize, tileSize, tileSize);
-            }
-            if(tile === 3){
-                //utworzenie wygladu klucza
-                ctx.fillStyle = 'yellow';
-                ctx.fillRect(x*tileSize, y*tileSize, tileSize, tileSize);
-            }
-            if(tile === 4){
-                //utworzenie wygladu leczenia
-                ctx.fillStyle = 'lightgreen';
-                ctx.fillRect(x*tileSize, y*tileSize, tileSize, tileSize);
-            }
-            if(tile === 5){
-                //utworzenie wygladu leczenia
-                ctx.fillStyle = 'brown';
-                ctx.fillRect(x*tileSize, y*tileSize, tileSize, tileSize);
-            }
+            if(tile === TILES.WALL) ctx.fillStyle = COLORS.WALL;
+            else if(tile === TILES.EXIT) ctx.fillStyle = COLORS.EXIT;
+            else if(tile === TILES.KEY) ctx.fillStyle = COLORS.KEY;
+            else if(tile === TILES.HEAL) ctx.fillStyle = COLORS.HEAL;
+            else if(tile === TILES.GATE) ctx.fillStyle = COLORS.GATE;
+            else continue;
+            
+            ctx.fillRect(x*TILE_SIZE, y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
         }
     }
     //ustawienie pozycji oraz wygladu gracza
-    ctx.fillStyle = 'red';
-    ctx.fillRect(player.x*tileSize, player.y*tileSize, tileSize, tileSize);
-
+    ctx.fillStyle = COLORS.PLAYER;
+    ctx.fillRect(player.x*TILE_SIZE, player.y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
+    
     drawFog();
+}
+function drawFog() {
+    const visibilityRadius = TILE_SIZE * 2; // Promień widoczności
+    
+    //srodek gracza
+    const playerCenterX = player.x * TILE_SIZE + TILE_SIZE / 2;
+    const playerCenterY = player.y * TILE_SIZE + TILE_SIZE / 2;
+    
+    ctx.save();
+    ctx.beginPath();
+
+    ctx.rect(0, 0, canvas.width, canvas.height); //prostokat(mgla) na caly labirynt oprocz gracza oraz okregu dookola niego
+    ctx.arc(playerCenterX, playerCenterY, visibilityRadius, 0, Math.PI * 2, true); //narysowanie kola widocznosci
+    
+    ctx.fillStyle = COLORS.FOG; //ustawienie mgly
+    ctx.fill();
+
+    ctx.restore();
 }
 
 function move(dx, dy) {
     //poruszanie sie
     const px = player.x + dx;
     const py = player.y + dy;
+    const tile = currentMap[py][px]
     //blokada przed przejściem dalej bez kluczy
-    if (player.keys <= 1 && currentMap[py][px] == 2) {
-        wiadomosc("Musisz zdobyć wszystkie klucze, aby przejść dalej!"); //dymek pokazujacy ze trzeba zdobyć wszystkie klucze aby przejsc dalej
+    if (player.keys <= 1 && tile === TILES.EXIT) {
+        message("Musisz zdobyć wszystkie klucze, aby przejść dalej!"); //dymek pokazujacy ze trzeba zdobyć wszystkie klucze aby przejsc dalej
         return; //zatrzymanie funkcji move, aby nie pozwolić na przejście dalej
     }
-    if (player.keys <= 0 && currentMap[py][px] == 5) {
-        wiadomosc("Musisz zdobyć klucz, aby odblokować przejście!");
+    if (player.keys <= 0 && tile == TILES.GATE) {
+        message("Musisz zdobyć klucz, aby odblokować przejście!");
         return;
     }
 
-    if(currentMap[py][px] != 1){ 
+    if(tile != TILES.WALL){ 
         //mechanika sprawdzania czy nie wchodzi sie w sciane jezeli tak to nie zmienia sie polozenie
         player.x = px;
         player.y = py;
     }
-    if(currentMap[py][px] == 2 && player.keys == 2 ){ //TODO: blokuje wchodzenie na pole mety
-        wiadomosc("Wygrałeś!"); //dymek pokazujacy przescie labiryntu (trzeba zrobic menu glowne aby do niego przechodzic po skonczeniu)
+    if(tile === TILES.EXIT && player.keys === 2 ){ //TODO: blokuje wchodzenie na pole mety
+        message("Wygrałeś!"); //dymek pokazujacy przescie labiryntu (trzeba zrobic menu glowne aby do niego przechodzic po skonczeniu)
         nastepnaMapa(); //przejscie do kolejnej mapy po przejsciu obecnej
     }
-    if(currentMap[py][px] == 3){
-        wiadomosc("Zdobyłeś klucz!");
+    if(tile === TILES.KEY){
+        message("Zdobyłeś klucz!");
         player.keys++;
-        klucze.innerHTML = parseInt(player.keys); 
-        currentMap[py][px] = 0; //usuwanie klucza z mapy po odebraniu
+        tile = TILES.EMPTY; //usuwanie klucza z mapy po odebraniu
     }
-    if(currentMap[py][px] == 4){
-        wiadomosc("Zdobyłeś leczenie!");
+    if(tile === TILES.HEAL){
+        message("Zdobyłeś leczenie!");
         player.hp = 100;
-        hp.innerHTML = player.hp + "/100";
-        currentMap[py][px] = 0; //usuwanie leczenia z mapy po odebraniu
+        tile = TILES.EMPTY; //usuwanie leczenia z mapy po odebraniu
     }
-    if(currentMap[py][px] == 5){
+    if(tile === TILES.GATE){
         if (player.keys > 0) {
-            wiadomosc("Odblokowano przejście!");
+            message("Odblokowano przejście!");
             player.keys--;
-            klucze.innerHTML = parseInt(player.keys);
-            currentMap[py][px] = 0; //czyszczenie kafelki
+            keys_html.innerHTML = parseInt(player.keys);
+            tile = TILES.EMPTY; //czyszczenie kafelki
         } else {
-            wiadomosc("Brakuje kluczy, aby odblokować przejście!");
+            message("Brakuje kluczy, aby odblokować przejście!");
         }
     }
     Draw();
 }
 
 function nastepnaMapa() {
-    indeksAktualnejMapy++;
+    currentMapIndex++;
 
-    if (!maps[indeksAktualnejMapy]) {
-        wiadomosc("Gratulacje! Ukończyłeś wszystkie mapy! (na razie)");
+    if (!maps[currentMapIndex]) {
+        message("Gratulacje! Ukończyłeś wszystkie mapy! (na razie)");
         return;
     }
-    currentMap = maps[indeksAktualnejMapy];
+    currentMap = maps[currentMapIndex];
 
-    //resetowanie pozycji gracza i liczby kluczy
-    player.x = 1;
-    player.y = 1;
-    player.keys = 0;
-    klucze.innerHTML = parseInt(player.keys);
-
+    resetPlayer();
     Draw();
 }
-
-function wiadomosc(text) {
-    const msg = document.getElementById('msg');
-    msg.innerText = text;
-
-    setTimeout(() => {
-        msg.innerText = '';
-    }, 2000);
-}
-
 //system poruszania sie zaleznie od nacisnietego przycisku
 document.addEventListener('keydown', (e) => {
     // sterowanie strzałkami oraz wsad'em
@@ -172,7 +121,9 @@ document.addEventListener('keydown', (e) => {
 //funkcjonalnosc przycisku zaczynajacego gre
 function startGame(){
     Draw();
+    updateUI();
 }
 
 //podstawowe wyswietalnie labiryntu
+updateUI();
 Draw();
