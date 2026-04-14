@@ -4,7 +4,7 @@ const tileSize = 40; //ustawienie wielkosci kafelka
 let hp = document.getElementById('hp');
 let klucze = document.getElementById('klucze');
 
-klucze = 0;
+let licznikKluczy = 0;
 
 //Swieder mapowanie masz tak map[y][x]
 const map = [
@@ -12,13 +12,13 @@ const map = [
     [1,0,0,0,1,3,0,0,0,0,2,1],//0 - droga
     [1,0,1,0,1,0,1,1,1,1,1,1],//2 - meta
     [1,0,1,0,0,0,0,0,0,0,0,1],//3 - klucz
-    [1,0,1,1,1,1,1,1,1,1,0,1],
+    [1,0,1,1,1,1,1,1,1,1,0,1],//4 - leczenie
     [1,0,0,0,0,0,0,0,3,1,0,1],
     [1,1,1,1,1,1,1,1,0,1,0,1],
     [1,0,0,0,0,0,0,1,0,1,0,1],
     [1,0,1,1,1,1,0,1,0,1,0,1],
     [1,0,0,0,0,1,0,0,0,1,0,1],
-    [1,0,1,1,0,0,0,1,0,0,0,1],  
+    [1,0,1,1,0,0,4,1,0,0,0,1],  
     [1,1,1,1,1,1,1,1,1,1,1,1]
 ];
 
@@ -45,6 +45,11 @@ function Draw() {
                 ctx.fillStyle = 'yellow';
                 ctx.fillRect(x*tileSize, y*tileSize, tileSize, tileSize);
             }
+            if(map[y][x] === 4){
+                //utworzenie wygladu leczenia
+                ctx.fillStyle = 'lightgreen';
+                ctx.fillRect(x*tileSize, y*tileSize, tileSize, tileSize);
+            }
         }
     }
     //ustawienie pozycji oraz wygladu gracza
@@ -56,29 +61,45 @@ function move(dx, dy) {
     //poruszanie sie
     const px = player.x + dx;
     const py = player.y + dy;
+    //blokada przed przejściem dalej bez kluczy
+    if (licznikKluczy <= 1 && map[py][px] == 2) {
+        alert("Musisz zdobyć wszystkie klucze, aby przejść dalej!"); //alert pokazujacy ze trzeba zdobyć wszystkie klucze aby przejsc dalej
+    }
 
     if(map[py][px] != 1){ 
         //mechanika sprawdzania czy nie wchodzi sie w sciane jezeli tak to nie zmienia sie polozenie
         player.x = px;
         player.y = py;
     }
-    if(map[py][px] == 2){
+    if(map[py][px] == 2 && licznikKluczy == 2 ){ //TODO: blokuje wchodzenie na pole mety
         alert("Wygrałeś!"); //alert pokazujacy przescie labiryntu (trzeba zrobic menu glowne aby do niego przechodzic po skonczeniu)
     }
     if(map[py][px] == 3){
         alert("Zdobyłeś klucz!");
-        klucze++;
-        map[py][px] = 0; //usuwanie klucza po odebraniu
+        licznikKluczy++;
+        klucze.innerHTML = parseInt(licznikKluczy); 
+        map[py][px] = 0; //usuwanie klucza z mapy po odebraniu
+    }
+    if(map[py][px] == 4){
+        alert("Zdobyłeś leczenie!");
+        hp.innerHTML = "100/100";
+        map[py][px] = 0; //usuwanie leczenia z mapy po odebraniu
     }
     Draw();
 }
 
-//sytem poruszania sie zaleznie od nacisnietego przycisku
+//system poruszania sie zaleznie od nacisnietego przycisku
 document.addEventListener('keydown', (e) => {
+    // sterowanie strzałkami
     if(e.key == "ArrowUp") move(0,-1); 
     if(e.key == "ArrowDown") move(0,1);
     if(e.key == "ArrowLeft") move(-1,0);
     if(e.key == "ArrowRight") move(1,0);
+    // sterowanie WASD
+    if(e.key == "w") move(0,-1); 
+    if(e.key == "s") move(0,1);
+    if(e.key == "a") move(-1,0);
+    if(e.key == "d") move(1,0);
 })
 
 //funkcjonalnosc przycisku zaczynajacego gre
