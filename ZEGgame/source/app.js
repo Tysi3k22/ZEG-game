@@ -4,7 +4,7 @@ const tileSize = 40;
 
 const map = [
     [1,1,1,1,1,1,1,1,1,1,1,1],
-    [1,0,0,0,1,0,0,0,0,0,0,0], 
+    [1,0,0,0,1,0,0,0,0,0,2,1], 
     [1,0,1,0,1,0,1,1,1,1,1,1],
     [1,0,1,0,0,0,0,0,0,0,0,1],
     [1,0,1,1,1,1,1,1,1,1,0,1],
@@ -13,7 +13,7 @@ const map = [
     [1,0,0,0,0,0,0,1,0,1,0,1],
     [1,0,1,1,1,1,0,1,0,1,0,1],
     [1,0,0,0,0,1,0,0,0,1,0,1],
-    [0,0,1,1,0,0,0,1,0,0,0,1],  
+    [1,0,1,1,0,0,0,1,0,0,0,1],  
     [1,1,1,1,1,1,1,1,1,1,1,1]
 ];
 
@@ -39,6 +39,28 @@ function Draw() {
     ctx.fillStyle = 'white';
     ctx.fillRect(player.x*tileSize, player.y*tileSize, tileSize, tileSize);
 }
+
+function move(dx, dy) {
+    const px = player.x + dx;
+    const py = player.y + dy;
+
+    if(map[py][px] != 1){
+        player.x = px;
+        player.y = py;
+    }
+    if(map[py][px] == 2){
+        alert("Wygrałeś!");
+    }
+
+    Draw();
+}
+
+document.addEventListener('keydown', (e) => {
+    if(e.key == "ArrowUp") move(0,-1);
+    if(e.key == "ArrowDown") move(0,1);
+    if(e.key == "ArrowLeft") move(-1,0);
+    if(e.key == "ArrowRight") move(1,0);
+})
 
 
 function startGame(){
