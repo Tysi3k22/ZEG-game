@@ -16,8 +16,12 @@ let player = {
     keys: 0,
     hp: 20 
 };
-hp.innerHTML = player.hp + "/100";
-klucze.innerHTML = parseInt(player.keys); 
+
+function updateUI() {
+    hp.innerHTML = player.hp + "/100";
+    klucze.innerHTML = parseInt(player.keys); 
+}
+
 
 function drawFog() {
     const visibilityRadius = tileSize * 2; // Promień widoczności
@@ -35,7 +39,7 @@ function drawFog() {
     ctx.arc(playerCenterX, playerCenterY, visibilityRadius, 0, Math.PI * 2, true);
     
     //ustawienie mgly
-    ctx.fillStyle = "black"; 
+    ctx.fillStyle = "rgba(0, 0, 0,0.98)"; 
     ctx.fill();
 
     ctx.restore();
