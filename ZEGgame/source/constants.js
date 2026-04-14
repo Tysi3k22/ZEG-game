@@ -1,6 +1,7 @@
-export const TILE_SIZE = 40;
-export const MAX_HP = 100;
+export const TILE_SIZE = 40; // rozmiar jednego kafelka
+export const MAX_HP = 100; // maksymalna ilosc zdrowia gracza
 
+//punktualny opis kalefkow w labiryncie
 export const TILES = {
     EMPTY: 0,
     WALL: 1,
@@ -10,6 +11,7 @@ export const TILES = {
     GATE: 5
 };
 
+//punktualny opis kolorow w labiryncie
 export const COLORS = {
     PLAYER: 'red',
     WALL: '#222',
