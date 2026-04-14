@@ -18,12 +18,12 @@ const map = [
 ];
 
 let player = {
-    x: 1, y: 1
+    x: 1, y: 1 //podstawowe polozenie gracza
 };
 
 function Draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for(let y = 0; y < map.length; y++){
+    ctx.clearRect(0, 0, canvas.width, canvas.height); //zresetowanie wszelkich rzeczy w canvasie
+    for(let y = 0; y < map.length; y++){ //petle sprawdzajace indexy w mapie aby ustawic
         for(let x = 0; x < map.length; x++){
             if(map[y][x] === 1){
                 //utworzenie scian
