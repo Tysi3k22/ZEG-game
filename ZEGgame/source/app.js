@@ -1,6 +1,10 @@
 const canvas = document.getElementById('game'); // pobranie canvasa
 const ctx = canvas.getContext('2d');
 const tileSize = 40; //ustawienie wielkosci kafelka
+
+let indeksAktualnejMapy = 0; //zmienna przechowujaca aktualna mape, mozna ja zmieniac aby przechodzic do kolejnych map
+let aktualnaMapa = maps[indeksAktualnejMapy]; //pobranie aktualnej mapy z tablicy maps
+
 let hp = document.getElementById('hp');
 let klucze = document.getElementById('klucze');
 
@@ -15,51 +19,38 @@ let player = {
 hp.innerHTML = player.hp + "/100";
 klucze.innerHTML = parseInt(player.keys); 
 
-//Swieder mapowanie masz tak map1[y][x]
-const map1 = [
-    [1,1,1,1,1,1,1,1,1,1,1,1],//1 - sciana
-    [1,0,0,0,1,3,0,0,0,0,2,1],//0 - droga
-    [1,0,1,0,1,0,1,1,1,1,1,1],//2 - meta
-    [1,0,1,0,0,0,0,0,0,0,0,1],//3 - klucz
-    [1,0,1,1,1,1,1,1,1,1,0,1],//4 - leczenie
-    [1,0,0,0,0,0,0,0,3,1,0,1],
-    [1,1,1,1,1,1,1,1,0,1,0,1],
-    [1,0,0,0,0,0,0,1,0,1,0,1],
-    [1,0,1,1,1,1,0,1,0,1,0,1],
-    [1,0,0,0,0,1,0,0,0,1,0,1],
-    [1,0,1,1,0,0,4,1,0,0,0,1],  
-    [1,1,1,1,1,1,1,1,1,1,1,1]
-];
-
-
-function Fog() {
-    ctx.beginPath();
-    ctx.arc(20, 20, 40, 0, 2 * Math.PI);
-    ctx.stroke();
-}
+let player = {
+    x: 1, y: 1 //podstawowe polozenie gracza
+};
 
 function Draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height); //zresetowanie wszelkich rzeczy w canvasie
-    for(let y = 0; y < map1.length; y++){ //petle sprawdzajace indexy w mapie aby ustawic
-        for(let x = 0; x < map1.length; x++){
-            if(map1[y][x] === 1){
+    
+    for(let y = 0; y < aktualnaMapa.length; y++){ //petle sprawdzajace indexy w mapie aby ustawic
+        for(let x = 0; x < aktualnaMapa[y].length; x++){
+            if(aktualnaMapa[y][x] === 1){
                 //utworzenie scian
                 ctx.fillStyle = '#222';
                 ctx.fillRect(x*tileSize, y*tileSize, tileSize, tileSize);
             }
-            if(map1[y][x] === 2){
+            if(aktualnaMapa[y][x] === 2){
                 //utworzenie wygladu konca
                 ctx.fillStyle = 'green';
                 ctx.fillRect(x*tileSize, y*tileSize, tileSize, tileSize);
             }
-            if(map1[y][x] === 3){
+            if(aktualnaMapa[y][x] === 3){
                 //utworzenie wygladu klucza
                 ctx.fillStyle = 'yellow';
                 ctx.fillRect(x*tileSize, y*tileSize, tileSize, tileSize);
             }
-            if(map1[y][x] === 4){
+            if(aktualnaMapa[y][x] === 4){
                 //utworzenie wygladu leczenia
                 ctx.fillStyle = 'lightgreen';
+                ctx.fillRect(x*tileSize, y*tileSize, tileSize, tileSize);
+            }
+            if(aktualnaMapa[y][x] === 5){
+                //utworzenie wygladu leczenia
+                ctx.fillStyle = 'brown';
                 ctx.fillRect(x*tileSize, y*tileSize, tileSize, tileSize);
             }
         }
@@ -74,32 +65,73 @@ function move(dx, dy) {
     const px = player.x + dx;
     const py = player.y + dy;
     //blokada przed przejściem dalej bez kluczy
-    if (player.keys <= 1 && map1[py][px] == 2) {
-        alert("Musisz zdobyć wszystkie klucze, aby przejść dalej!"); //alert pokazujacy ze trzeba zdobyć wszystkie klucze aby przejsc dalej
+    if (licznikKluczy <= 1 && aktualnaMapa[py][px] == 2) {
+        wiadomosc("Musisz zdobyć wszystkie klucze, aby przejść dalej!"); //dymek pokazujacy ze trzeba zdobyć wszystkie klucze aby przejsc dalej
         return; //zatrzymanie funkcji move, aby nie pozwolić na przejście dalej
     }
+    if (licznikKluczy <= 0 && aktualnaMapa[py][px] == 5) {
+        wiadomosc("Musisz zdobyć klucz, aby odblokować przejście!");
+        return;
+    }
 
-    if(map1[py][px] != 1){ 
+    if(aktualnaMapa[py][px] != 1){ 
         //mechanika sprawdzania czy nie wchodzi sie w sciane jezeli tak to nie zmienia sie polozenie
         player.x = px;
         player.y = py;
     }
-    if(map1[py][px] == 2 && player.keys == 2 ){ //TODO: blokuje wchodzenie na pole mety
-        alert("Wygrałeś!"); //alert pokazujacy przescie labiryntu (trzeba zrobic menu glowne aby do niego przechodzic po skonczeniu)
+    if(aktualnaMapa[py][px] == 2 && licznikKluczy == 2 ){ //TODO: blokuje wchodzenie na pole mety
+        wiadomosc("Wygrałeś!"); //dymek pokazujacy przescie labiryntu (trzeba zrobic menu glowne aby do niego przechodzic po skonczeniu)
+        nastepnaMapa(); //przejscie do kolejnej mapy po przejsciu obecnej
     }
-    if(map1[py][px] == 3){
-        alert("Zdobyłeś klucz!");
-        player.keys++;
-        klucze.innerHTML = parseInt(player.keys); 
-        map1[py][px] = 0; //usuwanie klucza z mapy po odebraniu
+    if(aktualnaMapa[py][px] == 3){
+        wiadomosc("Zdobyłeś klucz!");
+        licznikKluczy++;
+        klucze.innerHTML = parseInt(licznikKluczy); 
+        aktualnaMapa[py][px] = 0; //usuwanie klucza z mapy po odebraniu
     }
-    if(map1[py][px] == 4){
-        alert("Zdobyłeś leczenie!");
-        player.hp = 100;
-        hp.innerHTML = player.hp + "/100";
-        map1[py][px] = 0; //usuwanie leczenia z mapy po odebraniu
+    if(aktualnaMapa[py][px] == 4){
+        wiadomosc("Zdobyłeś leczenie!");
+        hp.innerHTML = "100/100";
+        aktualnaMapa[py][px] = 0; //usuwanie leczenia z mapy po odebraniu
+    }
+    if(aktualnaMapa[py][px] == 5){
+        if (licznikKluczy > 0) {
+            wiadomosc("Odblokowano przejście!");
+            licznikKluczy--;
+            klucze.innerHTML = parseInt(licznikKluczy);
+            aktualnaMapa[py][px] = 0; //czyszczenie kafelki
+        } else {
+            wiadomosc("Brakuje kluczy, aby odblokować przejście!");
+        }
     }
     Draw();
+}
+
+function nastepnaMapa() {
+    indeksAktualnejMapy++;
+
+    if (!maps[indeksAktualnejMapy]) {
+        wiadomosc("Gratulacje! Ukończyłeś wszystkie mapy! (na razie)");
+        return;
+    }
+    aktualnaMapa = maps[indeksAktualnejMapy];
+
+    //resetowanie pozycji gracza i liczby kluczy
+    player.x = 1;
+    player.y = 1;
+    licznikKluczy = 0;
+    klucze.innerHTML = parseInt(licznikKluczy);
+
+    Draw();
+}
+
+function wiadomosc(text) {
+    const msg = document.getElementById('msg');
+    msg.innerText = text;
+
+    setTimeout(() => {
+        msg.innerText = '';
+    }, 2000);
 }
 
 //system poruszania sie zaleznie od nacisnietego przycisku
