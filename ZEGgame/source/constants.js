@@ -17,5 +17,6 @@ export const COLORS = {
     KEY: 'yellow',
     HEAL: 'lightgreen',
     GATE: 'brown',
-    FOG: 'rgba(0, 0, 0,0.98)'
+    FOG: 'rgba(0, 0, 0,0.98)',
+    ENEMY: 'purple'
 }

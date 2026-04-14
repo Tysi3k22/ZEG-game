@@ -1,6 +1,7 @@
 import {TILE_SIZE, TILES, COLORS} from './constants.js';
 import {maps} from './maps.js';
 import {player, updateUI, message, resetPlayer} from './player.js';
+import {drawEnemy, updateEnemies} from './enemies.js'
 
 const canvas = document.getElementById('game'); // pobranie canvasa
 const ctx = canvas.getContext('2d');
@@ -29,7 +30,7 @@ function Draw() {
     ctx.fillStyle = COLORS.PLAYER;
     ctx.fillRect(player.x*TILE_SIZE, player.y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
     
-    drawFog();
+    //drawFog();
 }
 function drawFog() {
     const visibilityRadius = TILE_SIZE * 2; // Promień widoczności
@@ -88,7 +89,6 @@ function move(dx, dy) {
         if (player.keys > 0) {
             message("Odblokowano przejście!");
             player.keys--;
-            keys_html.innerHTML = parseInt(player.keys);
             currentMap[py][px] = TILES.EMPTY; //czyszczenie kafelki
         } else {
             message("Brakuje kluczy, aby odblokować przejście!");
@@ -119,12 +119,16 @@ document.addEventListener('keydown', (e) => {
     if(e.key == "ArrowRight" || e.key == "d") move(1,0);
 })
 
-//funkcjonalnosc przycisku zaczynajacego gre
-function startGame(){
+//petla gry
+function gameLoop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    updateEnemies();
     Draw();
+    drawEnemy();
+    
     updateUI();
+    requestAnimationFrame(gameLoop);
 }
 
-//podstawowe wyswietalnie labiryntu
-updateUI();
-Draw();
+gameLoop();
