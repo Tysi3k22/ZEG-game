@@ -1,7 +1,12 @@
 const canvas = document.getElementById('game'); // pobranie canvasa
 const ctx = canvas.getContext('2d');
 const tileSize = 40; //ustawienie wielkosci kafelka
+let hp = document.getElementById('hp');
+let klucze = document.getElementById('klucze');
 
+klucze = 0;
+
+//Swieder mapowanie masz tak map[y][x]
 const map = [
     [1,1,1,1,1,1,1,1,1,1,1,1],//1 - sciana
     [1,0,0,0,1,3,0,0,0,0,2,1],//0 - droga
@@ -52,7 +57,7 @@ function move(dx, dy) {
     const px = player.x + dx;
     const py = player.y + dy;
 
-    if(map[py][px] != 1){
+    if(map[py][px] != 1){ 
         //mechanika sprawdzania czy nie wchodzi sie w sciane jezeli tak to nie zmienia sie polozenie
         player.x = px;
         player.y = py;
@@ -62,6 +67,7 @@ function move(dx, dy) {
     }
     if(map[py][px] == 3){
         alert("Zdobyłeś klucz!");
+        klucze++;
         map[py][px] = 0; //usuwanie klucza po odebraniu
     }
     Draw();
