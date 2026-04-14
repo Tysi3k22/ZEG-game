@@ -57,8 +57,12 @@ function move(dx, dy) {
     const py = player.y + dy;
     //blokada przed przejściem dalej bez kluczy
     if (licznikKluczy <= 1 && aktualnaMapa[py][px] == 2) {
-        alert("Musisz zdobyć wszystkie klucze, aby przejść dalej!"); //alert pokazujacy ze trzeba zdobyć wszystkie klucze aby przejsc dalej
+        wiadomosc("Musisz zdobyć wszystkie klucze, aby przejść dalej!"); //dymek pokazujacy ze trzeba zdobyć wszystkie klucze aby przejsc dalej
         return; //zatrzymanie funkcji move, aby nie pozwolić na przejście dalej
+    }
+    if (licznikKluczy <= 0 && aktualnaMapa[py][px] == 5) {
+        wiadomosc("Musisz zdobyć klucz, aby odblokować przejście!");
+        return;
     }
 
     if(aktualnaMapa[py][px] != 1){ 
@@ -67,27 +71,29 @@ function move(dx, dy) {
         player.y = py;
     }
     if(aktualnaMapa[py][px] == 2 && licznikKluczy == 2 ){ //TODO: blokuje wchodzenie na pole mety
-        alert("Wygrałeś!"); //alert pokazujacy przescie labiryntu (trzeba zrobic menu glowne aby do niego przechodzic po skonczeniu)
+        wiadomosc("Wygrałeś!"); //dymek pokazujacy przescie labiryntu (trzeba zrobic menu glowne aby do niego przechodzic po skonczeniu)
         nastepnaMapa(); //przejscie do kolejnej mapy po przejsciu obecnej
     }
     if(aktualnaMapa[py][px] == 3){
-        alert("Zdobyłeś klucz!");
+        wiadomosc("Zdobyłeś klucz!");
         licznikKluczy++;
         klucze.innerHTML = parseInt(licznikKluczy); 
         aktualnaMapa[py][px] = 0; //usuwanie klucza z mapy po odebraniu
     }
     if(aktualnaMapa[py][px] == 4){
-        alert("Zdobyłeś leczenie!");
+        wiadomosc("Zdobyłeś leczenie!");
         hp.innerHTML = "100/100";
         aktualnaMapa[py][px] = 0; //usuwanie leczenia z mapy po odebraniu
     }
     if(aktualnaMapa[py][px] == 5){
         if (licznikKluczy > 0) {
-            alert("Odblokowano przejście!");
+            wiadomosc("Odblokowano przejście!");
             licznikKluczy--;
             klucze.innerHTML = parseInt(licznikKluczy);
+            aktualnaMapa[py][px] = 0; //czyszczenie kafelki
+        } else {
+            wiadomosc("Brakuje kluczy, aby odblokować przejście!");
         }
-        aktualnaMapa[py][px] = 0; //czyszczenie kafelki
     }
     Draw();
 }
@@ -96,7 +102,7 @@ function nastepnaMapa() {
     indeksAktualnejMapy++;
 
     if (!maps[indeksAktualnejMapy]) {
-        alert("Gratulacje! Ukończyłeś wszystkie mapy! (na razie)");
+        wiadomosc("Gratulacje! Ukończyłeś wszystkie mapy! (na razie)");
         return;
     }
     aktualnaMapa = maps[indeksAktualnejMapy];
@@ -108,6 +114,15 @@ function nastepnaMapa() {
     klucze.innerHTML = parseInt(licznikKluczy);
 
     Draw();
+}
+
+function wiadomosc(text) {
+    const msg = document.getElementById('msg');
+    msg.innerText = text;
+
+    setTimeout(() => {
+        msg.innerText = '';
+    }, 2000);
 }
 
 //system poruszania sie zaleznie od nacisnietego przycisku
