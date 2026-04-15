@@ -1,6 +1,21 @@
 export const TILE_SIZE = 40; // rozmiar jednego kafelka
 export const MAX_HP = 100; // maksymalna ilosc zdrowia gracza
 
+const playerImage = new Image();
+playerImage.src = 'assets/gracz1.png';
+
+const healImage = new Image();
+healImage.src = 'assets/leczenie.png';
+
+const keyImage = new Image();
+keyImage.src = 'assets/kluczyk.png';
+
+// const gateImage = new Image();
+// gateImage.src = 'assets/Brama.png';
+
+const enemyImage = new Image();
+enemyImage.src = 'assets/przeciwnik.png';
+
 //punktualny opis kalefkow w labiryncie
 export const TILES = {
     EMPTY: 0,
@@ -11,6 +26,13 @@ export const TILES = {
     GATE: 5,
     TRAP: 6
 };
+
+export const GAME_ASSETS = {
+    playerImage: playerImage,
+    healImage: healImage,
+    keyImage: keyImage,
+    enemyImage: enemyImage
+}
 
 //punktualny opis kolorow w labiryncie
 export const COLORS = {

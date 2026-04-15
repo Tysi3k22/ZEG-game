@@ -1,17 +1,8 @@
 import {ctx, currentMap, canvas, gameState} from './main.js';
-import {TILE_SIZE, COLORS, TILES} from './constants.js';
+import {TILE_SIZE, COLORS, TILES, GAME_ASSETS} from './constants.js';
 import {player} from './player.js';
 import {drawEnemy} from './enemies.js';
 import {move} from './movement.js';
-
-const playerImage = new Image();
-playerImage.src = 'assets/gracz1.png';
-
-const healImage = new Image();
-healImage.src = 'assets/leczenie.png';
-
-const keyImage = new Image();
-keyImage.src = 'assets/kluczyk.png';
 
 export function Draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height); //zresetowanie wszelkich rzeczy w canvasie
@@ -23,14 +14,18 @@ export function Draw() {
             if(tile === TILES.WALL) ctx.fillStyle = COLORS.WALL;
             else if(tile === TILES.EXIT) ctx.fillStyle = COLORS.EXIT;
             else if(tile === TILES.KEY) {
-                ctx.drawImage(keyImage, x*TILE_SIZE, y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
+                ctx.drawImage(GAME_ASSETS.keyImage, x*TILE_SIZE, y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
                 continue;
             }
             else if(tile === TILES.HEAL){
-                ctx.drawImage(healImage, x*TILE_SIZE, y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
+                ctx.drawImage(GAME_ASSETS.healImage, x*TILE_SIZE, y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
                 continue;  
             } 
-            else if(tile === TILES.GATE) ctx.fillStyle = COLORS.GATE;
+            else if(tile === TILES.GATE){
+                //ctx.drawImage()
+                ctx.fillStyle = COLORS.GATE;
+                continue;
+            } 
             else if(tile === TILES.TRAP) ctx.fillStyle = COLORS.TRAP;
             else continue;
             
@@ -39,7 +34,7 @@ export function Draw() {
     }
     //ustawienie pozycji oraz wygladu gracza
 
-    ctx.drawImage(playerImage, player.x*TILE_SIZE, player.y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
+    ctx.drawImage(GAME_ASSETS.playerImage, player.x*TILE_SIZE, player.y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
     // ctx.fillStyle = COLORS.PLAYER;
     // ctx.fillRect(player.x*TILE_SIZE, player.y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
 

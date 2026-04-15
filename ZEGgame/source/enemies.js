@@ -1,5 +1,5 @@
 import {ctx, currentMap} from './main.js';
-import {COLORS, TILES, TILE_SIZE} from './constants.js';
+import {COLORS, TILES, TILE_SIZE, GAME_ASSETS} from './constants.js';
 import {player} from './player.js';
 
 //informacje dotyczace przeciwnika
@@ -16,8 +16,7 @@ const DAMAGE_COOLDOWN_FRAMES = 60;
 
 //funkcja tworzaca postac przeciwnika
 export function drawEnemy() {
-    ctx.fillStyle = COLORS.ENEMY;
-    ctx.fillRect(enemy.x, enemy.y, enemy.size, enemy.size);
+    ctx.drawImage(GAME_ASSETS.enemyImage, enemy.x, enemy.y, enemy.size, enemy.size);
 }
 
 //funkcja aktualizujaca kierunek przeciwnika oraz zadawanie obrazen
