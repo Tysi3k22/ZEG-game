@@ -16,7 +16,9 @@ document.getElementById('startBtn').addEventListener("click", function() {
 });
 
 function startGame() {
+
     resetPlayer();
+
     updateUI();
     gameState = "PLAYING";
     startTimer();
@@ -25,8 +27,14 @@ function startGame() {
 }
 
 export function gameOver() {
-    resetPlayer();
+    //resetowanie gracza
     player.hp = 100;
+    resetPlayer();
+
+    //resetowanie mapy
+    currentMapIndex = 0;
+    currentMap = maps[currentMapIndex];
+
     updateUI();
     gameState = "MENU";
     stopTimer();
@@ -34,12 +42,26 @@ export function gameOver() {
     document.getElementById('overlay').classList.remove('hidden');
 }
 
+document.getElementById('pauseGame').addEventListener("click", function() {
+    pauseGame();
+});
+
 function pauseGame() {
+    gameState = "MENU";
+    
     stopTimer();
+    document.getElementById('paused').classList.remove('hidden');
 }
+
+document.getElementById('resumeGame').addEventListener("click", function() {
+    gameState = "PLAYING";
+
+    resumeGame();
+});
 
 function resumeGame() {
     resumeTimer();
+    document.getElementById('paused').classList.add('hidden');
 }
 
 let counter = 0;

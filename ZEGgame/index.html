@@ -6,6 +6,7 @@
     <title>Echo w Korytarzach</title>
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
     <link rel="stylesheet" href="styles/style.css">
+    <link href="https://cdn.boxicons.com/3.0.8/fonts/basic/boxicons.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="info">
@@ -24,10 +25,10 @@
         <div id="paused" class="overlay hidden">
             <h1>Wstrzymano gre</h1>
             <p>Licznik czasu: <span id="counter"></span></p>
-            <button id="resumeGame">Wróc do gry</button>
+            <button id="resumeGame"><i class="bx bx-play-circle">Wróc do gry</i></button>
         </div>
 
-        
+        <button id="pauseGame"><i class="bx bx-pause-circle bx-remove-padding"></i></button>
         <canvas id="game" width="800" height="600"></canvas>
     </div>
     
