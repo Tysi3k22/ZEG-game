@@ -40,7 +40,7 @@ export function updateEnemies() {
         enemy.dir *= -1;
     }
 
-    if (
+    if ( // swider zostaw potem skoncze
         enemy.x < player.x + TILE_SIZE &&
         enemy.x + enemy.size > player.x &&
         enemy.y < player.y + TILE_SIZE &&

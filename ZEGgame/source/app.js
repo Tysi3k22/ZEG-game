@@ -9,10 +9,20 @@ export const ctx = canvas.getContext('2d');
 let currentMapIndex = 0; //zmienna przechowujaca aktualna mape, mozna ja zmieniac aby przechodzic do kolejnych map
 export let currentMap = maps[currentMapIndex]; //pobranie aktualnej mapy z tablicy maps
 
+const gameState = "MENU"; //MENU, PLAYING, WIN, LOSE,  
+
+function startGame() {
+    resetPlayer();
+    updateUI();
+    gameState = "PLAYING"
+
+    document.getElementById('overlay').classList.add('hidden');
+}
 
 function Draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height); //zresetowanie wszelkich rzeczy w canvasie
 
+    if(gameState !== "PLAYING") return; //sprawdzanie czy gracz gra
     for(let y = 0; y < currentMap.length; y++){ //petle sprawdzajace indexy w mapie aby ustawic
         for(let x = 0; x < currentMap[y].length; x++){
             const tile = currentMap[y][x];
@@ -30,7 +40,7 @@ function Draw() {
     ctx.fillStyle = COLORS.PLAYER;
     ctx.fillRect(player.x*TILE_SIZE, player.y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
 
-    //drawFog();
+    drawFog(); //trzeba potem to odkomentowac zeby dzialalo
 }
 function drawFog() {
     const visibilityRadius = TILE_SIZE * 2; // Promień widoczności
@@ -52,6 +62,7 @@ function drawFog() {
 }
 
 function move(dx, dy) {
+    if(gameState !== "PLAYING") return;
     //poruszanie sie
     const px = player.x + dx;
     const py = player.y + dy;
@@ -135,4 +146,6 @@ function gameLoop() {
 
     requestAnimationFrame(gameLoop);
 }
+
+
 gameLoop();

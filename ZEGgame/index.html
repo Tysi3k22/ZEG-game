@@ -8,17 +8,17 @@
     <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
-    <div class="nav">
-        <h1>Echo w Korytarzach</h1>
-    </div>
     <div class="info">
         <p>❤️Zdrowie: <span id="hp"></span></p>
         <p>🔑Klucze: <span id="klucze"></span></p>
         <div id="msg"></div>
     </div>
+    <div id="overlay">
+        <h1>Echo w Korytarzach</h1>
+        <button onclick="startGame()">Start</button>
+    </div>
     <div class="game">
         <canvas id="game" width="800" height="600"></canvas>
-        <button class="StartButton" onclick="startGame()">Start</button>
     </div>
     
     <script type="module" src="source/app.js"></script>
