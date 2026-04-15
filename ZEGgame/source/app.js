@@ -9,7 +9,7 @@ export const ctx = canvas.getContext('2d');
 let currentMapIndex = 0; //zmienna przechowujaca aktualna mape, mozna ja zmieniac aby przechodzic do kolejnych map
 export let currentMap = maps[currentMapIndex]; //pobranie aktualnej mapy z tablicy maps
 
-let gameState = "MENU"; //MENU, PLAYING, WIN, LOSE,  
+let gameState = "MENU"; //MENU, PLAYING, WIN, LOSE
 
 document.getElementById('startBtn').addEventListener("click", function() {
     startGame();
@@ -50,26 +50,30 @@ function pauseGame() {
     gameState = "MENU";
     
     stopTimer();
+    document.getElementById('pauseGame').classList.add('hidden');
     document.getElementById('paused').classList.remove('hidden');
+    document.getElementById('main_timer_text').classList.add('hidden');
 }
 
 document.getElementById('resumeGame').addEventListener("click", function() {
-    gameState = "PLAYING";
-
     resumeGame();
 });
 
 function resumeGame() {
+    gameState = "PLAYING";
     resumeTimer();
+
+    document.getElementById('pauseGame').classList.remove('hidden');
+    document.getElementById('main_timer_text').classList.remove('hidden');
     document.getElementById('paused').classList.add('hidden');
 }
 
 let counter = 0;
 let interval = null;
-let counter_text = document.getElementById('counter');
+let main_timer = document.getElementById('main_timer');
+let paused_timer = document.getElementById('paused_timer');
 
-function startTimer() {
-    counter = 0; 
+function startTimer() { 
     if (interval !== null) return; // żeby nie odpalić drugi raz
 
     interval = setInterval(function () {
@@ -83,7 +87,8 @@ function startTimer() {
     minutes = String(minutes).padStart(2, '0');
     seconds = String(seconds).padStart(2, '0');
 
-    counter_text.textContent = `${hours}:${minutes}:${seconds}`;
+    main_timer.textContent = `${hours}:${minutes}:${seconds}`;
+    paused_timer.textContent = `${hours}:${minutes}:${seconds}`;
   }, 1000);
 }
 
@@ -189,11 +194,6 @@ function move(dx, dy) {
     updateUI();
     Draw();
 }
-
-
-//licznik czasu 
-
-
 
 function nextMap() {
     currentMapIndex++;
