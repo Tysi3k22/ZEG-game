@@ -49,7 +49,7 @@ export function move(dx, dy) {
     }
     if(tile === TILES.TRAP) {
         message("Wszedłeś w pułapke");
-        player.hp -= 20;
+        player.hp -= 2;
     }
     updateUI();
     Draw();

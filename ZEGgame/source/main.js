@@ -3,6 +3,7 @@ import {Draw} from './draw.js';
 import {player, updateUI, message, resetPlayer} from './player.js';
 import {updateEnemies} from './enemies.js'
 import {startTimer, stopTimer, resumeTimer} from './timer.js';
+import {camera, updateCamera} from './camera.js'
 
 export const canvas = document.getElementById('game'); // pobranie canvasa
 export const ctx = canvas.getContext('2d');
@@ -15,8 +16,13 @@ export let gameState = "MENU"; //MENU, PLAYING, WIN, LOSE
 document.getElementById('startBtn').addEventListener("click", startGame);
 document.getElementById('pauseGame').addEventListener("click", pauseGame);
 document.getElementById('resumeGame').addEventListener("click", resumeGame);
+document.getElementById('startNewGame').addEventListener("click", gameOver, startGame); 
 
 function startGame() {
+    camera.renderX = 0;
+    camera.renderY = 0;
+    camera.x = 0;
+    camera.y = 0;
     resetPlayer();
     currentMap = cloneMap(maps[currentMapIndex]); 
     Draw();
@@ -41,8 +47,16 @@ export function gameOver() {
     stopTimer();
 
     document.getElementById('overlay').classList.remove('hidden');
+    document.getElementById('Win').classList.add('hidden');
 }
 
+function Win() {
+    gameState = "WIN";
+
+    stopTimer();
+
+    document.getElementById('Win').classList.remove('hidden');
+}
 
 function pauseGame() {
     gameState = "MENU";
@@ -81,6 +95,7 @@ export function nextMap() {
     currentMapIndex++;
 
     if (!maps[currentMapIndex]) {
+        Win();
         message("Gratulacje! Ukończyłeś wszystkie mapy! (na razie)");
         return;
     }
@@ -94,7 +109,18 @@ export function nextMap() {
 //petla gry
 export function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    updateEnemies();
+    //updateEnemies();
+
+    if (gameState === "PLAYING") {
+        updateCamera(player, canvas.width, canvas.height);
+    } else {
+        updateCamera(player, canvas.width, canvas.height);
+    }
+
+    ctx.save();
+
+    ctx.translate(-camera.renderX, -camera.renderY)
+
     Draw(); 
     ctx.restore();
     if(player.hp <= 0) {

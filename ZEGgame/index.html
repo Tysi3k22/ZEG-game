@@ -17,17 +17,28 @@
     </div>
     
     <div class="game">
+        <!-- Menu Rozpoczynające gre -->
         <div id="overlay" class="overlay">
             <h1>Echo w Korytarzach</h1>
             <button id="startBtn">Start</button>
         </div> 
+
+        <!-- Menu Zapauzowanej gry -->
         <div id="paused" class="overlay hidden">
             <h1>Wstrzymano gre</h1>
             <p>Licznik czasu: <span id="paused_timer">00:00:00</span></p>
             <button id="resumeGame"><i class="bx bx-play-circle">Wróc do gry</i></button>
         </div>
 
+        <!-- Menu Konca gry -->
+        <div id="Win" class="overlay hidden">
+            <h1>Gratuluje</h1>
+            <button id="startNewGame"><i class="bx bx-win">Zagram Ponownie</i></button>
+        </div>
+        <!-- Przycisk wstymujący gre -->
         <button id="pauseGame"><i class="bx bx-pause-circle bx-remove-padding"></i></button>
+
+        <!-- Gra -->
         <canvas id="game" width="800" height="600"></canvas>
     </div>
     

@@ -26,8 +26,8 @@ export function Draw() {
     ctx.fillStyle = COLORS.PLAYER;
     ctx.fillRect(player.x*TILE_SIZE, player.y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
 
-    drawEnemy();
-    drawFog(); //trzeba potem to odkomentowac zeby dzialalo
+    //drawEnemy();
+    //drawFog(); //trzeba potem to odkomentowac zeby dzialalo
 }
 function drawFog() {
     const visibilityRadius = TILE_SIZE * 2; // Promień widoczności
