@@ -31,7 +31,10 @@ export function updateEnemies() {
         nextTileIndex = Math.floor((enemy.x - enemy.speedX) / TILE_SIZE);
     }
 
-    const nextTile = currentMap[tileY]?.[nextTileIndex];
+    let nextTile;
+    if (currentMap[tileY]) {
+      nextTile = currentMap[tileY][nextTileIndex];
+    }
 
     if (nextTile === TILES.WALL || nextTile === undefined) {
         enemy.dir *= -1;
