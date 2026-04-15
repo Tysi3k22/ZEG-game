@@ -7,18 +7,18 @@ const canvas = document.getElementById('game'); // pobranie canvasa
 export const ctx = canvas.getContext('2d');
 
 let currentMapIndex = 0; //zmienna przechowujaca aktualna mape, mozna ja zmieniac aby przechodzic do kolejnych map
-export let currentMap = maps[currentMapIndex]; //pobranie aktualnej mapy z tablicy maps
+export let currentMap = cloneMap(maps[currentMapIndex]); //pobranie aktualnej mapy z tablicy maps
 
 let gameState = "MENU"; //MENU, PLAYING, WIN, LOSE
 
-document.getElementById('startBtn').addEventListener("click", function() {
-    startGame();
-});
+document.getElementById('startBtn').addEventListener("click", startGame);
+document.getElementById('pauseGame').addEventListener("click", pauseGame);
+document.getElementById('resumeGame').addEventListener("click", resumeGame);
 
 function startGame() {
-
     resetPlayer();
-
+    currentMap = cloneMap(maps[currentMapIndex]); 
+    Draw();
     updateUI();
     gameState = "PLAYING";
     startTimer();
@@ -33,7 +33,7 @@ export function gameOver() {
 
     //resetowanie mapy
     currentMapIndex = 0;
-    currentMap = maps[currentMapIndex];
+    currentMap = cloneMap(maps[currentMapIndex]);
 
     updateUI();
     gameState = "MENU";
@@ -42,9 +42,6 @@ export function gameOver() {
     document.getElementById('overlay').classList.remove('hidden');
 }
 
-document.getElementById('pauseGame').addEventListener("click", function() {
-    pauseGame();
-});
 
 function pauseGame() {
     gameState = "MENU";
@@ -55,9 +52,6 @@ function pauseGame() {
     document.getElementById('main_timer_text').classList.add('hidden');
 }
 
-document.getElementById('resumeGame').addEventListener("click", function() {
-    resumeGame();
-});
 
 function resumeGame() {
     gameState = "PLAYING";
@@ -117,6 +111,7 @@ function Draw() {
             else if(tile === TILES.KEY) ctx.fillStyle = COLORS.KEY;
             else if(tile === TILES.HEAL) ctx.fillStyle = COLORS.HEAL;
             else if(tile === TILES.GATE) ctx.fillStyle = COLORS.GATE;
+            else if(tile === TILES.TRAP) ctx.fillStyle = COLORS.TRAP;
             else continue;
             
             ctx.fillRect(x*TILE_SIZE, y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
@@ -191,8 +186,26 @@ function move(dx, dy) {
             message("Brakuje kluczy, aby odblokować przejście!");
         }
     }
+    if(tile === TILES.TRAP) {
+        message("Wszedłeś w pułapke");
+        player.hp -= 20;
+    }
     updateUI();
     Draw();
+}
+
+function cloneMap(map) {
+    const newMap = [];
+
+    for (let y = 0; y < map.length; y++) {
+        newMap[y] = [];
+
+        for (let x = 0; x < map[y].length; x++) {
+            newMap[y][x] = map[y][x];
+        }
+    }
+
+    return newMap;
 }
 
 function nextMap() {
@@ -202,7 +215,7 @@ function nextMap() {
         message("Gratulacje! Ukończyłeś wszystkie mapy! (na razie)");
         return;
     }
-    currentMap = maps[currentMapIndex];
+    currentMap = cloneMap(maps[currentMapIndex]);
 
     resetPlayer();
     Draw();

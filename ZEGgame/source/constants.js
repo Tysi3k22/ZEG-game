@@ -8,7 +8,8 @@ export const TILES = {
     EXIT: 2,
     KEY: 3,
     HEAL: 4,
-    GATE: 5
+    GATE: 5,
+    TRAP: 6
 };
 
 //punktualny opis kolorow w labiryncie
@@ -20,5 +21,6 @@ export const COLORS = {
     HEAL: 'lightgreen',
     GATE: 'brown',
     FOG: 'rgba(0, 0, 0,0.98)',
-    ENEMY: 'purple'
+    ENEMY: 'purple',
+    TRAP: 'rgba(99, 223, 223, 0.95)'
 }
