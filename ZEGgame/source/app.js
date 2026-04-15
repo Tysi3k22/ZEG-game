@@ -19,6 +19,7 @@ function startGame() {
     resetPlayer();
     updateUI();
     gameState = "PLAYING";
+    startTimer();
 
     document.getElementById('overlay').classList.add('hidden');
 }
@@ -28,16 +29,53 @@ export function gameOver() {
     player.hp = 100;
     updateUI();
     gameState = "MENU";
+    stopTimer();
 
     document.getElementById('overlay').classList.remove('hidden');
 }
 
 function pauseGame() {
-
+    stopTimer();
 }
 
 function resumeGame() {
-    
+    resumeTimer();
+}
+
+let counter = 0;
+let interval = null;
+let counter_text = document.getElementById('counter');
+
+function startTimer() {
+    counter = 0; 
+    if (interval !== null) return; // żeby nie odpalić drugi raz
+
+    interval = setInterval(function () {
+    counter++;
+
+    let hours = Math.floor(counter / 3600);
+    let minutes = Math.floor((counter % 3600) / 60);
+    let seconds = counter % 60;
+
+    hours = String(hours).padStart(2, '0');
+    minutes = String(minutes).padStart(2, '0');
+    seconds = String(seconds).padStart(2, '0');
+
+    counter_text.textContent = `${hours}:${minutes}:${seconds}`;
+  }, 1000);
+}
+
+function stopTimer() {
+  if (interval === null) return;
+
+  clearInterval(interval);
+  interval = null; // ważne!
+}
+
+function resumeTimer() {
+  if (interval !== null) return; // już działa
+
+  startTimer(); // po prostu uruchamiamy ponownie
 }
 
 function Draw() {
@@ -132,23 +170,8 @@ function move(dx, dy) {
 
 
 //licznik czasu 
-let counter = 0;
-let counter_text = document.getElementById('counter')
 
-setInterval( function() {
-    counter++; // dodaje sekundy
 
-    let hours = Math.floor(counter / 3600);
-    let minutes = Math.floor((counter % 3600) / 60);
-    let seconds = counter % 60;
-  
-    // formatowanie żeby było np. 01:05:09
-    hours = String(hours).padStart(2, '0');
-    minutes = String(minutes).padStart(2, '0');
-    seconds = String(seconds).padStart(2, '0');
-  
-    counter_text.textContent = `${hours}:${minutes}:${seconds}`;
-  }, 1000);
 
 function nextMap() {
     currentMapIndex++;
