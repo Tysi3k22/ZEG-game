@@ -1,14 +1,14 @@
 import {ctx, currentMap} from './app.js';
-import {COLORS, TILES} from './constants.js';
+import {COLORS, TILES, TILE_SIZE} from './constants.js';
 import {maps} from './maps.js';
 
 //informacje dotyczace przeciwnika
 let enemy = {
-    x: 50,
-    y: 50,
-    size: 30,
+    x: 250,
+    y: 210,
+    size: 20,
     speedX: 2,
-    dir: 1
+    dir: -1
 }
 
 //funkcja tworzaca postac przeciwnika
@@ -19,11 +19,21 @@ export function drawEnemy() {
 
 //funkcja aktualizujaca kierunek przeciwnika
 export function updateEnemies() {
-    enemy.x += enemy.speedX * enemy.dir;    
-    const ex = enemy.x + enemy.speedX;
-    const tile = currentMap[3][ex]
-    
-    if(enemy.x + enemy.size > 800 || enemy.x < 0 || tile == TILES.WALL){
+    enemy.x += enemy.speedX * enemy.dir;
+
+    const tileY = Math.floor((enemy.y + enemy.size / 2) / TILE_SIZE);
+
+    let nextTileIndex;
+
+    if (enemy.dir === 1) {
+        nextTileIndex = Math.floor((enemy.x + enemy.size + enemy.speedX) / TILE_SIZE);
+    } else {
+        nextTileIndex = Math.floor((enemy.x - enemy.speedX) / TILE_SIZE);
+    }
+
+    const nextTile = currentMap[tileY]?.[nextTileIndex];
+
+    if (nextTile === TILES.WALL || nextTile === undefined) {
         enemy.dir *= -1;
     }
 }

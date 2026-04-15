@@ -30,8 +30,6 @@ function Draw() {
     ctx.fillStyle = COLORS.PLAYER;
     ctx.fillRect(player.x*TILE_SIZE, player.y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
 
-    updateEnemies();
-    drawEnemy();
     //drawFog();
 }
 function drawFog() {
@@ -125,9 +123,9 @@ document.addEventListener('keydown', (e) => {
 function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // updateEnemies();
+    updateEnemies();
     Draw();
-    //drawEnemy();
+    drawEnemy();
     
     updateUI();
     requestAnimationFrame(gameLoop);
