@@ -2,8 +2,8 @@ import {MAX_HP} from './constants.js';
 
 //informacje dotyczace gracza
 export let player = {
-    x: 1,
-    y: 1,
+    x: 5,
+    y: 5,
     keys: 0,
     hp: 20 
 };

@@ -1,6 +1,6 @@
 import {ctx, currentMap} from './app.js';
 import {COLORS, TILES, TILE_SIZE} from './constants.js';
-import {maps} from './maps.js';
+import {player} from './player.js';
 
 //informacje dotyczace przeciwnika
 let enemy = {
@@ -31,10 +31,22 @@ export function updateEnemies() {
         nextTileIndex = Math.floor((enemy.x - enemy.speedX) / TILE_SIZE);
     }
 
-    const nextTile = currentMap[tileY]?.[nextTileIndex];
+    let nextTile;
+    if (currentMap[tileY]) {
+      nextTile = currentMap[tileY][nextTileIndex];
+    }
 
     if (nextTile === TILES.WALL || nextTile === undefined) {
         enemy.dir *= -1;
+    }
+
+    if (
+        enemy.x < player.x + TILE_SIZE &&
+        enemy.x + enemy.size > player.x &&
+        enemy.y < player.y + TILE_SIZE &&
+        enemy.y + enemy.size > player.y
+    ) {
+        player.hp -= 10;
     }
 }
 

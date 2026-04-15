@@ -12,7 +12,7 @@ export let currentMap = maps[currentMapIndex]; //pobranie aktualnej mapy z tabli
 
 function Draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height); //zresetowanie wszelkich rzeczy w canvasie
-    
+
     for(let y = 0; y < currentMap.length; y++){ //petle sprawdzajace indexy w mapie aby ustawic
         for(let x = 0; x < currentMap[y].length; x++){
             const tile = currentMap[y][x];
@@ -124,11 +124,15 @@ function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     updateEnemies();
-    Draw();
+    Draw(); 
     drawEnemy();
-    
-    updateUI();
+    if(player.hp === 0) {
+        resetPlayer();
+    }
+    ctx.restore();
+
+    updateUI(); 
+
     requestAnimationFrame(gameLoop);
 }
-
 gameLoop();
