@@ -23,6 +23,15 @@ function startGame() {
     document.getElementById('overlay').classList.add('hidden');
 }
 
+export function gameOver() {
+    resetPlayer();
+    player.hp = 100;
+    updateUI();
+    gameState = "MENU";
+
+    document.getElementById('overlay').classList.remove('hidden');
+}
+
 function Draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height); //zresetowanie wszelkich rzeczy w canvasie
 
@@ -44,7 +53,7 @@ function Draw() {
     ctx.fillStyle = COLORS.PLAYER;
     ctx.fillRect(player.x*TILE_SIZE, player.y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
 
-    drawFog(); //trzeba potem to odkomentowac zeby dzialalo
+    //drawFog(); //trzeba potem to odkomentowac zeby dzialalo
 }
 function drawFog() {
     const visibilityRadius = TILE_SIZE * 2; // Promień widoczności
@@ -137,14 +146,13 @@ document.addEventListener('keydown', (e) => {
 //petla gry
 function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
     updateEnemies();
     Draw(); 
     drawEnemy();
-    if(player.hp === 0) {
-        resetPlayer();
-    }
     ctx.restore();
+    if(player.hp <= 0) {
+        gameOver();
+    }
 
     updateUI(); 
 

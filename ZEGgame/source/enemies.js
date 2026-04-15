@@ -1,4 +1,4 @@
-import {ctx, currentMap} from './app.js';
+import {ctx, currentMap, gameOver} from './app.js';
 import {COLORS, TILES, TILE_SIZE} from './constants.js';
 import {player} from './player.js';
 
@@ -11,20 +11,22 @@ let enemy = {
     dir: -1
 }
 
+let damageCooldown = 0;
+const DAMAGE_COOLDOWN_FRAMES = 60;
+
 //funkcja tworzaca postac przeciwnika
 export function drawEnemy() {
     ctx.fillStyle = COLORS.ENEMY;
     ctx.fillRect(enemy.x, enemy.y, enemy.size, enemy.size);
 }
 
-//funkcja aktualizujaca kierunek przeciwnika
+//funkcja aktualizujaca kierunek przeciwnika oraz zadawanie obrazen
 export function updateEnemies() {
     enemy.x += enemy.speedX * enemy.dir;
 
     const tileY = Math.floor((enemy.y + enemy.size / 2) / TILE_SIZE);
 
     let nextTileIndex;
-
     if (enemy.dir === 1) {
         nextTileIndex = Math.floor((enemy.x + enemy.size + enemy.speedX) / TILE_SIZE);
     } else {
@@ -33,21 +35,26 @@ export function updateEnemies() {
 
     let nextTile;
     if (currentMap[tileY]) {
-      nextTile = currentMap[tileY][nextTileIndex];
+        nextTile = currentMap[tileY][nextTileIndex];
     }
 
     if (nextTile === TILES.WALL || nextTile === undefined) {
         enemy.dir *= -1;
     }
 
-    if ( // swider zostaw potem skoncze
-        enemy.x < player.x + TILE_SIZE &&
-        enemy.x + enemy.size > player.x &&
-        enemy.y < player.y + TILE_SIZE &&
-        enemy.y + enemy.size > player.y
-    ) {
-        player.hp -= 10;
+    const enemyTileX = Math.floor((enemy.x + enemy.size / 2) / TILE_SIZE);
+    const enemyTileY = Math.floor((enemy.y + enemy.size / 2) / TILE_SIZE);
+
+    if (damageCooldown > 0) {
+        damageCooldown--;
     }
+
+    if (player.x === enemyTileX && player.y === enemyTileY && damageCooldown === 0) {
+        player.hp -= 30;
+        damageCooldown = DAMAGE_COOLDOWN_FRAMES;
+    }
+
+    
 }
 
 

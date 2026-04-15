@@ -2,10 +2,10 @@ import {MAX_HP} from './constants.js';
 
 //informacje dotyczace gracza
 export let player = {
-    x: 5,
-    y: 5,
+    x: 1,
+    y: 1,
     keys: 0,
-    hp: 20 
+    hp: 100 
 };
 
 //odnoszenie do informacji o graczu w pliku html
@@ -33,6 +33,7 @@ export function message(text) {
 export function resetPlayer() {
     player.x = 1;
     player.y = 1;
+
     player.keys = 0;
     updateUI();
 }
