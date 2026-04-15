@@ -1,26 +1,31 @@
-import {ctx, currentMap} from './main.js';
+import {ctx, currentMap, currentMapIndex} from './main.js';
 import {COLORS, TILES, TILE_SIZE, GAME_ASSETS} from './constants.js';
 import {player} from './player.js';
 
 //informacje dotyczace przeciwnika
-let enemy = {
-    x: 250,
-    y: 200,
-    size: 40,
-    speedX: 2,
-    dir: -1
-}
+export let enemies = [
+    {x: 250, y: 200, size: TILE_SIZE, speedX: 2, dir: -1},
+    {x: 200, y: 150, size: TILE_SIZE, speedX: 2, dir: -1},
+    {x: 300, y: 100, size: TILE_SIZE, speedX: 2, dir: -1}  
+]
 
 let damageCooldown = 0;
 const DAMAGE_COOLDOWN_FRAMES = 60;
 
 //funkcja tworzaca postac przeciwnika
-export function drawEnemy() {
+export function drawEnemy(enemy) {
     ctx.drawImage(GAME_ASSETS.enemyImage, enemy.x, enemy.y, enemy.size, enemy.size);
+}
+
+export function getCurrentEnemy() {
+    return enemies[currentMapIndex] || null;
 }
 
 //funkcja aktualizujaca kierunek przeciwnika oraz zadawanie obrazen
 export function updateEnemies() {
+    const enemy = getCurrentEnemy();
+    if (!enemy) return;
+    
     enemy.x += enemy.speedX * enemy.dir;
 
     const tileY = Math.floor((enemy.y + enemy.size / 2) / TILE_SIZE);

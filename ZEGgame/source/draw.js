@@ -1,8 +1,9 @@
-import {ctx, currentMap, canvas, gameState} from './main.js';
+import { drawEnemy, updateEnemies, getCurrentEnemy } from './enemies.js';
 import {TILE_SIZE, COLORS, TILES, GAME_ASSETS} from './constants.js';
-import {player} from './player.js';
-import {drawEnemy, updateEnemies} from './enemies.js';
+import {ctx, currentMap, canvas, gameState} from './main.js';
 import {move} from './movement.js';
+import {player} from './player.js';
+import { maps } from './maps.js';
 
 export function Draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height); //zresetowanie wszelkich rzeczy w canvasie
@@ -37,10 +38,11 @@ export function Draw() {
     ctx.drawImage(GAME_ASSETS.playerImage, player.renderX*TILE_SIZE, player.renderY*TILE_SIZE, TILE_SIZE, TILE_SIZE);
     // ctx.fillStyle = COLORS.PLAYER;
     // ctx.fillRect(player.x*TILE_SIZE, player.y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
-
+    
+    const enemy = getCurrentEnemy();
     updateEnemies();
-    drawEnemy();
-    drawFog(); //trzeba potem to odkomentowac zeby dzialalo
+    drawEnemy(enemy);
+    //drawFog(); //trzeba potem to odkomentowac zeby dzialalo
 }
 function drawFog() {
     const visibilityRadius = TILE_SIZE * 2; // Promień widoczności

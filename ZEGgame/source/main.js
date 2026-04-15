@@ -8,7 +8,7 @@ import {camera, updateCamera, lerp} from './camera.js'
 export const canvas = document.getElementById('game'); // pobranie canvasa
 export const ctx = canvas.getContext('2d');
 
-let currentMapIndex = 0; //zmienna przechowujaca aktualna mape, mozna ja zmieniac aby przechodzic do kolejnych map
+export let currentMapIndex = 0; //zmienna przechowujaca aktualna mape, mozna ja zmieniac aby przechodzic do kolejnych map
 export let currentMap = cloneMap(maps[currentMapIndex]); //pobranie aktualnej mapy z tablicy maps
 
 export let gameState = "MENU"; //MENU, PLAYING, WIN, LOSE
@@ -112,8 +112,8 @@ export function gameLoop() {
     //updateEnemies();
 
     if (gameState === "PLAYING") {
-        player.renderX = lerp(player.renderX, player.x, 0.2);
-        player.renderY = lerp(player.renderY, player.y, 0.2);
+        player.renderX = lerp(player.renderX, player.x, 0.15);
+        player.renderY = lerp(player.renderY, player.y, 0.15);
 
         updateCamera(player, canvas.width, canvas.height);
     } else {
