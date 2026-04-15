@@ -11,14 +11,22 @@
     <div class="info">
         <p>❤️Zdrowie: <span id="hp"></span></p>
         <p>🔑Klucze: <span id="klucze"></span></p>
+        <p>Licznik czasu: <span id="counter"></span></p>
         <div id="msg"></div>
     </div>
     
     <div class="game">
-        <div id="overlay">
+        <div id="overlay" class="overlay">
             <h1>Echo w Korytarzach</h1>
-            <button id="StartBtn">Start</button>
+            <button id="startBtn">Start</button>
+        </div> 
+
+        <div id="paused" class="overlay hidden">
+            <h1>Wstrzymano gre</h1>
+            <button id="resumeGame">Wróc do gry</button>
         </div>
+
+        
         <canvas id="game" width="800" height="600"></canvas>
     </div>
     

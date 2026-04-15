@@ -11,7 +11,7 @@ export let currentMap = maps[currentMapIndex]; //pobranie aktualnej mapy z tabli
 
 let gameState = "MENU"; //MENU, PLAYING, WIN, LOSE,  
 
-document.getElementById('StartBtn').addEventListener("click", function() {
+document.getElementById('startBtn').addEventListener("click", function() {
     startGame();
 });
 
@@ -30,6 +30,14 @@ export function gameOver() {
     gameState = "MENU";
 
     document.getElementById('overlay').classList.remove('hidden');
+}
+
+function pauseGame() {
+
+}
+
+function resumeGame() {
+    
 }
 
 function Draw() {
@@ -121,6 +129,26 @@ function move(dx, dy) {
     updateUI();
     Draw();
 }
+
+
+//licznik czasu 
+let counter = 0;
+let counter_text = document.getElementById('counter')
+
+setInterval( function() {
+    counter++; // dodaje sekundy
+
+    let hours = Math.floor(counter / 3600);
+    let minutes = Math.floor((counter % 3600) / 60);
+    let seconds = counter % 60;
+  
+    // formatowanie żeby było np. 01:05:09
+    hours = String(hours).padStart(2, '0');
+    minutes = String(minutes).padStart(2, '0');
+    seconds = String(seconds).padStart(2, '0');
+  
+    counter_text.textContent = `${hours}:${minutes}:${seconds}`;
+  }, 1000);
 
 function nextMap() {
     currentMapIndex++;

@@ -5,8 +5,8 @@ import {player} from './player.js';
 //informacje dotyczace przeciwnika
 let enemy = {
     x: 250,
-    y: 210,
-    size: 20,
+    y: 200,
+    size: 40,
     speedX: 2,
     dir: -1
 }
