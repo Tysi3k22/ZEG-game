@@ -9,12 +9,16 @@ export const ctx = canvas.getContext('2d');
 let currentMapIndex = 0; //zmienna przechowujaca aktualna mape, mozna ja zmieniac aby przechodzic do kolejnych map
 export let currentMap = maps[currentMapIndex]; //pobranie aktualnej mapy z tablicy maps
 
-const gameState = "MENU"; //MENU, PLAYING, WIN, LOSE,  
+let gameState = "MENU"; //MENU, PLAYING, WIN, LOSE,  
+
+document.getElementById('StartBtn').addEventListener("click", function() {
+    startGame();
+});
 
 function startGame() {
     resetPlayer();
     updateUI();
-    gameState = "PLAYING"
+    gameState = "PLAYING";
 
     document.getElementById('overlay').classList.add('hidden');
 }
