@@ -8,7 +8,7 @@ export const camera = {
     renderY: 0
 };
 
-function lerp(a, b, t) {
+export function lerp(a, b, t) {
     return a + (b - a) * t;
 }
 

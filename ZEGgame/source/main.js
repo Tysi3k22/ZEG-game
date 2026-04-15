@@ -3,7 +3,7 @@ import {Draw} from './draw.js';
 import {player, updateUI, message, resetPlayer} from './player.js';
 import {updateEnemies} from './enemies.js'
 import {startTimer, stopTimer, resumeTimer} from './timer.js';
-import {camera, updateCamera} from './camera.js'
+import {camera, updateCamera, lerp} from './camera.js'
 
 export const canvas = document.getElementById('game'); // pobranie canvasa
 export const ctx = canvas.getContext('2d');
@@ -112,6 +112,9 @@ export function gameLoop() {
     //updateEnemies();
 
     if (gameState === "PLAYING") {
+        player.renderX = lerp(player.renderX, player.x, 0.2);
+        player.renderY = lerp(player.renderY, player.y, 0.2);
+
         updateCamera(player, canvas.width, canvas.height);
     } else {
         updateCamera(player, canvas.width, canvas.height);

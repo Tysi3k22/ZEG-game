@@ -4,6 +4,8 @@ import {MAX_HP} from './constants.js';
 export let player = {
     x: 1,
     y: 1,
+    renderX: 1,
+    renderY: 1,
     keys: 0,
     hp: 100 
 };
@@ -33,6 +35,8 @@ export function message(text) {
 export function resetPlayer() {
     player.x = 1;
     player.y = 1;
+    player.renderX = 1,
+    player.renderY = 1,
 
     player.keys = 0;
     updateUI();

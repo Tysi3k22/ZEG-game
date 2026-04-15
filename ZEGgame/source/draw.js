@@ -1,7 +1,7 @@
 import {ctx, currentMap, canvas, gameState} from './main.js';
 import {TILE_SIZE, COLORS, TILES, GAME_ASSETS} from './constants.js';
 import {player} from './player.js';
-import {drawEnemy} from './enemies.js';
+import {drawEnemy, updateEnemies} from './enemies.js';
 import {move} from './movement.js';
 
 export function Draw() {
@@ -34,12 +34,13 @@ export function Draw() {
     }
     //ustawienie pozycji oraz wygladu gracza
 
-    ctx.drawImage(GAME_ASSETS.playerImage, player.x*TILE_SIZE, player.y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
+    ctx.drawImage(GAME_ASSETS.playerImage, player.renderX*TILE_SIZE, player.renderY*TILE_SIZE, TILE_SIZE, TILE_SIZE);
     // ctx.fillStyle = COLORS.PLAYER;
     // ctx.fillRect(player.x*TILE_SIZE, player.y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
 
-    //drawEnemy();
-    //drawFog(); //trzeba potem to odkomentowac zeby dzialalo
+    updateEnemies();
+    drawEnemy();
+    drawFog(); //trzeba potem to odkomentowac zeby dzialalo
 }
 function drawFog() {
     const visibilityRadius = TILE_SIZE * 2; // Promień widoczności
