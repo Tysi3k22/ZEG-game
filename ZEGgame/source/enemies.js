@@ -1,4 +1,4 @@
-import {ctx, currentMap, gameOver} from './app.js';
+import {ctx, currentMap, gameOver} from './main.js';
 import {COLORS, TILES, TILE_SIZE} from './constants.js';
 import {player} from './player.js';
 

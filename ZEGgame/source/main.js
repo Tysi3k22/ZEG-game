@@ -121,7 +121,8 @@ function Draw() {
     ctx.fillStyle = COLORS.PLAYER;
     ctx.fillRect(player.x*TILE_SIZE, player.y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
 
-    //drawFog(); //trzeba potem to odkomentowac zeby dzialalo
+    drawEnemy();
+    drawFog(); //trzeba potem to odkomentowac zeby dzialalo
 }
 function drawFog() {
     const visibilityRadius = TILE_SIZE * 2; // Promień widoczności
@@ -234,7 +235,6 @@ function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     updateEnemies();
     Draw(); 
-    drawEnemy();
     ctx.restore();
     if(player.hp <= 0) {
         gameOver();
