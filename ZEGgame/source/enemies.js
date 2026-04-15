@@ -5,8 +5,8 @@ import {player} from './player.js';
 //informacje dotyczace przeciwnika
 export let enemies = [
     {x: 250, y: 200, size: TILE_SIZE, speedX: 2, dir: -1},
-    {x: 200, y: 150, size: TILE_SIZE, speedX: 2, dir: -1},
-    {x: 300, y: 100, size: TILE_SIZE, speedX: 2, dir: -1}  
+    {x: 200, y: 200, size: TILE_SIZE, speedX: 2, dir: -1},
+    {x: 300, y: 200, size: TILE_SIZE, speedX: 2, dir: -1}  
 ]
 
 let damageCooldown = 0;
@@ -54,7 +54,7 @@ export function updateEnemies() {
     }
 
     if (player.x === enemyTileX && player.y === enemyTileY && damageCooldown === 0) {
-        player.hp -= 30;
+        player.hp -= 25;
         damageCooldown = DAMAGE_COOLDOWN_FRAMES;
     }
 
