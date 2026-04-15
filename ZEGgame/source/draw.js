@@ -2,6 +2,7 @@ import {ctx, currentMap, canvas, gameState} from './main.js';
 import {TILE_SIZE, COLORS, TILES} from './constants.js';
 import {player} from './player.js';
 import {drawEnemy} from './enemies.js';
+import {move} from './movement.js';
 
 export function Draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height); //zresetowanie wszelkich rzeczy w canvasie
