@@ -58,6 +58,7 @@ function startGame() {
     camera.renderY = 0;
     camera.x = 0;
     camera.y = 0;
+    player.hp = 100;
     resetPlayer();
     resetTimer();
     currentMap = cloneMap(maps[currentDifficulty][currentMapIndex]); 

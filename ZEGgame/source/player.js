@@ -6,7 +6,7 @@ export let player = {
     y: 1,
     renderX: 1,
     renderY: 1,
-    keys: 3,
+    keys: 0,
     hp: 100 
 };
 
@@ -38,6 +38,6 @@ export function resetPlayer() {
     player.renderX = 1,
     player.renderY = 1,
 
-    player.keys = 3;
+    player.keys = 0;
     updateUI();
 }

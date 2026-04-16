@@ -42,7 +42,8 @@ export function move(dx, dy) {
         player.keys++;
         currentMap[py][px] = TILES.EMPTY;
     } else if (tile === TILES.HEAL) {
-        player.hp = Math.min(player.hp + 25, 100);
+        player.hp = 100;
+        message("Zostałeś uleczony!");
         currentMap[py][px] = TILES.EMPTY;
     } else if (tile === TILES.TRAP) {
         player.hp -= 10;

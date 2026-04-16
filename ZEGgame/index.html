@@ -9,14 +9,17 @@
     <link href="https://cdn.boxicons.com/3.0.8/fonts/basic/boxicons.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="info">
-        <p>❤️Zdrowie: <span id="hp"></span></p>
-        <p>🔑Klucze: <span id="klucze"></span></p>
-        <p id="main_timer_text">Licznik czasu: <span id="main_timer">00:00:00</span></p>
-        <div id="msg"></div>
-    </div>
-    
     <div class="game">
+        <!--Informacje o grze-->
+        <div class="info">
+            <p>❤️Zdrowie: <span id="hp"></span></p>
+            <p>🔑Klucze: <span id="klucze"></span></p>
+            <p id="main_timer_text">Licznik czasu: <span id="main_timer">00:00:00</span></p>
+            <div id="msg"></div>
+        </div>
+        <!-- Przycisk wstymujący gre -->
+        <button id="pauseGame"><i class="bx bx-pause-circle bx-remove-padding"></i></button>
+        
         <!-- Menu Rozpoczynające gre -->
         <div id="overlay" class="overlay">
             <h1>Echo w Korytarzach</h1>
@@ -31,19 +34,18 @@
             <button id="hardBtn"><i class="bx bx-sad"></i>Trudny</button>
         </div>
 
-
         <!-- Menu Zapauzowanej gry -->
         <div id="paused" class="overlay hidden">
             <h1>Wstrzymano gre</h1>
             <p>Licznik czasu: <span id="paused_timer">00:00:00</span></p>
             <button id="resumeGame"><i class="bx bx-play-circle">Wróc do gry</i></button>
-            <button id="backToLobby_Paused">Wkróć do Menu</button>
+            <button id="backToLobby_Paused">Wróć do Menu</button>
         </div>
 
         <!-- Menu nie dokonczonego trybu -->
         <div id="soon" class="overlay hidden">
             <h1>Wkrótce...</h1>
-            <button id="backToLobby_Soon">Wkróć do Menu</button>
+            <button id="backToLobby_Soon">Wróć do Menu</button>
         </div>
 
         <!-- Menu Konca gry -->
@@ -52,11 +54,10 @@
             <button id="startNewGame"><i class="bx bx-win">Wróć do Menu</i></button>
         </div>
 
-        <!-- Przycisk wstymujący gre -->
-        <button id="pauseGame"><i class="bx bx-pause-circle bx-remove-padding"></i></button>
+   
 
         <!-- Gra -->
-        <canvas id="game" width="1800" height="1200"></canvas>
+        <canvas id="game" width="1400" height="1200"></canvas>
     </div>
     
     <script type="module" src="source/main.js"></script>
