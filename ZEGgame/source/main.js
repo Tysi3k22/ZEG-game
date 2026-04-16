@@ -14,17 +14,20 @@ export let currentMap = cloneMap(maps[currentDifficulty][currentMapIndex]); //po
 
 export let gameState = "MENU"; //MENU, PLAYING, WIN, LOSE
 
+function showMenu(menu) {
+    document.querySelectorAll('.overlay').forEach(function(el) {
+        el.classList.add('hidden');
+    }); //ukrycie wszystkich nakładek
+    document.getElementById(menu).classList.remove('hidden'); //pokazanie nakładki o id menu
+}
+
 //funkcjonalnosc przyciskow w menu
 document.getElementById('startBtn').addEventListener("click", function() {
-    document.getElementById('overlay').classList.add('hidden');
-    document.getElementById('difficultyMenu').classList.remove('hidden');
+    showMenu('difficultyMenu');
 });
 document.getElementById('pauseGame').addEventListener("click", pauseGame);
 document.getElementById('resumeGame').addEventListener("click", resumeGame);
-document.getElementById('startNewGame').addEventListener("click", function() {
-    gameOver();
-    //startGame();
-}); 
+document.getElementById('startNewGame').addEventListener("click", gameOver);
 document.getElementById('easyBtn').addEventListener("click", function() {
     currentDifficulty = "EASY";
     document.getElementById('difficultyMenu').classList.add('hidden');
@@ -40,6 +43,13 @@ document.getElementById('hardBtn').addEventListener("click", function() {
     document.getElementById('soon').classList.remove('hidden'); // pozniej usunac i odkomentowac linijke ponizej
     document.getElementById('difficultyMenu').classList.add('hidden');
     //startGame();
+});
+
+document.getElementById('backToLobby_Paused').addEventListener("click", function(){
+    showMenu('overlay');
+});
+document.getElementById('backToLobby_Soon').addEventListener("click", function(){
+    showMenu('overlay');
 });
 
 function startGame() {
@@ -87,9 +97,7 @@ function pauseGame() {
     gameState = "MENU";
     
     stopTimer();
-    document.getElementById('pauseGame').classList.add('hidden');
-    document.getElementById('paused').classList.remove('hidden');
-    document.getElementById('main_timer_text').classList.add('hidden');
+    showMenu('paused');
 }
 
 function resumeGame() {
@@ -97,9 +105,7 @@ function resumeGame() {
     gameState = "PLAYING";
     resumeTimer();
 
-    document.getElementById('pauseGame').classList.remove('hidden');
-    document.getElementById('main_timer_text').classList.remove('hidden');
-    document.getElementById('paused').classList.add('hidden');
+    showMenu('pauseGame');
 }
 
 function cloneMap(map) {
