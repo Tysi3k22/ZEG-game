@@ -23,6 +23,15 @@
             <button id="startBtn">Start</button>
         </div> 
 
+        <!-- Menu wyboru trudnosci gry -->
+        <div id="difficultyMenu" class="overlay hidden">
+            <h1>Wybierz trudność</h1>
+            <button id="easyBtn"><i class="bx bx-smile"></i>Łatwy</button>
+            <button id="mediumBtn"><i class="bx bx-meh"></i>Średni</button>
+            <button id="hardBtn"><i class="bx bx-sad"></i>Trudny</button>
+        </div>
+
+
         <!-- Menu Zapauzowanej gry -->
         <div id="paused" class="overlay hidden">
             <h1>Wstrzymano gre</h1>
@@ -35,11 +44,12 @@
             <h1>Gratuluje</h1>
             <button id="startNewGame"><i class="bx bx-win">Zagram Ponownie</i></button>
         </div>
+
         <!-- Przycisk wstymujący gre -->
         <button id="pauseGame"><i class="bx bx-pause-circle bx-remove-padding"></i></button>
 
         <!-- Gra -->
-        <canvas id="game" width="800" height="600"></canvas>
+        <canvas id="game" width="1800" height="1200"></canvas>
     </div>
     
     <script type="module" src="source/main.js"></script>

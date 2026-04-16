@@ -4,8 +4,8 @@ import {MAX_HP} from './constants.js';
 export let player = {
     x: 1,
     y: 1,
-    renderX: player.x,
-    renderY: player.y,
+    renderX: 1,
+    renderY: 1,
     keys: 0,
     hp: 100 
 };

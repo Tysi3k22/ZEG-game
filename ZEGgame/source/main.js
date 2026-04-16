@@ -9,19 +9,37 @@ export const canvas = document.getElementById('game'); // pobranie canvasa
 export const ctx = canvas.getContext('2d');
 
 export let currentMapIndex = 0; //zmienna przechowujaca aktualna mape, mozna ja zmieniac aby przechodzic do kolejnych map
-export let currentMap = cloneMap(maps[currentMapIndex]); //pobranie aktualnej mapy z tablicy maps
+let currentDifficulty = "EASY"; //zmienna przechowujaca aktualna trudnosc, mozna ja zmieniac aby zmieniac trudnosc gry
+export let currentMap = cloneMap(maps[currentDifficulty][currentMapIndex]); //pobranie aktualnej mapy z tablicy maps
 
 export let gameState = "MENU"; //MENU, PLAYING, WIN, LOSE
 
 //funkcjonalnosc przyciskow w menu
-document.getElementById('startBtn').addEventListener("click", startGame);
+document.getElementById('startBtn').addEventListener("click", function() {
+    document.getElementById('overlay').classList.add('hidden');
+    document.getElementById('difficultyMenu').classList.remove('hidden');
+});
 document.getElementById('pauseGame').addEventListener("click", pauseGame);
 document.getElementById('resumeGame').addEventListener("click", resumeGame);
 document.getElementById('startNewGame').addEventListener("click", function() {
     gameOver();
-    resetTimer();
     startGame();
 }); 
+document.getElementById('easyBtn').addEventListener("click", function() {
+    currentDifficulty = "EASY";
+    document.getElementById('difficultyMenu').classList.add('hidden');
+    startGame();
+});
+document.getElementById('mediumBtn').addEventListener("click", function() {
+    currentDifficulty = "MEDIUM";
+    document.getElementById('difficultyMenu').classList.add('hidden');
+    startGame();
+});
+document.getElementById('hardBtn').addEventListener("click", function() {
+    currentDifficulty = "HARD";
+    document.getElementById('difficultyMenu').classList.add('hidden');
+    startGame();
+});
 
 
 function startGame() {
@@ -30,13 +48,12 @@ function startGame() {
     camera.x = 0;
     camera.y = 0;
     resetPlayer();
-    currentMap = cloneMap(maps[currentMapIndex]); 
+    resetTimer();
+    currentMap = cloneMap(maps[currentDifficulty][currentMapIndex]); 
     Draw();
     updateUI();
     gameState = "PLAYING";
     startTimer();
-
-    document.getElementById('overlay').classList.add('hidden');
 }
 
 export function gameOver() {
@@ -46,7 +63,7 @@ export function gameOver() {
 
     //resetowanie mapy
     currentMapIndex = 0;
-    currentMap = cloneMap(maps[currentMapIndex]);
+    currentMap = cloneMap(maps[currentDifficulty][currentMapIndex]);
 
     updateUI();
     gameState = "MENU";
@@ -98,12 +115,12 @@ function cloneMap(map) {
 export function nextMap() {
     currentMapIndex++;
 
-    if (!maps[currentMapIndex]) {
+    if (!maps[currentDifficulty][currentMapIndex]) {
         Win();
         message("Gratulacje! Ukończyłeś wszystkie mapy! (na razie)");
         return;
     }
-    currentMap = cloneMap(maps[currentMapIndex]);
+    currentMap = cloneMap(maps[currentDifficulty][currentMapIndex]);
 
     resetPlayer();
     Draw();
