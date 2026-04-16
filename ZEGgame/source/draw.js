@@ -22,7 +22,6 @@ export function Draw() {
             else if(tile === TILES.GATE){
                 //ctx.drawImage()
                 ctx.fillStyle = COLORS.GATE;
-                continue;
             } 
             else if(tile === TILES.TRAP) ctx.fillStyle = COLORS.TRAP;
             else continue;
@@ -39,7 +38,7 @@ export function Draw() {
     const enemy = getCurrentEnemy(); //przypisanie przeciwnika do aktualnej mapy
     updateEnemies(); //zaladowanie poruszania oraz zadawania obrazen od przeciwnika
     drawEnemy(enemy); //narywowanie przeciwnika
-    drawFog(); //narywowanie mgly
+    //drawFog(); //narywowanie mgly
 }
 function drawFog() {
     const visibilityRadius = TILE_SIZE * 1.5; // Promień widoczności

@@ -5,54 +5,51 @@ import {Draw} from './draw.js';
 
 export function move(dx, dy) {
     if(gameState !== "PLAYING") return;
-    //obliczanie nowej pozycji gracza na podstawie kierunku ruchu
+
     const px = player.x + dx;
     const py = player.y + dy;
-    const tile = currentMap[py][px]
-    //blokada przed przejściem dalej bez kluczy
-    if (player.keys <= 1 && tile === TILES.EXIT) {
-        message("Musisz zdobyć wszystkie klucze, aby przejść dalej!"); //dymek pokazujacy ze trzeba zdobyć wszystkie klucze aby przejsc dalej
-        return; //zatrzymanie funkcji move, aby nie pozwolić na przejście dalej
-    }
-    if (player.keys <= 0 && tile == TILES.GATE) {
-        message("Musisz zdobyć klucz, aby odblokować przejście!");
-        return;
-    }
 
-    if(tile != TILES.WALL){ 
-        //mechanika sprawdzania czy nie wchodzi sie w sciane jezeli tak to nie zmienia sie polozenie
-        player.x = px;
-        player.y = py;
-    }
-    if(tile === TILES.EXIT && player.keys === 2 ){
-        message("Wygrałeś!"); //dymek pokazujacy przescie labiryntu (trzeba zrobic menu glowne aby do niego przechodzic po skonczeniu)
-        nextMap(); //przejscie do kolejnej mapy po przejsciu obecnej
-    }
-    if(tile === TILES.KEY){
-        message("Zdobyłeś klucz!");
-        player.keys++;
-        currentMap[py][px] = TILES.EMPTY; //usuwanie klucza z mapy po odebraniu
-    }
-    if(tile === TILES.HEAL){
-        message("Zdobyłeś leczenie!");
-        player.hp = 100;
-        currentMap[py][px] = TILES.EMPTY; //usuwanie leczenia z mapy po odebraniu
-    }
-    if(tile === TILES.GATE){
+    // Zabezpieczenie przed wyjściem poza tablicę mapy
+    if (!currentMap[py] || currentMap[py][px] === undefined) return;
+
+    const tile = currentMap[py][px];
+
+    // Logika bramy
+    if (tile === TILES.GATE) {
         if (player.keys > 0) {
-            message("Odblokowano przejście!");
+            message("Otwarto bramę!");
             player.keys--;
-            currentMap[py][px] = TILES.EMPTY; //czyszczenie kafelka
+            currentMap[py][px] = TILES.EMPTY;
         } else {
-            message("Brakuje kluczy, aby odblokować przejście!");
+            message("Potrzebujesz klucza!");
+            return;
         }
     }
-    if(tile === TILES.TRAP) {
-        message("Wszedłeś w pułapke");
-        player.hp -= 2;
+
+    // Logika ściany
+    if (tile === TILES.WALL) return;
+
+    // Aktualizacja pozycji
+    player.x = px;
+    player.y = py;
+
+    // Logika przedmiotów i mety
+    if (tile === TILES.EXIT) {
+        message("Poziom ukończony!");
+        nextMap();
+    } else if (tile === TILES.KEY) {
+        message("Znalazłeś klucz!");
+        player.keys++;
+        currentMap[py][px] = TILES.EMPTY;
+    } else if (tile === TILES.HEAL) {
+        player.hp = Math.min(player.hp + 25, 100);
+        currentMap[py][px] = TILES.EMPTY;
+    } else if (tile === TILES.TRAP) {
+        player.hp -= 10;
+        message("Pułapka!");
     }
+
     updateUI();
-    Draw();
 }
 
 document.addEventListener('keydown', (e) => {

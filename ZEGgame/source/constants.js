@@ -26,7 +26,8 @@ export const TILES = {
     KEY: 3,
     HEAL: 4,
     GATE: 5,
-    TRAP: 6
+    TRAP: 6,
+    WAY_TO_EXIT: 7
 };
 
 //punktualny opis obrazkow w grze
@@ -47,5 +48,6 @@ export const COLORS = {
     GATE: 'brown',
     FOG: 'rgba(0, 0, 0,0.98)',
     ENEMY: 'purple',
-    TRAP: 'rgba(99, 223, 223, 0.95)'
+    TRAP: 'rgba(99, 223, 223, 0.95)',
+    WAY_TO_EXIT: 'rgba(255, 255, 0, 0.5)'
 }

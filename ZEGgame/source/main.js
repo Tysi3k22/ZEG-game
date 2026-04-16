@@ -1,4 +1,4 @@
-import {maps} from './maps.js';
+import {maps, placeReward, rewardTypes} from './maps.js';
 import {Draw} from './draw.js';
 import {player, updateUI, message, resetPlayer} from './player.js';
 import {updateEnemies} from './enemies.js'
@@ -23,7 +23,7 @@ document.getElementById('pauseGame').addEventListener("click", pauseGame);
 document.getElementById('resumeGame').addEventListener("click", resumeGame);
 document.getElementById('startNewGame').addEventListener("click", function() {
     gameOver();
-    startGame();
+    //startGame();
 }); 
 document.getElementById('easyBtn').addEventListener("click", function() {
     currentDifficulty = "EASY";
@@ -50,6 +50,7 @@ function startGame() {
     resetPlayer();
     resetTimer();
     currentMap = cloneMap(maps[currentDifficulty][currentMapIndex]); 
+    placeReward(currentMap, rewardTypes[currentDifficulty]);
     Draw();
     updateUI();
     gameState = "PLAYING";
@@ -121,6 +122,7 @@ export function nextMap() {
         return;
     }
     currentMap = cloneMap(maps[currentDifficulty][currentMapIndex]);
+    placeReward(currentMap, rewardTypes[currentDifficulty]);
 
     resetPlayer();
     Draw();
