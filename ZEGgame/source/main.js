@@ -37,10 +37,10 @@ document.getElementById('mediumBtn').addEventListener("click", function() {
 });
 document.getElementById('hardBtn').addEventListener("click", function() {
     currentDifficulty = "HARD";
+    document.getElementById('soon').classList.remove('hidden'); // pozniej usunac i odkomentowac linijke ponizej
     document.getElementById('difficultyMenu').classList.add('hidden');
-    startGame();
+    //startGame();
 });
-
 
 function startGame() {
     camera.renderX = 0;
@@ -83,6 +83,7 @@ function Win() {
 }
 
 function pauseGame() {
+    if(gameState !== "PLAYING") return;
     gameState = "MENU";
     
     stopTimer();
@@ -91,8 +92,8 @@ function pauseGame() {
     document.getElementById('main_timer_text').classList.add('hidden');
 }
 
-
 function resumeGame() {
+
     gameState = "PLAYING";
     resumeTimer();
 
