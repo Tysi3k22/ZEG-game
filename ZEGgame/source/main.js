@@ -4,6 +4,7 @@ import {player, updateUI, message, resetPlayer} from './player.js';
 import {updateEnemies} from './enemies.js'
 import {startTimer, stopTimer, resumeTimer, resetTimer} from './timer.js';
 import {camera, updateCamera, lerp} from './camera.js'
+import {fog, drawFog} from './fog.js';
 
 export const canvas = document.getElementById('game'); // pobranie canvasa
 export const ctx = canvas.getContext('2d');
@@ -143,6 +144,9 @@ export function gameLoop() {
         player.renderX = lerp(player.renderX, player.x, 0.15); //płynne przejście renderowanej pozycji gracza do jego aktualnej pozycji
         player.renderY = lerp(player.renderY, player.y, 0.15);
 
+        fog.renderX = player.renderX;
+        fog.renderY = player.renderY;
+
         updateCamera(player, canvas.width, canvas.height); //aktualizacja pozycji kamery na podstawie pozycji gracza
     } else {
         updateCamera(player, canvas.width, canvas.height);
@@ -153,6 +157,7 @@ export function gameLoop() {
     ctx.translate(-camera.renderX, -camera.renderY); //przesunięcie widoku o pozycję kamery, aby śledzić gracza
 
     Draw(); //funkcja rysujaca mape na canvasie
+    drawFog(); //narywowanie mgly
     ctx.restore();
     if(player.hp <= 0) {
         gameOver(); //funkcja przegranej, resetuje gre
