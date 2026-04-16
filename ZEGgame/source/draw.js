@@ -38,7 +38,7 @@ export function Draw() {
     const enemy = getCurrentEnemy(); //przypisanie przeciwnika do aktualnej mapy
     updateEnemies(); //zaladowanie poruszania oraz zadawania obrazen od przeciwnika
     drawEnemy(enemy); //narywowanie przeciwnika
-    //drawFog(); //narywowanie mgly
+    drawFog(); //narywowanie mgly
 }
 function drawFog() {
     const visibilityRadius = TILE_SIZE * 1.5; // Promień widoczności
@@ -52,8 +52,19 @@ function drawFog() {
 
     ctx.rect(0, 0, canvas.width, canvas.height); //prostokat(mgla) na caly labirynt oprocz gracza oraz okregu dookola niego
     ctx.arc(playerCenterX, playerCenterY, visibilityRadius, 0, Math.PI * 2, true); //narysowanie kola widocznosci
-    
-    ctx.fillStyle = COLORS.FOG; //ustawienie koloru mgly
+    const gradient = ctx.createRadialGradient(
+        playerCenterX, playerCenterY, 0,
+        playerCenterX, playerCenterY, visibilityRadius
+    );
+
+    gradient.addColorStop(0, "rgba(0,0,0,0)");     // pełna widoczność
+    gradient.addColorStop(0.6, "rgba(0,0,0,0.4)");
+    gradient.addColorStop(1, COLORS.FOG);          // pełna mgła
+
+    ctx.globalCompositeOperation = "destination-out";
+
+    ctx.fillStyle = gradient;
+    ctx.arc(playerCenterX, playerCenterY, visibilityRadius, 0, Math.PI * 2);
     ctx.fill();
 
     ctx.restore();

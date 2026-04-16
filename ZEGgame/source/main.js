@@ -22,12 +22,12 @@ function showMenu(menu) {
 }
 
 //funkcjonalnosc przyciskow w menu
-document.getElementById('startBtn').addEventListener("click", function() {
-    showMenu('difficultyMenu');
-});
 document.getElementById('pauseGame').addEventListener("click", pauseGame);
 document.getElementById('resumeGame').addEventListener("click", resumeGame);
 document.getElementById('startNewGame').addEventListener("click", gameOver);
+document.getElementById('startBtn').addEventListener("click", function() {
+    showMenu('difficultyMenu');
+});
 document.getElementById('easyBtn').addEventListener("click", function() {
     currentDifficulty = "EASY";
     document.getElementById('difficultyMenu').classList.add('hidden');
