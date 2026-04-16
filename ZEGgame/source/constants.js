@@ -1,6 +1,8 @@
 export const TILE_SIZE = 40; // rozmiar jednego kafelka
 export const MAX_HP = 100; // maksymalna ilosc zdrowia gracza
 
+
+//wczytywanie obrazkow do gry
 const playerImage = new Image();
 playerImage.src = 'assets/gracz1.png';
 
@@ -27,6 +29,7 @@ export const TILES = {
     TRAP: 6
 };
 
+//punktualny opis obrazkow w grze
 export const GAME_ASSETS = {
     playerImage: playerImage,
     healImage: healImage,

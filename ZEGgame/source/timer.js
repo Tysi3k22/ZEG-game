@@ -1,5 +1,5 @@
 let counter = 0;
-let interval = null;
+export let interval = null;
 let main_timer = document.getElementById('main_timer');
 let paused_timer = document.getElementById('paused_timer');
 
@@ -22,11 +22,17 @@ export function startTimer() {
   }, 1000);
 }
 
+export function resetTimer() {
+  counter = 0;
+  main_timer.textContent = "00:00:00";
+  paused_timer.textContent = "00:00:00";
+}
+
 export function stopTimer() {
   if (interval === null) return;
 
   clearInterval(interval);
-  interval = null; // ważne!
+  interval = null; 
 }
 
 export function resumeTimer() {

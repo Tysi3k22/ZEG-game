@@ -4,8 +4,8 @@ import {MAX_HP} from './constants.js';
 export let player = {
     x: 1,
     y: 1,
-    renderX: 1,
-    renderY: 1,
+    renderX: player.x,
+    renderY: player.y,
     keys: 0,
     hp: 100 
 };
@@ -19,8 +19,8 @@ const msg = document.getElementById('msg');
 
 //funkcja aktualizujaca zdrowie oraz ekwipunek gracza
 export function updateUI() {
-    hp.innerHTML = player.hp + "/" + MAX_HP;
-    klucze.innerHTML = parseInt(player.keys); 
+    hp_html.innerHTML = player.hp + "/" + MAX_HP;
+    keys_html.innerHTML = parseInt(player.keys); 
 }
 
 //funkcja wyswietlajaca informacje po interakcji

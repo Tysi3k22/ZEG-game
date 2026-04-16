@@ -2,7 +2,7 @@ import {maps} from './maps.js';
 import {Draw} from './draw.js';
 import {player, updateUI, message, resetPlayer} from './player.js';
 import {updateEnemies} from './enemies.js'
-import {startTimer, stopTimer, resumeTimer} from './timer.js';
+import {startTimer, stopTimer, resumeTimer, resetTimer} from './timer.js';
 import {camera, updateCamera, lerp} from './camera.js'
 
 export const canvas = document.getElementById('game'); // pobranie canvasa
@@ -13,10 +13,16 @@ export let currentMap = cloneMap(maps[currentMapIndex]); //pobranie aktualnej ma
 
 export let gameState = "MENU"; //MENU, PLAYING, WIN, LOSE
 
+//funkcjonalnosc przyciskow w menu
 document.getElementById('startBtn').addEventListener("click", startGame);
 document.getElementById('pauseGame').addEventListener("click", pauseGame);
 document.getElementById('resumeGame').addEventListener("click", resumeGame);
-document.getElementById('startNewGame').addEventListener("click", gameOver, startGame); 
+document.getElementById('startNewGame').addEventListener("click", function() {
+    gameOver();
+    resetTimer();
+    startGame();
+}); 
+
 
 function startGame() {
     camera.renderX = 0;
@@ -79,10 +85,8 @@ function resumeGame() {
 
 function cloneMap(map) {
     const newMap = [];
-
     for (let y = 0; y < map.length; y++) {
         newMap[y] = [];
-
         for (let x = 0; x < map[y].length; x++) {
             newMap[y][x] = map[y][x];
         }
@@ -104,35 +108,33 @@ export function nextMap() {
     resetPlayer();
     Draw();
 }
-//system poruszania sie zaleznie od nacisnietego przycisku
 
 //petla gry
 export function gameLoop() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    //updateEnemies();
+    ctx.clearRect(0, 0, canvas.width, canvas.height); //zresetowanie wszelkich rzeczy w canvasie
 
     if (gameState === "PLAYING") {
-        player.renderX = lerp(player.renderX, player.x, 0.15);
+        player.renderX = lerp(player.renderX, player.x, 0.15); //płynne przejście renderowanej pozycji gracza do jego aktualnej pozycji
         player.renderY = lerp(player.renderY, player.y, 0.15);
 
-        updateCamera(player, canvas.width, canvas.height);
+        updateCamera(player, canvas.width, canvas.height); //aktualizacja pozycji kamery na podstawie pozycji gracza
     } else {
         updateCamera(player, canvas.width, canvas.height);
     }
 
-    ctx.save();
+    ctx.save(); //zapisanie aktualnego stanu
 
-    ctx.translate(-camera.renderX, -camera.renderY)
+    ctx.translate(-camera.renderX, -camera.renderY); //przesunięcie widoku o pozycję kamery, aby śledzić gracza
 
-    Draw(); 
+    Draw(); //funkcja rysujaca mape na canvasie
     ctx.restore();
     if(player.hp <= 0) {
-        gameOver();
+        gameOver(); //funkcja przegranej, resetuje gre
     }
 
-    updateUI(); 
+    updateUI(); //aktualizacja informacji o graczu
 
-    requestAnimationFrame(gameLoop);
+    requestAnimationFrame(gameLoop); //zapewnienie płynności animacji poprzez wywolywanie gameLoop przed każdym odświeżeniem ekranu
 }
 
 

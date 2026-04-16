@@ -5,7 +5,7 @@ import {Draw} from './draw.js';
 
 export function move(dx, dy) {
     if(gameState !== "PLAYING") return;
-    //poruszanie sie
+    //obliczanie nowej pozycji gracza na podstawie kierunku ruchu
     const px = player.x + dx;
     const py = player.y + dy;
     const tile = currentMap[py][px]
@@ -24,7 +24,7 @@ export function move(dx, dy) {
         player.x = px;
         player.y = py;
     }
-    if(tile === TILES.EXIT && player.keys === 2 ){ //TODO: blokuje wchodzenie na pole mety
+    if(tile === TILES.EXIT && player.keys === 2 ){
         message("Wygrałeś!"); //dymek pokazujacy przescie labiryntu (trzeba zrobic menu glowne aby do niego przechodzic po skonczeniu)
         nextMap(); //przejscie do kolejnej mapy po przejsciu obecnej
     }
@@ -42,7 +42,7 @@ export function move(dx, dy) {
         if (player.keys > 0) {
             message("Odblokowano przejście!");
             player.keys--;
-            currentMap[py][px] = TILES.EMPTY; //czyszczenie kafelki
+            currentMap[py][px] = TILES.EMPTY; //czyszczenie kafelka
         } else {
             message("Brakuje kluczy, aby odblokować przejście!");
         }
@@ -61,4 +61,6 @@ document.addEventListener('keydown', (e) => {
     if(e.key == "ArrowDown" || e.key == "s") move(0,1);
     if(e.key == "ArrowLeft" || e.key == "a") move(-1,0);
     if(e.key == "ArrowRight" || e.key == "d") move(1,0);
+
+    e.preventDefault(); // zablokowanie przewijania strony przy użyciu strzałek 
 })
