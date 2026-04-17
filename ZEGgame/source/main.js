@@ -15,11 +15,12 @@ export let currentMap = cloneMap(maps[currentDifficulty][currentMapIndex]); //po
 
 export let gameState = "MENU"; //MENU, PLAYING, WIN, LOSE
 
+// funkcja usprawiniajaca system menu
 function showMenu(menu) {
     document.querySelectorAll('.overlay').forEach(function(el) {
         el.classList.add('hidden');
     }); //ukrycie wszystkich nakładek
-    document.getElementById(menu).classList.remove('hidden'); //pokazanie nakładki o id menu
+    document.getElementById(menu).classList.remove('hidden'); //pokazanie nakładki o podanym id
 }
 
 //funkcjonalnosc przyciskow w menu
@@ -53,6 +54,7 @@ document.getElementById('backToLobby_Soon').addEventListener("click", function()
     showMenu('overlay');
 });
 
+// funkcja rozpoczynajaca gre
 function startGame() {
     camera.renderX = 0;
     camera.renderY = 0;
@@ -69,6 +71,7 @@ function startGame() {
     startTimer();
 }
 
+// funkcja resetujaca gre
 export function gameOver() {
     //resetowanie gracza
     player.hp = 100;
@@ -82,18 +85,19 @@ export function gameOver() {
     gameState = "MENU";
     stopTimer();
 
-    document.getElementById('overlay').classList.remove('hidden');
-    document.getElementById('Win').classList.add('hidden');
+    showMenu('overlay');
 }
 
+// funkcja wygrywania gry
 function Win() {
     gameState = "WIN";
 
     stopTimer();
 
-    document.getElementById('Win').classList.remove('hidden');
+    showMenu('win');
 }
 
+//funkcja pauzowania gry
 function pauseGame() {
     if(gameState !== "PLAYING") return;
     gameState = "MENU";
@@ -102,6 +106,7 @@ function pauseGame() {
     showMenu('paused');
 }
 
+// funkcja wznawiania gry
 function resumeGame() {
 
     gameState = "PLAYING";
@@ -110,8 +115,10 @@ function resumeGame() {
     showMenu('pauseGame');
 }
 
+// funkcja do klonowania mapy, aby nie modyfikowac oryginalnej mapy w tablicy maps
 function cloneMap(map) {
     const newMap = [];
+    // przejscie przez kazdy wiersz i kolumne mapy i skopiowanie jej wartosci do nowej mapy
     for (let y = 0; y < map.length; y++) {
         newMap[y] = [];
         for (let x = 0; x < map[y].length; x++) {
@@ -119,26 +126,34 @@ function cloneMap(map) {
         }
     }
 
+    // zwrocenie sklonowanej mapy
     return newMap;
 }
 
+// funkcja przechodzenia do kolejnej mapy
 export function nextMap() {
     currentMapIndex++;
 
+    // sprawdzenie czy istnieje kolejna mapa, jesli nie to wygrana
     if (!maps[currentDifficulty][currentMapIndex]) {
         Win();
         message("Gratulacje! Ukończyłeś wszystkie mapy! (na razie)");
         return;
     }
+
+    // pobranie kolejnej mapy
     currentMap = cloneMap(maps[currentDifficulty][currentMapIndex]);
+
+    // umieszczenie nagrod na mapie
     placeReward(currentMap, rewardTypes[currentDifficulty]);
 
+    // zresetowanie pozycji gracza i narysowanie mapy
     resetPlayer();
     Draw();
 }
 
 //petla gry
-export function gameLoop() {
+function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height); //zresetowanie wszelkich rzeczy w canvasie
 
     if (gameState === "PLAYING") {

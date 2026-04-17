@@ -21,7 +21,7 @@ export function Draw() {
                 continue;  
             } 
             else if(tile === TILES.GATE){
-                //ctx.drawImage()
+                //ctx.drawImage() - gdy bedzie tekstura bramy bedzie trzeba ja dodac
                 ctx.fillStyle = COLORS.GATE;
             } 
             else if(tile === TILES.TRAP) ctx.fillStyle = COLORS.TRAP;
@@ -33,8 +33,6 @@ export function Draw() {
 
     //ustawienie pozycji oraz wygladu gracza
     ctx.drawImage(GAME_ASSETS.playerImage, player.renderX*TILE_SIZE, player.renderY*TILE_SIZE, TILE_SIZE, TILE_SIZE);
-    // ctx.fillStyle = COLORS.PLAYER;
-    // ctx.fillRect(player.x*TILE_SIZE, player.y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
     
     const enemy = getCurrentEnemy(); //przypisanie przeciwnika do aktualnej mapy
     updateEnemies(); //zaladowanie poruszania oraz zadawania obrazen od przeciwnika

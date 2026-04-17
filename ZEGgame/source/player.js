@@ -31,7 +31,7 @@ export function message(text) {
     }, 2000);
 }
 
-//funkcja resetujaca pozycji gracza
+//funkcja resetujaca pozycje oraz klucze gracza
 export function resetPlayer() {
     player.x = 1;
     player.y = 1;

@@ -4,12 +4,13 @@ import {TILES} from './constants.js';
 import {Draw} from './draw.js';
 
 export function move(dx, dy) {
-    if(gameState !== "PLAYING") return;
+    if(gameState !== "PLAYING") return; // zabezpieczenie przed poruszaniem się w menu
 
+    // Obliczenie nowej pozycji gracza
     const px = player.x + dx;
     const py = player.y + dy;
 
-    // Zabezpieczenie przed wyjściem poza tablicę mapy
+    // Zabezpieczenie przed wyjsciem poza tablice mapy
     if (!currentMap[py] || currentMap[py][px] === undefined) return;
 
     const tile = currentMap[py][px];
@@ -26,10 +27,10 @@ export function move(dx, dy) {
         }
     }
 
-    // Logika ściany
+    // Zabezpieczenie przed wchodzeniem w sciany
     if (tile === TILES.WALL) return;
 
-    // Aktualizacja pozycji
+    // Aktualizacja pozycji gracza
     player.x = px;
     player.y = py;
 
@@ -50,6 +51,7 @@ export function move(dx, dy) {
         message("Pułapka!");
     }
 
+    // funkcja aktualizujaca informacje o graczu
     updateUI();
 }
 
