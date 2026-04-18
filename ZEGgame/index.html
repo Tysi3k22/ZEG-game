@@ -38,7 +38,7 @@
         <div id="paused" class="overlay hidden">
             <h1>Wstrzymano gre</h1>
             <p>Licznik czasu: <span id="paused_timer">00:00:00</span></p>
-            <button id="resumeGame"><i class="bx bx-play-circle">Wróc do gry</i></button>
+            <button id="resumeGame"><i class="bx bx-play-circle"></i>Wróc do gry</button>
             <button id="backToLobby_Paused">Wróć do Menu</button>
         </div>
 
@@ -51,10 +51,16 @@
         <!-- Menu Konca gry -->
         <div id="Win" class="overlay hidden">
             <h1>Gratuluje</h1>
-            <button id="startNewGame"><i class="bx bx-win">Wróć do Menu</i></button>
+            <p id="winMsg"></p>
+            <button id="startNewGame"><i class="bx bx-win"></i>Wróć do Menu</button>
         </div>
 
-   
+        <!-- Menu przegranej gry -->
+        <div id="lostGame" class="overlay hidden">
+                <h1>Przegrałeś</h1>
+                <p id="lostMsg"></p>
+                <button id="backToLobby_Lost"><i class="bx bx-x-circle"></i>Wróć do Menu</button>
+        </div>
 
         <!-- Gra -->
         <canvas id="game" width="1400" height="1200"></canvas>

@@ -1,4 +1,4 @@
-import {ctx, currentMap, currentMapIndex, currentDifficulty} from './main.js';
+import {ctx, currentMap, currentMapIndex, currentDifficulty, addDamage} from './main.js';
 import {COLORS, TILES, TILE_SIZE, GAME_ASSETS} from './constants.js';
 import {player} from './player.js';
 
@@ -72,6 +72,7 @@ export function updateEnemies() {
         if (player.x === enemyTileX && player.y === enemyTileY && damageCooldown === 0) {
             //zadawanie obrazen graczowi gdy znajduje sie na tym samym kafelku co przeciwnik oraz cooldown od zadania obrazen jest 0
             player.hp -= 25;
+            addDamage(25);
             damageCooldown = DAMAGE_COOLDOWN_FRAMES;
         }
     });

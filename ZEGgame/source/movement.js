@@ -1,5 +1,5 @@
 import {player, updateUI, message} from './player.js';
-import {currentMap, gameState, nextMap} from './main.js';
+import {currentMap, gameState, nextMap, addDamage} from './main.js';
 import {TILES} from './constants.js';
 import {Draw} from './draw.js';
 
@@ -59,6 +59,7 @@ export function move(dx, dy) {
         currentMap[py][px] = TILES.EMPTY;
     } else if (tile === TILES.TRAP) {
         player.hp -= 10;
+        addDamage(10);
         message("Pułapka!");
     }
 

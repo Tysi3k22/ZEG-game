@@ -8,12 +8,17 @@ import {fog, drawFog} from './fog.js';
 
 export const canvas = document.getElementById('game'); // pobranie canvasa
 export const ctx = canvas.getContext('2d');
+export let total_damage = 0;
 
 export let currentMapIndex = 0; //zmienna przechowujaca aktualna mape, mozna ja zmieniac aby przechodzic do kolejnych map
 export let currentDifficulty = "EASY"; //zmienna przechowujaca aktualna trudnosc, mozna ja zmieniac aby zmieniac trudnosc gry
 export let currentMap = cloneMap(maps[currentDifficulty][currentMapIndex]); //pobranie aktualnej mapy z tablicy maps
 
-export let gameState = "MENU"; //MENU, PLAYING, WIN, LOSE
+export let gameState = "MENU"; //MENU, PLAYING
+
+export function addDamage(amount) {
+    total_damage += amount;
+};
 
 // funkcja usprawiniajaca system menu
 function showMenu(menu) {
@@ -26,7 +31,9 @@ function showMenu(menu) {
 //funkcjonalnosc przyciskow w menu
 document.getElementById('pauseGame').addEventListener("click", pauseGame);
 document.getElementById('resumeGame').addEventListener("click", resumeGame);
-document.getElementById('startNewGame').addEventListener("click", gameOver);
+document.getElementById('startNewGame').addEventListener("click", function() {
+    showMenu('overlay');
+});
 document.getElementById('startBtn').addEventListener("click", function() {
     showMenu('difficultyMenu');
 });
@@ -53,9 +60,14 @@ document.getElementById('backToLobby_Paused').addEventListener("click", function
 document.getElementById('backToLobby_Soon').addEventListener("click", function(){
     showMenu('overlay');
 });
+document.getElementById('backToLobby_Lost').addEventListener("click", function(){
+    showMenu('overlay');
+});
 
 // funkcja rozpoczynajaca gre
 function startGame() {
+    currentMapIndex = 0; 
+    total_damage = 0;    
     camera.renderX = 0;
     camera.renderY = 0;
     camera.x = 0;
@@ -73,27 +85,24 @@ function startGame() {
 
 // funkcja resetujaca gre
 export function gameOver() {
-    //resetowanie gracza
     player.hp = 100;
     resetPlayer();
-
-    //resetowanie mapy
     currentMapIndex = 0;
     currentMap = cloneMap(maps[currentDifficulty][currentMapIndex]);
-
     updateUI();
     gameState = "MENU";
     stopTimer();
-
-    showMenu('overlay');
+    resetTimer();
+    
+    document.getElementById('lostMsg').textContent = `Niestety ci się nie udało :<. Twój wynik to ${total_damage} obrażeń. (na razie)`;
+    showMenu('lostGame');
 }
 
 // funkcja wygrywania gry
 function Win() {
-    gameState = "WIN";
-
+    gameState = "MENU";
     stopTimer();
-
+    document.getElementById('winMsg').textContent = `Gratulacje! Ukończyłeś wszystkie mapy! Twój wynik to ${total_damage} obrażeń. (na razie)`;
     showMenu('Win');
 }
 
@@ -173,9 +182,11 @@ function gameLoop() {
     ctx.translate(-camera.renderX, -camera.renderY); //przesunięcie widoku o pozycję kamery, aby śledzić gracza
 
     Draw(gameState); //funkcja rysujaca mape na canvasie
-    drawFog(); //narywowanie mgly
+    //drawFog(); //narywowanie mgly
     ctx.restore();
     if(player.hp <= 0) {
+
+
         gameOver(); //funkcja przegranej, resetuje gre
     }
 
