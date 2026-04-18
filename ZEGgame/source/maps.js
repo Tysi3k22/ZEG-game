@@ -1,4 +1,3 @@
-// map[y][x]
 export const maps = {
     EASY: [[
         [1,1,1,1,1,1,1,1,1,1,1,1],//0 - droga
