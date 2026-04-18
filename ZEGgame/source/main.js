@@ -172,8 +172,8 @@ function gameLoop() {
 
     ctx.translate(-camera.renderX, -camera.renderY); //przesunięcie widoku o pozycję kamery, aby śledzić gracza
 
-    Draw(); //funkcja rysujaca mape na canvasie
-    //drawFog(); //narywowanie mgly
+    Draw(gameState); //funkcja rysujaca mape na canvasie
+    drawFog(); //narywowanie mgly
     ctx.restore();
     if(player.hp <= 0) {
         gameOver(); //funkcja przegranej, resetuje gre

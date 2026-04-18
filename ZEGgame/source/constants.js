@@ -4,7 +4,10 @@ export const MAX_HP = 100; // maksymalna ilosc zdrowia gracza
 
 //wczytywanie obrazkow do gry
 const playerImage = new Image();
-playerImage.src = 'assets/gracz1.png';
+playerImage.src = 'assets/idle.png';
+
+const walkImage = new Image();
+walkImage.src = 'assets/walk.png';
 
 const healImage = new Image();
 healImage.src = 'assets/leczenie.png';
@@ -40,7 +43,8 @@ export const GAME_ASSETS = {
     keyImage: keyImage,
     enemyImage: enemyImage,
     gateImage: gateImage,
-    trapImage: trapImage
+    trapImage: trapImage,
+    walkImage: walkImage
 }
 
 //punktualny opis kolorow w labiryncie

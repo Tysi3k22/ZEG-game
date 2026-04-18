@@ -27,12 +27,23 @@ export function move(dx, dy) {
         }
     }
 
+    let animTimeout = null;
+
     // Zabezpieczenie przed wchodzeniem w sciany
     if (tile === TILES.WALL) return;
 
     // Aktualizacja pozycji gracza
     player.x = px;
     player.y = py;
+
+    //
+    if (animTimeout) {
+        clearTimeout(animTimeout);
+        animTimeout = null;
+    }
+
+    player.animation.state = "walk"; // ustawienie animacji chodzenia
+
 
     // Logika przedmiotów i mety
     if (tile === TILES.EXIT) {
@@ -53,6 +64,12 @@ export function move(dx, dy) {
 
     // funkcja aktualizujaca informacje o graczu
     updateUI();
+
+    // Powrot do animacji bezczynnosci po 200ms
+    animTimeout = setTimeout(() => {
+        player.animation.state = "idle"; // powrot do animacji bezczynnosci po krotkim czasie
+        animTimeout = null;
+    }, 200);
 }
 
 document.addEventListener('keydown', (e) => {

@@ -7,7 +7,12 @@ export let player = {
     renderX: 1,
     renderY: 1,
     keys: 0,
-    hp: 100 
+    hp: 100,
+    animation: {
+        state: "idle",  // "idle", "walk"
+        frame: 0,
+        lastTime: 0
+    }
 };
 
 //odnoszenie do informacji o graczu w pliku html
@@ -35,8 +40,11 @@ export function message(text) {
 export function resetPlayer() {
     player.x = 1;
     player.y = 1;
-    player.renderX = 1,
-    player.renderY = 1,
+    player.renderX = 1;
+    player.renderY = 1;
+    player.animation.state = "idle";
+    player.animation.frame = 0;
+    player.animation.lastTime = 0;
 
     player.keys = 0;
     updateUI();
