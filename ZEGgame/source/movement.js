@@ -85,8 +85,8 @@ document.addEventListener('keydown', (e) => {
 
     if(["ArrowUp", "w"].includes(e.key)) dy = -1; 
     else if(["ArrowDown", "s"].includes(e.key)) dy = 1; 
-    else if(["ArrowLeft", "a"].includes(e.key)) dy = -1; 
-    else if(["ArrowRight", "d"].includes(e.key)) dy = 1; 
+    else if(["ArrowLeft", "a"].includes(e.key)) dx = -1; 
+    else if(["ArrowRight", "d"].includes(e.key)) dx = 1; 
 
     if(dx !== 0 || dy !== 0) {
         move(dx, dy);
