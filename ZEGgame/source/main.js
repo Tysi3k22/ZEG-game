@@ -10,7 +10,7 @@ export const canvas = document.getElementById('game'); // pobranie canvasa
 export const ctx = canvas.getContext('2d');
 
 export let currentMapIndex = 0; //zmienna przechowujaca aktualna mape, mozna ja zmieniac aby przechodzic do kolejnych map
-let currentDifficulty = "EASY"; //zmienna przechowujaca aktualna trudnosc, mozna ja zmieniac aby zmieniac trudnosc gry
+export let currentDifficulty = "EASY"; //zmienna przechowujaca aktualna trudnosc, mozna ja zmieniac aby zmieniac trudnosc gry
 export let currentMap = cloneMap(maps[currentDifficulty][currentMapIndex]); //pobranie aktualnej mapy z tablicy maps
 
 export let gameState = "MENU"; //MENU, PLAYING, WIN, LOSE
