@@ -12,11 +12,14 @@ healImage.src = 'assets/leczenie.png';
 const keyImage = new Image();
 keyImage.src = 'assets/kluczyk.png';
 
-// const gateImage = new Image();
-// gateImage.src = 'assets/Brama.png';
+const gateImage = new Image();
+gateImage.src = 'assets/brama.png';
 
 const enemyImage = new Image();
 enemyImage.src = 'assets/przeciwnik.png';
+
+// const trapImage = new Image();
+// trapImage.src = 'assets/pułapka.png';
 
 //punktualny opis kalefkow w labiryncie
 export const TILES = {
