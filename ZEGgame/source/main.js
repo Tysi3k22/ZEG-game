@@ -117,7 +117,6 @@ function pauseGame() {
 
 // funkcja wznawiania gry
 function resumeGame() {
-
     gameState = "PLAYING";
     resumeTimer();
 

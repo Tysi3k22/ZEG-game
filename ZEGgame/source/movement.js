@@ -44,11 +44,14 @@ export function move(dx, dy) {
 
     player.animation.state = "walk"; // ustawienie animacji chodzenia
 
-
     // Logika przedmiotów i mety
     if (tile === TILES.EXIT) {
-        message("Poziom ukończony!");
-        nextMap();
+        if(player.keys >= 2){
+            message("Poziom ukończony!");
+            nextMap();
+        }else {
+            message("Potrzebujesz 2 kluczy, aby przejść dalej!");
+        }
     } else if (tile === TILES.KEY) {
         message("Znalazłeś klucz!");
         player.keys++;
@@ -73,12 +76,25 @@ export function move(dx, dy) {
     }, 200);
 }
 
+let canMove = true;
+
 document.addEventListener('keydown', (e) => {
     // sterowanie strzałkami oraz wsad'em
-    if(e.key == "ArrowUp" || e.key == "w") move(0,-1); 
-    if(e.key == "ArrowDown" || e.key == "s") move(0,1);
-    if(e.key == "ArrowLeft" || e.key == "a") move(-1,0);
-    if(e.key == "ArrowRight" || e.key == "d") move(1,0);
+    if(!canMove) return;
+    let dx = 0, dy = 0;
 
+    if(["ArrowUp", "w"].includes(e.key)) dy = -1; 
+    else if(["ArrowDown", "s"].includes(e.key)) dy = 1; 
+    else if(["ArrowLeft", "a"].includes(e.key)) dy = -1; 
+    else if(["ArrowRight", "d"].includes(e.key)) dy = 1; 
+
+    if(dx !== 0 || dy !== 0) {
+        move(dx, dy);
+        canMove = false;
+
+        setTimeout(() => {
+            canMove = true;
+        },100);
+    }
     e.preventDefault(); // zablokowanie przewijania strony przy użyciu strzałek 
-})
+});
