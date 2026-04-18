@@ -18,8 +18,8 @@ gateImage.src = 'assets/brama.png';
 const enemyImage = new Image();
 enemyImage.src = 'assets/przeciwnik.png';
 
-// const trapImage = new Image();
-// trapImage.src = 'assets/pułapka.png';
+const trapImage = new Image();
+trapImage.src = 'assets/pulapka.png';
 
 //punktualny opis kalefkow w labiryncie
 export const TILES = {
@@ -39,7 +39,8 @@ export const GAME_ASSETS = {
     healImage: healImage,
     keyImage: keyImage,
     enemyImage: enemyImage,
-    gateImage: gateImage
+    gateImage: gateImage,
+    trapImage: trapImage
 }
 
 //punktualny opis kolorow w labiryncie

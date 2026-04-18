@@ -14,7 +14,7 @@ export const fog = {
 // funkcja mgly
 export function drawFog() {
     // ustawienie widocznosci
-    const visibilityRadius = TILE_SIZE * 1.5; // Promień widoczności
+    const visibilityRadius = TILE_SIZE * 2; // Promień widoczności
     
     //srodek gracza
     const playerCenterX = fog.renderX * TILE_SIZE + TILE_SIZE / 2;

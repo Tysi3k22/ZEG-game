@@ -24,7 +24,10 @@ export function Draw() {
                 ctx.drawImage(GAME_ASSETS.gateImage, x*TILE_SIZE, y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
                 continue;
             } 
-            else if(tile === TILES.TRAP) ctx.fillStyle = COLORS.TRAP;
+            else if(tile === TILES.TRAP) {
+                ctx.drawImage(GAME_ASSETS.trapImage, x*TILE_SIZE, y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
+                continue;
+            }
             else continue;
             
             ctx.fillRect(x*TILE_SIZE, y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
