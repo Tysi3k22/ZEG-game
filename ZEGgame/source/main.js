@@ -64,7 +64,7 @@ function startGame() {
     resetPlayer();
     resetTimer();
     currentMap = cloneMap(maps[currentDifficulty][currentMapIndex]); 
-    placeReward(currentMap, rewardTypes[currentDifficulty]);
+    placeReward(currentMap, rewardTypes[currentDifficulty][currentMapIndex + 1][0]);
     Draw();
     updateUI();
     gameState = "PLAYING";
@@ -145,7 +145,7 @@ export function nextMap() {
     currentMap = cloneMap(maps[currentDifficulty][currentMapIndex]);
 
     // umieszczenie nagrod na mapie
-    placeReward(currentMap, rewardTypes[currentDifficulty]);
+    placeReward(currentMap, rewardTypes[currentDifficulty][currentMapIndex + 1][0]);
 
     // zresetowanie pozycji gracza i narysowanie mapy
     resetPlayer();

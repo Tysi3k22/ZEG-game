@@ -270,14 +270,14 @@ export const maps = {
 // przypisananie nagrod oraz ich ilosci do trudnosci map (zapisujemy tak jak na mapie 3 - klucz, 4 - lecznenie, 6 - pulapka)
 export const rewardTypes = {
     EASY: {
-        3: 3,
-        4: 2,
-        6: 3
+        1: [{3: 2, 4: 2, 6: 2}],
+        2: [{3: 3, 4: 2, 6: 3}],
+        3: [{3: 3, 4: 2, 6: 4}]
     },
     MEDIUM: {
-        3: 4,
-        4: 2,
-        6: 5
+        1: [{3: 3, 4: 2, 6: 3}],
+        2: [{3: 3, 4: 2, 6: 3}],
+        3: [{3: 3, 4: 2, 6: 3}]
     }
 };
 
