@@ -21,8 +21,8 @@ export function Draw() {
                 continue;  
             } 
             else if(tile === TILES.GATE){
-                //ctx.drawImage() - gdy bedzie tekstura bramy bedzie trzeba ja dodac
-                ctx.fillStyle = COLORS.GATE;
+                ctx.drawImage(GAME_ASSETS.gateImage, x*TILE_SIZE, y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
+                continue;
             } 
             else if(tile === TILES.TRAP) ctx.fillStyle = COLORS.TRAP;
             else continue;

@@ -38,7 +38,8 @@ export const GAME_ASSETS = {
     playerImage: playerImage,
     healImage: healImage,
     keyImage: keyImage,
-    enemyImage: enemyImage
+    enemyImage: enemyImage,
+    gateImage: gateImage
 }
 
 //punktualny opis kolorow w labiryncie
