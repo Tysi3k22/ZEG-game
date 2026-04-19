@@ -6,6 +6,7 @@ import {Draw} from './draw.js';
 let isPressed = false;
 export let picked_keys = 0;
 export let picked_heals = 0;
+export let trapsCounter = 0
 
 function pickedKeys() {
     picked_keys++;
@@ -13,6 +14,10 @@ function pickedKeys() {
 
 function pickedHeals() {
     picked_heals++;
+}
+
+function trapsUveWalkedOn() {
+    trapsCounter++;
 }
 
 
@@ -104,6 +109,7 @@ export function move(dx, dy) {
     if (tile === TILES.EXIT) {
         if(player.keys >= 2){
             message("Poziom ukończony!");
+            isPressed = false;
             nextMap();
         }else {
             message("Potrzebujesz 2 kluczy, aby przejść dalej!");
@@ -122,6 +128,7 @@ export function move(dx, dy) {
     } else if (tile === TILES.TRAP) {
         player.hp -= 10;
         addDamage(10);
+        trapsUveWalkedOn();
         message("Pułapka!");
     } 
 

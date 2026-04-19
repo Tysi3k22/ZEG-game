@@ -2,7 +2,7 @@ import {maps, placeReward, rewardTypes} from './maps.js';
 import {Draw} from './draw.js';
 import {player, updateUI, message, resetPlayer} from './player.js';
 import {updateEnemies} from './enemies.js'
-import {startTimer, stopTimer, resumeTimer, resetTimer} from './timer.js';
+import {startTimer, stopTimer, resumeTimer, resetTimer, formated_timer} from './timer.js';
 import {camera, updateCamera, lerp} from './camera.js'
 import {fog, drawFog} from './fog.js';
 
@@ -138,6 +138,7 @@ function cloneMap(map) {
     // zwrocenie sklonowanej mapy
     return newMap;
 }
+let time;
 
 // funkcja przechodzenia do kolejnej mapy
 export function nextMap() {
@@ -190,6 +191,7 @@ function gameLoop() {
         gameOver(); //funkcja przegranej, resetuje gre
     }
 
+    let time = formated_timer;
     updateUI(currentDifficulty, currentMapIndex); //aktualizacja informacji o graczu
 
     requestAnimationFrame(gameLoop); //zapewnienie płynności animacji poprzez wywolywanie gameLoop przed każdym odświeżeniem ekranu
@@ -197,3 +199,18 @@ function gameLoop() {
 
 
 gameLoop();
+
+
+function saveBestTime(newTime, difficulty) {
+    const key = `bestTime_${difficulty}`;
+    const savedTime = localStorage.getItem(key);
+
+    // Jeśli nie ma zapisanego czasu LUB nowy czas jest krótszy (lepszy)
+    // Uwaga: Porównywanie stringów formatu "00:00:00" działa poprawnie leksykalnie
+    if (!savedTime || newTime < savedTime) {
+        localStorage.setItem(key, newTime);
+        console.log(`Nowy rekord dla ${difficulty}: ${newTime}`);
+        return true;
+    }
+    return false;
+}

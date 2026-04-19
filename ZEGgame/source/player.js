@@ -2,7 +2,7 @@ import {MAX_HP} from './constants.js';
 import {rewardTypes} from './maps.js';
 import {formated_timer} from './timer.js';
 import {currentDifficulty, currentMapIndex} from './main.js';
-import {picked_keys, picked_heals} from './movement.js';
+import {picked_keys, picked_heals, trapsCounter} from './movement.js';
 
 
 //informacje dotyczace gracza
@@ -34,13 +34,13 @@ export function updateUI(currentDifficulty, currentMapIndex) {
     
     const totalKeys = rewards[1][0][3] + rewards[2][0][3] + rewards[3][0][3];
     const totalHeals = rewards[1][0][4] + rewards[2][0][4] + rewards[3][0][4];
-    const totalTraps = rewards[1][0][6] + rewards[2][0][6] + rewards[3][0][6];
     hp_html.innerHTML = player.hp + "/" + MAX_HP;
+
     keys_html.innerHTML = parseInt(player.keys);
 
     document.getElementById('keys').innerHTML = picked_keys + "/" + totalKeys;
     document.getElementById('heals').innerHTML = picked_heals + "/" + totalHeals;
-    document.getElementById('traps').innerHTML = rewards[6];
+    document.getElementById('traps').innerHTML = trapsCounter;
 }
 
 //funkcja wyswietlajaca informacje po interakcji
