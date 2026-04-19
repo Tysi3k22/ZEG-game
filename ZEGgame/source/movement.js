@@ -1,10 +1,46 @@
 import {player, updateUI, message} from './player.js';
-import {currentMap, gameState, nextMap, addDamage} from './main.js';
-import {TILES} from './constants.js';
+import {currentMap, state, nextMap, addDamage, showMenu, currentDifficulty, currentMapIndex} from './main.js';
+import {TILES, logic_puzzles, awnsers} from './constants.js';
 import {Draw} from './draw.js';
 
+let isPressed = false;
+export let picked_keys = 0;
+export let picked_heals = 0;
+
+function pickedKeys() {
+    picked_keys++;
+}
+
+function pickedHeals() {
+    picked_heals++;
+}
+
+
+let randomNumber = Math.floor(Math.random() * logic_puzzles.length);
+
+function checkAwnser(index) {
+    const input = document.getElementById('puzzleAwnser');
+    const awnser = input.value.toLowerCase().trim();
+    const correctAwnser = awnsers[index];
+
+    if (awnser === correctAwnser) {
+        isPressed = true;
+        message("Otworzyłeś czerwoną bramę!");
+        state.gameState = "PLAYING";
+        document.getElementById('puzzles').classList.add('hidden');
+    } else {
+        document.getElementById('wrongAwnserText').innerText = "Błędna odpowiedź";
+    }
+}
+
+// Dodaj ten listener raz, gdzieś przy inicjalizacji
+document.getElementById('submitAwnser').addEventListener('click', () => {
+    checkAwnser(randomNumber);
+});
+
 export function move(dx, dy) {
-    if(gameState !== "PLAYING") return; // zabezpieczenie przed poruszaniem się w menu
+    if(state.gameState !== "PLAYING") return; // zabezpieczenie przed poruszaniem się w menu
+
 
     // Obliczenie nowej pozycji gracza
     const px = player.x + dx;
@@ -26,6 +62,26 @@ export function move(dx, dy) {
             return;
         }
     }
+
+    if (tile === TILES.RED_OPENER) {
+        randomNumber = Math.floor(Math.random() * logic_puzzles.length); 
+        let puzzle = logic_puzzles[randomNumber];
+        document.getElementById('puzzleText').textContent = puzzle;
+        showMenu('puzzles');
+        state.gameState = "MENU";
+        currentMap[py][px] = TILES.EMPTY;
+        return;
+    }
+
+    if(tile === TILES.RED_GATE) {
+        if(isPressed === true) {
+            currentMap[py][px] = TILES.EMPTY;
+        }else {
+            message("Znajdz przycisk, aby otworzyć tę bramę!");
+            return;
+        }
+    }
+    
 
     let animTimeout = null;
 
@@ -51,23 +107,26 @@ export function move(dx, dy) {
             nextMap();
         }else {
             message("Potrzebujesz 2 kluczy, aby przejść dalej!");
+            return;
         }
     } else if (tile === TILES.KEY) {
         message("Znalazłeś klucz!");
+        pickedKeys();
         player.keys++;
         currentMap[py][px] = TILES.EMPTY;
     } else if (tile === TILES.HEAL) {
         player.hp = 100;
+        pickedHeals();
         message("Zostałeś uleczony!");
         currentMap[py][px] = TILES.EMPTY;
     } else if (tile === TILES.TRAP) {
         player.hp -= 10;
         addDamage(10);
         message("Pułapka!");
-    }
+    } 
 
     // funkcja aktualizujaca informacje o graczu
-    updateUI();
+    updateUI(currentDifficulty, currentMapIndex);
 
     // Powrot do animacji bezczynnosci po 200ms
     animTimeout = setTimeout(() => {
@@ -96,5 +155,5 @@ document.addEventListener('keydown', (e) => {
             canMove = true;
         },100);
     }
-    e.preventDefault(); // zablokowanie przewijania strony przy użyciu strzałek 
+    if(state.gameState === "PLAYING") e.preventDefault(); // zablokowanie przyciskow na stronie
 });

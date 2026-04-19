@@ -1,4 +1,9 @@
 import {MAX_HP} from './constants.js';
+import {rewardTypes} from './maps.js';
+import {formated_timer} from './timer.js';
+import {currentDifficulty, currentMapIndex} from './main.js';
+import {picked_keys, picked_heals} from './movement.js';
+
 
 //informacje dotyczace gracza
 export let player = {
@@ -22,10 +27,20 @@ const keys_html = document.getElementById('klucze');
 //informacje wyswietlane po interakcji
 const msg = document.getElementById('msg');
 
+
 //funkcja aktualizujaca zdrowie oraz ekwipunek gracza
-export function updateUI() {
+export function updateUI(currentDifficulty, currentMapIndex) {
+    const rewards = rewardTypes[currentDifficulty];
+    
+    const totalKeys = rewards[1][0][3] + rewards[2][0][3] + rewards[3][0][3];
+    const totalHeals = rewards[1][0][4] + rewards[2][0][4] + rewards[3][0][4];
+    const totalTraps = rewards[1][0][6] + rewards[2][0][6] + rewards[3][0][6];
     hp_html.innerHTML = player.hp + "/" + MAX_HP;
-    keys_html.innerHTML = parseInt(player.keys); 
+    keys_html.innerHTML = parseInt(player.keys);
+
+    document.getElementById('keys').innerHTML = picked_keys + "/" + totalKeys;
+    document.getElementById('heals').innerHTML = picked_heals + "/" + totalHeals;
+    document.getElementById('traps').innerHTML = rewards[6];
 }
 
 //funkcja wyswietlajaca informacje po interakcji
@@ -47,5 +62,4 @@ export function resetPlayer() {
     player.animation.lastTime = 0;
 
     player.keys = 0;
-    updateUI();
 }

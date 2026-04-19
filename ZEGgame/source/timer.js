@@ -2,6 +2,7 @@ let counter = 0;
 export let interval = null;
 let main_timer = document.getElementById('main_timer');
 let paused_timer = document.getElementById('paused_timer');
+export let formated_timer;
 
 // Funkcja do uruchamiania timera
 export function startTimer() { 
@@ -22,8 +23,10 @@ export function startTimer() {
     seconds = String(seconds).padStart(2, '0');
 
     // przypisanie timeru do elementów w HTML
-    main_timer.textContent = `${hours}:${minutes}:${seconds}`;
-    paused_timer.textContent = `${hours}:${minutes}:${seconds}`;
+    formated_timer = `${hours}:${minutes}:${seconds}`;
+
+    main_timer.textContent = formated_timer;
+    paused_timer.textContent = formated_timer;
   }, 1000);
 }
 

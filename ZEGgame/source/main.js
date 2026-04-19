@@ -12,16 +12,17 @@ export let total_damage = 0;
 
 export let currentMapIndex = 0; //zmienna przechowujaca aktualna mape, mozna ja zmieniac aby przechodzic do kolejnych map
 export let currentDifficulty = "EASY"; //zmienna przechowujaca aktualna trudnosc, mozna ja zmieniac aby zmieniac trudnosc gry
+
 export let currentMap = cloneMap(maps[currentDifficulty][currentMapIndex]); //pobranie aktualnej mapy z tablicy maps
 
-export let gameState = "MENU"; //MENU, PLAYING
+export const state = {gameState : "MENU"}; //MENU, PLAYING
 
 export function addDamage(amount) {
     total_damage += amount;
 };
 
 // funkcja usprawiniajaca system menu
-function showMenu(menu) {
+export function showMenu(menu) {
     document.querySelectorAll('.overlay').forEach(function(el) {
         el.classList.add('hidden');
     }); //ukrycie wszystkich nakładek
@@ -78,8 +79,8 @@ function startGame() {
     currentMap = cloneMap(maps[currentDifficulty][currentMapIndex]); 
     placeReward(currentMap, rewardTypes[currentDifficulty][currentMapIndex + 1][0]);
     Draw();
-    updateUI();
-    gameState = "PLAYING";
+    updateUI(currentDifficulty, currentMapIndex);
+    state.gameState = "PLAYING";
     startTimer();
 }
 
@@ -89,8 +90,8 @@ export function gameOver() {
     resetPlayer();
     currentMapIndex = 0;
     currentMap = cloneMap(maps[currentDifficulty][currentMapIndex]);
-    updateUI();
-    gameState = "MENU";
+    updateUI(currentDifficulty, currentMapIndex);
+    state.gameState = "MENU";
     stopTimer();
     resetTimer();
     
@@ -100,7 +101,7 @@ export function gameOver() {
 
 // funkcja wygrywania gry
 function Win() {
-    gameState = "MENU";
+    state.gameState = "MENU";
     stopTimer();
     document.getElementById('winMsg').textContent = `Gratulacje! Ukończyłeś wszystkie mapy! Twój wynik to ${total_damage} obrażeń. (na razie)`;
     showMenu('Win');
@@ -108,8 +109,8 @@ function Win() {
 
 //funkcja pauzowania gry
 function pauseGame() {
-    if(gameState !== "PLAYING") return;
-    gameState = "MENU";
+    if(state.gameState !== "PLAYING") return;
+    state.gameState = "MENU";
     
     stopTimer();
     showMenu('paused');
@@ -117,7 +118,7 @@ function pauseGame() {
 
 // funkcja wznawiania gry
 function resumeGame() {
-    gameState = "PLAYING";
+    state.gameState = "PLAYING";
     resumeTimer();
 
     showMenu('pauseGame');
@@ -164,7 +165,7 @@ export function nextMap() {
 function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height); //zresetowanie wszelkich rzeczy w canvasie
 
-    if (gameState === "PLAYING") {
+    if (state.gameState === "PLAYING") {
         player.renderX = lerp(player.renderX, player.x, 0.15); //płynne przejście renderowanej pozycji gracza do jego aktualnej pozycji
         player.renderY = lerp(player.renderY, player.y, 0.15);
 
@@ -180,7 +181,7 @@ function gameLoop() {
 
     ctx.translate(-camera.renderX, -camera.renderY); //przesunięcie widoku o pozycję kamery, aby śledzić gracza
 
-    Draw(gameState); //funkcja rysujaca mape na canvasie
+    Draw(); //funkcja rysujaca mape na canvasie
     //drawFog(); //narywowanie mgly
     ctx.restore();
     if(player.hp <= 0) {
@@ -189,7 +190,7 @@ function gameLoop() {
         gameOver(); //funkcja przegranej, resetuje gre
     }
 
-    updateUI(); //aktualizacja informacji o graczu
+    updateUI(currentDifficulty, currentMapIndex); //aktualizacja informacji o graczu
 
     requestAnimationFrame(gameLoop); //zapewnienie płynności animacji poprzez wywolywanie gameLoop przed każdym odświeżeniem ekranu
 }

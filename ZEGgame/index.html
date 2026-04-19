@@ -9,63 +9,130 @@
     <link href="https://cdn.boxicons.com/3.0.8/fonts/basic/boxicons.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="game">
-        <!--Informacje o grze-->
-        <div class="info">
-            <p>❤️Zdrowie: <span id="hp"></span></p>
-            <p>🔑Klucze: <span id="klucze"></span></p>
-            <p id="main_timer_text">Licznik czasu: <span id="main_timer">00:00:00</span></p>
-            <div id="msg"></div>
-        </div>
-        <!-- Przycisk wstymujący gre -->
-        <button id="pauseGame"><i class="bx bx-pause-circle bx-remove-padding"></i></button>
-        
-        <!-- Menu Rozpoczynające gre -->
-        <div id="overlay" class="overlay">
-            <h1>Echo w Korytarzach</h1>
-            <button id="startBtn">Start</button>
-        </div> 
+    <div class="root">
+        <div class="top-bar">
+            <p>Poziom Trudności <span id="Difficulty"></span>
+            Poziom <span id="mapLevel"></span></p>
 
-        <!-- Menu wyboru trudnosci gry -->
-        <div id="difficultyMenu" class="overlay hidden">
-            <h1>Wybierz trudność</h1>
-            <button id="easyBtn"><i class="bx bx-smile"></i>Łatwy</button>
-            <button id="mediumBtn"><i class="bx bx-meh"></i>Średni</button>
-            <button id="hardBtn"><i class="bx bx-sad"></i>Trudny</button>
+            <h1>Echo W Korytarzach</h1>
+
+            <p id="timer">xpp</p>
         </div>
 
-        <!-- Menu Zapauzowanej gry -->
-        <div id="paused" class="overlay hidden">
-            <h1>Wstrzymano gre</h1>
-            <p>Licznik czasu: <span id="paused_timer">00:00:00</span></p>
-            <button id="resumeGame"><i class="bx bx-play-circle"></i>Wróc do gry</button>
-            <button id="backToLobby_Paused">Wróć do Menu</button>
+        <div class="left-side">
+            <div class="stats">
+                <h2 id="stat">Statystyki</h2>
+                <div class="stat1">Poziom <span id="level"></span></div>
+                <div class="stat2">Klucze <span id="keys"></span></div>
+                <div class="stat3">Apteczki <span id="heals"></span></div>
+                <div class="stat4">Pułaki <span id="traps"></span></div>
+                <div class="stat5">Zagadki <span id="puzzel"></span></div>    
+                <div class="stat6">Czas <span id="time"></span></div>    
+            </div>
         </div>
-
-        <!-- Menu nie dokonczonego trybu -->
-        <div id="soon" class="overlay hidden">
-            <h1>Wkrótce...</h1>
-            <button id="backToLobby_Soon">Wróć do Menu</button>
-        </div>
-
-        <!-- Menu Konca gry -->
-        <div id="Win" class="overlay hidden">
-            <h1>Gratuluje</h1>
-            <p id="winMsg"></p>
-            <button id="startNewGame"><i class="bx bx-win"></i>Wróć do Menu</button>
-        </div>
-
-        <!-- Menu przegranej gry -->
-        <div id="lostGame" class="overlay hidden">
-                <h1>Przegrałeś</h1>
-                <p id="lostMsg"></p>
-                <button id="backToLobby_Lost"><i class="bx bx-x-circle"></i>Wróć do Menu</button>
-        </div>
-
-        <!-- Gra -->
-        <canvas id="game" width="1400" height="1200"></canvas>
-    </div>
     
+    
+        <div class="center">
+            <div class="game">
+                <!-- DO ZROBIENIA -->
+                <!-- <div class="legenda">
+                    <div class="legenda-row">
+                        <div class="legends-block"></div>
+                    </div>
+                    <div class="legenda-row">
+                        <div class="legends-block"></div>
+                    </div>
+                    <div class="legenda-row">
+                        <img src=""> ""
+                    </div>
+                    <div class="legenda-row">
+                        <div class="legends-block"></div>
+                    </div>
+                    <div class="legenda-row">
+                        <div class="legends-block"></div>
+                    </div>
+                    <div class="legenda-row">
+                        <div class="legends-block"></div>
+                    </div>
+                </div> -->
+                <!-- Menu Rozpoczynające gre -->
+                <div id="overlay" class="overlay">
+                    <h1>Echo w Korytarzach</h1>
+                    <button id="startBtn">Start</button>
+                </div> 
+        
+                <!-- Menu wyboru trudnosci gry -->
+                <div id="difficultyMenu" class="overlay hidden">
+                    <h1>Wybierz trudność</h1>
+                    <button id="easyBtn"><i class="bx bx-smile"></i>Łatwy</button>
+                    <button id="mediumBtn"><i class="bx bx-meh"></i>Średni</button>
+                    <button id="hardBtn"><i class="bx bx-sad"></i>Trudny</button>
+                </div>
+        
+                <!-- Menu Zapauzowanej gry -->
+                <div id="paused" class="overlay hidden">
+                    <h1>Wstrzymano gre</h1>
+                    <p>Licznik czasu: <span id="paused_timer">00:00:00</span></p>
+                    <button id="resumeGame"><i class="bx bx-play-circle"></i>Wróc do gry</button>
+                    <button id="backToLobby_Paused">Wróć do Menu</button>
+                </div>
+        
+                <!-- Menu nie dokonczonego trybu -->
+                <div id="soon" class="overlay hidden">
+                    <h1>Wkrótce...</h1>
+                    <button id="backToLobby_Soon">Wróć do Menu</button>
+                </div>
+        
+                <!-- Menu Konca gry -->
+                <div id="Win" class="overlay hidden">
+                    <h1>Gratuluje</h1>
+                    <p id="winMsg"></p>
+                    <button id="startNewGame"><i class="bx bx-win"></i>Wróć do Menu</button>
+                </div>
+        
+                <!-- Menu przegranej gry -->
+                <div id="lostGame" class="overlay hidden">
+                        <h1>Przegrałeś</h1>
+                        <p id="lostMsg"></p>
+                        <button id="backToLobby_Lost"><i class="bx bx-x-circle"></i>Wróć do Menu</button>
+                </div>
+        
+                <div id="puzzles" class="overlay hidden">
+                    <h1>Zanim otworzysz brame odpowiedz na jedno pytanie</h1>
+                    <p id="puzzleText"></p>
+                    <input type="text" id="puzzleAwnser" placeholder="Twoja odpowiedź">
+                    <p id="wrongAwnserText" style="margin-top: 10px;"></p>
+                    <button id="submitAwnser"><i class="bx bx-check-circle"></i>Sprawdź odpowiedź</button>
+                </div>
+        
+                <!-- Gra -->
+                <canvas id="game" width="1400" height="1200"></canvas>
+            </div>
+        </div>
+    
+    
+        <div class="right-side">
+             <!--Informacje o grze-->
+             <div class="info">
+                <!-- Przycisk wstymujący gre -->
+                <button id="pauseGame"><i class="bx bx-pause-circle bx-remove-padding"></i></button>
+                <p>❤️Zdrowie: <span id="hp"></span></p>
+                <p>🔑Klucze: <span id="klucze"></span></p>
+                <p id="main_timer_text">Licznik czasu: <span id="main_timer">00:00:00</span></p>
+                
+            </div>
+        </div>
+        
+        <div class="bottom-bar">
+            <div id="msg"></div>
+            <div class="controls">
+
+            </div>
+
+            <h4 id="authors">Wykonane przez: </h4>
+        </div>
+    </div>
+
     <script type="module" src="source/main.js"></script>
 </body>
 </html>

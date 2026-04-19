@@ -1,12 +1,12 @@
 import { drawEnemy, updateEnemies, getCurrentEnemy } from './enemies.js';
 import {TILE_SIZE, COLORS, TILES, GAME_ASSETS} from './constants.js';
-import {ctx, currentMap, canvas} from './main.js';
+import {ctx, currentMap, state} from './main.js';
 import {move} from './movement.js';
 import {player} from './player.js';
 import {drawFog} from './fog.js';
 
-export function Draw(gameState) {
-    if(gameState !== "PLAYING") return; //sprawdzanie czy gracz gra
+export function Draw() {
+    if(state.gameState !== "PLAYING") return; //sprawdzanie czy gracz gra
     for(let y = 0; y < currentMap.length; y++){ //petle sprawdzajace indexy w mapie aby ustawic
         for(let x = 0; x < currentMap[y].length; x++){
             const tile = currentMap[y][x];
@@ -27,6 +27,12 @@ export function Draw(gameState) {
             else if(tile === TILES.TRAP) {
                 ctx.drawImage(GAME_ASSETS.trapImage, x*TILE_SIZE, y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
                 continue;
+            }else if(tile === TILES.RED_GATE) {
+                ctx.fillStyle = COLORS.RED_GATE;
+                // ctx.drawImage(GAME_ASSETS.redGateImage, x*TILE_SIZE, y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
+                // continue;
+            }else if(tile === TILES.RED_OPENER) {
+                ctx.fillStyle = COLORS.RED_OPENER;
             }
             else continue;
             
