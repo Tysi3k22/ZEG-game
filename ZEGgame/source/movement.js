@@ -1,5 +1,5 @@
 import {player, updateUI, message} from './player.js';
-import {currentMap, state, nextMap, addDamage, showMenu, currentDifficulty, currentMapIndex} from './main.js';
+import {currentMap, state, nextMap, addDamage, showMenu, currentMapIndex} from './main.js';
 import {TILES, logic_puzzles, awnsers} from './constants.js';
 import {Draw} from './draw.js';
 
@@ -133,7 +133,7 @@ export function move(dx, dy) {
     } 
 
     // funkcja aktualizujaca informacje o graczu
-    updateUI(currentDifficulty, currentMapIndex);
+    updateUI(currentMapIndex);
 
     // Powrot do animacji bezczynnosci po 200ms
     animTimeout = setTimeout(() => {

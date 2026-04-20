@@ -1,7 +1,7 @@
 import {MAX_HP} from './constants.js';
-import {rewardTypes} from './maps.js';
+import {rewardTypes, maps} from './maps.js';
 import {formated_timer} from './timer.js';
-import {currentDifficulty, currentMapIndex} from './main.js';
+import {currentMapIndex} from './main.js';
 import {picked_keys, picked_heals, trapsCounter} from './movement.js';
 
 
@@ -29,11 +29,18 @@ const msg = document.getElementById('msg');
 
 
 //funkcja aktualizujaca zdrowie oraz ekwipunek gracza
-export function updateUI(currentDifficulty, currentMapIndex) {
-    const rewards = rewardTypes[currentDifficulty];
-    
-    const totalKeys = rewards[1][0][3] + rewards[2][0][3] + rewards[3][0][3];
-    const totalHeals = rewards[1][0][4] + rewards[2][0][4] + rewards[3][0][4];
+export function updateUI(currentMapIndex) {
+    const rewards = rewardTypes[currentMapIndex];
+    let totalKeys = 0;
+    let totalHeals = 0;
+
+    for(let i = 0; i < maps.length; i++) {
+        let rewards = rewardTypes[i];
+        if(!rewards) continue;
+            let reward = rewards[0];
+            totalKeys += reward[3];
+            totalHeals += reward[4];
+    }
     hp_html.innerHTML = player.hp + "/" + MAX_HP;
 
     keys_html.innerHTML = parseInt(player.keys);

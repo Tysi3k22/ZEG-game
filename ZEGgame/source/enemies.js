@@ -1,19 +1,15 @@
-import {ctx, currentMap, currentMapIndex, currentDifficulty, addDamage} from './main.js';
+import {ctx, currentMap, currentMapIndex, addDamage} from './main.js';
 import {COLORS, TILES, TILE_SIZE, GAME_ASSETS} from './constants.js';
 import {player} from './player.js';
 
 //informacje dotyczace przeciwnika
 export let enemyList = {
-    EASY: {
         0: [{ x: 250, y: 200, size: TILE_SIZE, speedX: 2, dir: -1 }],
         1: [{ x: 200, y: 200, size: TILE_SIZE, speedX: 2, dir: -1 }],
         2: [{ x: 300, y: 200, size: TILE_SIZE, speedX: 2, dir: -1 }],
-    },
-    MEDIUM: {
-        0: [{ x: 250, y: 200, size: TILE_SIZE, speedX: 2, dir: -1 }],
-        1: [{ x: 200, y: 200, size: TILE_SIZE, speedX: 2, dir: -1 }],
-        2: [{ x: 300, y: 200, size: TILE_SIZE, speedX: 2, dir: -1 }],
-    },
+        3: [{ x: 250, y: 200, size: TILE_SIZE, speedX: 2, dir: -1 }],
+        4: [{ x: 200, y: 200, size: TILE_SIZE, speedX: 2, dir: -1 }],
+        5: [{ x: 300, y: 200, size: TILE_SIZE, speedX: 2, dir: -1 }],
 };
 
 //czas od ostatniego zadania obrazen przez przeciwnika
@@ -29,7 +25,7 @@ export function drawEnemy(enemy) {
 
 //funkcja zwracajaca przeciwnika zaleznie od aktualnej mapy
 export function getCurrentEnemy() {
-    return enemyList[currentDifficulty][currentMapIndex] || [];
+    return enemyList[currentMapIndex] || [];
 }
 
 //funkcja aktualizujaca kierunek przeciwnika oraz zadawanie obrazen

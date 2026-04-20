@@ -11,9 +11,8 @@ export const ctx = canvas.getContext('2d');
 export let total_damage = 0;
 
 export let currentMapIndex = 0; //zmienna przechowujaca aktualna mape, mozna ja zmieniac aby przechodzic do kolejnych map
-export let currentDifficulty = "EASY"; //zmienna przechowujaca aktualna trudnosc, mozna ja zmieniac aby zmieniac trudnosc gry
 
-export let currentMap = cloneMap(maps[currentDifficulty][currentMapIndex]); //pobranie aktualnej mapy z tablicy maps
+export let currentMap = cloneMap(maps[currentMapIndex]); //pobranie aktualnej mapy z tablicy maps
 
 export const state = {gameState : "MENU"}; //MENU, PLAYING
 
@@ -36,23 +35,8 @@ document.getElementById('startNewGame').addEventListener("click", function() {
     showMenu('overlay');
 });
 document.getElementById('startBtn').addEventListener("click", function() {
-    showMenu('difficultyMenu');
-});
-document.getElementById('easyBtn').addEventListener("click", function() {
-    currentDifficulty = "EASY";
-    document.getElementById('difficultyMenu').classList.add('hidden');
+    document.getElementById('overlay').classList.add('hidden');
     startGame();
-});
-document.getElementById('mediumBtn').addEventListener("click", function() {
-    currentDifficulty = "MEDIUM";
-    document.getElementById('difficultyMenu').classList.add('hidden');
-    startGame();
-});
-document.getElementById('hardBtn').addEventListener("click", function() {
-    currentDifficulty = "HARD";
-    document.getElementById('soon').classList.remove('hidden'); // pozniej usunac i odkomentowac linijke ponizej
-    document.getElementById('difficultyMenu').classList.add('hidden');
-    //startGame();
 });
 
 document.getElementById('backToLobby_Paused').addEventListener("click", function(){
@@ -76,10 +60,10 @@ function startGame() {
     player.hp = 100;
     resetPlayer();
     resetTimer();
-    currentMap = cloneMap(maps[currentDifficulty][currentMapIndex]); 
-    placeReward(currentMap, rewardTypes[currentDifficulty][currentMapIndex + 1][0]);
+    currentMap = cloneMap(maps[currentMapIndex]); 
+    placeReward(currentMap, rewardTypes[currentMapIndex][0]);
     Draw();
-    updateUI(currentDifficulty, currentMapIndex);
+    updateUI(currentMapIndex);
     state.gameState = "PLAYING";
     startTimer();
 }
@@ -89,8 +73,8 @@ export function gameOver() {
     player.hp = 100;
     resetPlayer();
     currentMapIndex = 0;
-    currentMap = cloneMap(maps[currentDifficulty][currentMapIndex]);
-    updateUI(currentDifficulty, currentMapIndex);
+    currentMap = cloneMap(maps[currentMapIndex]);
+    updateUI(currentMapIndex);
     state.gameState = "MENU";
     stopTimer();
     resetTimer();
@@ -127,35 +111,33 @@ function resumeGame() {
 // funkcja do klonowania mapy, aby nie modyfikowac oryginalnej mapy w tablicy maps
 function cloneMap(map) {
     const newMap = [];
-    // przejscie przez kazdy wiersz i kolumne mapy i skopiowanie jej wartosci do nowej mapy
+    // Przejście przez każdy wiersz mapy
     for (let y = 0; y < map.length; y++) {
         newMap[y] = [];
+        // Przejście przez każdą kolumnę wiersza
         for (let x = 0; x < map[y].length; x++) {
             newMap[y][x] = map[y][x];
         }
     }
-
-    // zwrocenie sklonowanej mapy
     return newMap;
 }
-let time;
 
 // funkcja przechodzenia do kolejnej mapy
 export function nextMap() {
     currentMapIndex++;
 
     // sprawdzenie czy istnieje kolejna mapa, jesli nie to wygrana
-    if (!maps[currentDifficulty][currentMapIndex]) {
+    if (!maps[currentMapIndex]) {
         Win();
         message("Gratulacje! Ukończyłeś wszystkie mapy! (na razie)");
         return;
     }
 
     // pobranie kolejnej mapy
-    currentMap = cloneMap(maps[currentDifficulty][currentMapIndex]);
+    currentMap = cloneMap(maps[currentMapIndex]);
 
     // umieszczenie nagrod na mapie
-    placeReward(currentMap, rewardTypes[currentDifficulty][currentMapIndex + 1][0]);
+    placeReward(currentMap, rewardTypes[currentMapIndex][0]);
 
     // zresetowanie pozycji gracza i narysowanie mapy
     resetPlayer();
@@ -192,7 +174,7 @@ function gameLoop() {
     }
 
     let time = formated_timer;
-    updateUI(currentDifficulty, currentMapIndex); //aktualizacja informacji o graczu
+    updateUI(currentMapIndex); //aktualizacja informacji o graczu
 
     requestAnimationFrame(gameLoop); //zapewnienie płynności animacji poprzez wywolywanie gameLoop przed każdym odświeżeniem ekranu
 }
