@@ -109,8 +109,8 @@ export function move(dx, dy) {
     if (tile === TILES.EXIT) {
         if(player.keys >= 2){
             message("Poziom ukończony!");
-            isPressed = false;
             nextMap();
+            isPressed = false;
         }else {
             message("Potrzebujesz 2 kluczy, aby przejść dalej!");
             return;

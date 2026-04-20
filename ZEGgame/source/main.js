@@ -137,7 +137,12 @@ export function nextMap() {
     currentMap = cloneMap(maps[currentMapIndex]);
 
     // umieszczenie nagrod na mapie
-    placeReward(currentMap, rewardTypes[currentMapIndex][0]);
+    const levelRewards = rewardTypes[currentMapIndex + 1];
+
+    if (levelRewards && levelRewards[0]) {
+        // levelRewards[0], bo Twoje nagrody są zamknięte w tablicy: [{3:x, 4:y}]
+        placeReward(currentMap, levelRewards[0]);
+    }
 
     // zresetowanie pozycji gracza i narysowanie mapy
     resetPlayer();
@@ -173,7 +178,6 @@ function gameLoop() {
         gameOver(); //funkcja przegranej, resetuje gre
     }
 
-    let time = formated_timer;
     updateUI(currentMapIndex); //aktualizacja informacji o graczu
 
     requestAnimationFrame(gameLoop); //zapewnienie płynności animacji poprzez wywolywanie gameLoop przed każdym odświeżeniem ekranu
@@ -183,15 +187,14 @@ function gameLoop() {
 gameLoop();
 
 
-function saveBestTime(newTime, difficulty) {
-    const key = `bestTime_${difficulty}`;
+function saveBestTime(newTime) {
     const savedTime = localStorage.getItem(key);
 
     // Jeśli nie ma zapisanego czasu LUB nowy czas jest krótszy (lepszy)
     // Uwaga: Porównywanie stringów formatu "00:00:00" działa poprawnie leksykalnie
     if (!savedTime || newTime < savedTime) {
         localStorage.setItem(key, newTime);
-        console.log(`Nowy rekord dla ${difficulty}: ${newTime}`);
+        console.log(`Nowy rekord  ${newTime}`);
         return true;
     }
     return false;
