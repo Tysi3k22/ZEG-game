@@ -92,7 +92,7 @@ function Win() {
 }
 
 //funkcja pauzowania gry
-function pauseGame() {
+export function pauseGame() {
     if(state.gameState !== "PLAYING") return;
     state.gameState = "MENU";
     
