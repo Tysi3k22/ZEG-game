@@ -1,4 +1,4 @@
-let counter = 0;
+export let counter = 0;
 export let interval = null;
 let main_timer = document.getElementById('main_timer');
 let paused_timer = document.getElementById('paused_timer');

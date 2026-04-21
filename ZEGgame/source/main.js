@@ -2,7 +2,7 @@ import {maps, placeReward, rewardTypes} from './maps.js';
 import {Draw} from './draw.js';
 import {player, updateUI, message, resetPlayer} from './player.js';
 import {updateEnemies} from './enemies.js'
-import {startTimer, stopTimer, resumeTimer, resetTimer, formated_timer} from './timer.js';
+import {startTimer, stopTimer, resumeTimer, resetTimer, counter} from './timer.js';
 import {camera, updateCamera, lerp} from './camera.js'
 import {fog, drawFog} from './fog.js';
 
@@ -64,9 +64,7 @@ document.getElementById('backToLobby_Lost').addEventListener("click", function()
 });
 
 // funkcja rozpoczynajaca gre
-export function startGame(i) {
-
-    currentMapIndex = i; 
+export function startGame() {
     total_damage = 0;    
     camera.renderX = 0;
     camera.renderY = 0;
@@ -87,7 +85,6 @@ export function startGame(i) {
 export function gameOver() {
     player.hp = 100;
     resetPlayer();
-    currentMapIndex = 0;
     currentMap = cloneMap(maps[currentMapIndex]);
     updateUI(currentMapIndex);
     state.gameState = "MENU";
@@ -168,35 +165,36 @@ export function nextMap() {
 
 //petla gry
 function gameLoop() {
+    
     ctx.clearRect(0, 0, canvas.width, canvas.height); //zresetowanie wszelkich rzeczy w canvasie
-
+    
     if (state.gameState === "PLAYING") {
         player.renderX = lerp(player.renderX, player.x, 0.15); //płynne przejście renderowanej pozycji gracza do jego aktualnej pozycji
         player.renderY = lerp(player.renderY, player.y, 0.15);
 
         fog.renderX = player.renderX;
         fog.renderY = player.renderY;
-
+        
         updateCamera(player, canvas.width, canvas.height); //aktualizacja pozycji kamery na podstawie pozycji gracza
     } else {
         updateCamera(player, canvas.width, canvas.height);
     }
-
+    
     ctx.save(); //zapisanie aktualnego stanu
-
+    
     ctx.translate(-camera.renderX, -camera.renderY); //przesunięcie widoku o pozycję kamery, aby śledzić gracza
-
+    
     Draw(); //funkcja rysujaca mape na canvasie
     //drawFog(); //narywowanie mgly
     ctx.restore();
     if(player.hp <= 0) {
 
-
+        
         gameOver(); //funkcja przegranej, resetuje gre
     }
-
+    
     updateUI(currentMapIndex); //aktualizacja informacji o graczu
-
+    
     requestAnimationFrame(gameLoop); //zapewnienie płynności animacji poprzez wywolywanie gameLoop przed każdym odświeżeniem ekranu
 }
 

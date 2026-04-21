@@ -277,26 +277,29 @@ export function placeReward(map, rewardType) {
     }
 }
 
-const mapList = document.getElementById('mapList');
-let savedIndex = localStorage.getItem('currentMapIndex');
+export function renderMapList() {
+    const mapList = document.getElementById('mapList');
+    mapList.innerHTML = '';
 
-for (let i = 0; i < maps.length; i++) {
-    let newDiv = document.createElement('div');
-    
-    let button = document.createElement('button');
-    button.classList.add('item');
-    button.textContent = i + 1;
-    
-    if(savedIndex >= i){
-    button.addEventListener('click', () => {
-        document.getElementById('mapList').classList.add('hidden')
-        startGame(i);
-    });
-    }else {
-        button.disabled = true;
-        button.style.opacity = 0.5;
+    let savedIndex = Number(localStorage.getItem('savedMapIndex')) || 0;
+
+    for (let i = 0; i < maps.length; i++) {
+        let button = document.createElement('button');
+        button.classList.add('item');
+        button.textContent = `Poziom ${i + 1}`;
+
+        // Odblokowanie poziomów do najwyższego osiągniętego
+        if (i <= savedIndex) {
+            button.addEventListener('click', function() {
+                document.getElementById('mapList').classList.add('hidden');
+                startGame();
+            });
+        } else {
+            button.disabled = true;
+            button.style.opacity = 0.5;
+        }
+        mapList.appendChild(button);
     }
-    
-    newDiv.appendChild(button);
-    mapList.appendChild(newDiv);
 }
+
+renderMapList();
