@@ -253,3 +253,17 @@ button i {
     color: #444;
     font-weight: normal;
 }
+
+#mapList {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+    background-color: #080808;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #222;
+}
