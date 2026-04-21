@@ -20,6 +20,21 @@ export function addDamage(amount) {
     total_damage += amount;
 };
 
+function saveProgress() {
+    // Zapisujemy indeks AKTUALNEJ mapy
+    localStorage.setItem('savedMapIndex', currentMapIndex);
+
+    // Zapisywanie najlepszego czasu
+    const currentTime = counter; 
+    const bestTimeKey = `bestTime_map_${currentMapIndex}`;
+    const previousBest = localStorage.getItem(bestTimeKey);
+
+    if (!previousBest || currentTime < parseInt(previousBest)) {
+        localStorage.setItem(bestTimeKey, currentTime);
+        message("Nowy rekord czasu!");
+    }
+}
+
 // funkcja usprawiniajaca system menu
 export function showMenu(menu) {
     document.querySelectorAll('.overlay').forEach(function(el) {
@@ -50,6 +65,7 @@ document.getElementById('backToLobby_Lost').addEventListener("click", function()
 
 // funkcja rozpoczynajaca gre
 export function startGame(i) {
+
     currentMapIndex = i; 
     total_damage = 0;    
     camera.renderX = 0;
@@ -123,6 +139,7 @@ function cloneMap(map) {
 
 // funkcja przechodzenia do kolejnej mapy
 export function nextMap() {
+    saveProgress();
     currentMapIndex++;
 
     // sprawdzenie czy istnieje kolejna mapa, jesli nie to wygrana
@@ -131,6 +148,7 @@ export function nextMap() {
         message("Gratulacje! Ukończyłeś wszystkie mapy! (na razie)");
         return;
     }
+    localStorage.setItem('savedMapIndex', currentMapIndex);
 
     // pobranie kolejnej mapy
     currentMap = cloneMap(maps[currentMapIndex]);
@@ -186,15 +204,3 @@ function gameLoop() {
 gameLoop();
 
 
-function saveBestTime(newTime) {
-    const savedTime = localStorage.getItem(key);
-
-    // Jeśli nie ma zapisanego czasu LUB nowy czas jest krótszy (lepszy)
-    // Uwaga: Porównywanie stringów formatu "00:00:00" działa poprawnie leksykalnie
-    if (!savedTime || newTime < savedTime) {
-        localStorage.setItem(key, newTime);
-        console.log(`Nowy rekord  ${newTime}`);
-        return true;
-    }
-    return false;
-}

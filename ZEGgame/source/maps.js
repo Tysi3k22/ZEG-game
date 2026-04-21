@@ -1,4 +1,4 @@
-import {startGame} from './main.js'
+import {startGame, currentMapIndex} from './main.js'
 
 export const maps = [[
     // mapa 1 - index 0
@@ -278,6 +278,7 @@ export function placeReward(map, rewardType) {
 }
 
 const mapList = document.getElementById('mapList');
+let savedIndex = localStorage.getItem('currentMapIndex');
 
 for (let i = 0; i < maps.length; i++) {
     let newDiv = document.createElement('div');
@@ -286,11 +287,15 @@ for (let i = 0; i < maps.length; i++) {
     button.classList.add('item');
     button.textContent = i + 1;
     
-        // 🔥 tutaj dodajesz działanie
+    if(savedIndex >= i){
     button.addEventListener('click', () => {
         document.getElementById('mapList').classList.add('hidden')
         startGame(i);
     });
+    }else {
+        button.disabled = true;
+        button.style.opacity = 0.5;
+    }
     
     newDiv.appendChild(button);
     mapList.appendChild(newDiv);
