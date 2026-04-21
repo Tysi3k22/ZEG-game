@@ -35,8 +35,7 @@ document.getElementById('startNewGame').addEventListener("click", function() {
     showMenu('overlay');
 });
 document.getElementById('startBtn').addEventListener("click", function() {
-    document.getElementById('overlay').classList.add('hidden');
-    startGame();
+    showMenu('mapList');
 });
 
 document.getElementById('backToLobby_Paused').addEventListener("click", function(){
@@ -50,8 +49,8 @@ document.getElementById('backToLobby_Lost').addEventListener("click", function()
 });
 
 // funkcja rozpoczynajaca gre
-function startGame() {
-    currentMapIndex = 0; 
+export function startGame(i) {
+    currentMapIndex = i; 
     total_damage = 0;    
     camera.renderX = 0;
     camera.renderY = 0;

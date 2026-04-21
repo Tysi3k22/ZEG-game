@@ -1,3 +1,5 @@
+import {startGame} from './main.js'
+
 export const maps = [[
     // mapa 1 - index 0
     [1,1,1,1,1,1,1,1,1,1,1,1],
@@ -273,4 +275,23 @@ export function placeReward(map, rewardType) {
         let {x, y} = emptyTiles[i];
         map[y][x] = rewards[i];
     }
+}
+
+const mapList = document.getElementById('mapList');
+
+for (let i = 0; i < maps.length; i++) {
+    let newDiv = document.createElement('div');
+    
+    let button = document.createElement('button');
+    button.classList.add('item');
+    button.textContent = i + 1;
+    
+        // 🔥 tutaj dodajesz działanie
+    button.addEventListener('click', () => {
+        document.getElementById('mapList').classList.add('hidden')
+        startGame(i);
+    });
+    
+    newDiv.appendChild(button);
+    mapList.appendChild(newDiv);
 }
