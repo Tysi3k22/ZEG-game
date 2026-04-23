@@ -4,7 +4,7 @@ import {currentMapIndex} from './main.js';
 import {picked_keys, picked_heals, trapsCounter} from './movement.js';
 
 
-//informacje dotyczace gracza
+// Informacje dotyczace gracza
 export let player = {
     x: 1,
     y: 1,
@@ -19,15 +19,15 @@ export let player = {
     }
 };
 
-//odnoszenie do informacji o graczu w pliku html
+// Odnoszenie do informacji o graczu w pliku html
 const hp_html = document.getElementById('hp');
 const keys_html = document.getElementById('klucze');
 
-//informacje wyswietlane po interakcji
+// Informacje wyświetlane po interakcji
 const msg = document.getElementById('msg');
 
 
-//funkcja aktualizujaca zdrowie oraz ekwipunek gracza
+// Funkcja aktualizująca zdrowie oraz ekwipunek gracza
 export function updateUI(currentMapIndex) {
     const rewards = rewardTypes[currentMapIndex];
     let totalKeys = 0;
@@ -50,7 +50,7 @@ export function updateUI(currentMapIndex) {
     document.getElementById('traps').innerHTML = trapsCounter;
 }
 
-//funkcja wyswietlajaca informacje po interakcji
+// Funkcja wyświetlająca informacje po interakcji
 export function message(text) {
     msg.innerText = text;
     setTimeout(() => {
@@ -58,7 +58,7 @@ export function message(text) {
     }, 2000);
 }
 
-//funkcja resetujaca pozycje oraz klucze gracza
+// Funkcja resetująca pozycję oraz klucze gracza
 export function resetPlayer() {
     player.x = 1;
     player.y = 1;

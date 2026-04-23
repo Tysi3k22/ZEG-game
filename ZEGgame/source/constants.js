@@ -1,8 +1,8 @@
-export const TILE_SIZE = 40; // rozmiar jednego kafelka
-export const MAX_HP = 100; // maksymalna ilosc zdrowia gracza
+export const TILE_SIZE = 40; // Rozmiar jednego kafelka
+export const MAX_HP = 100; // Maksymalna ilość zdrowia gracza
 
 
-//wczytywanie obrazkow do gry
+// Wczytywanie obrazków do gry
 const playerImage = new Image();
 playerImage.src = 'assets/idle.png';
 
@@ -27,7 +27,7 @@ trapImage.src = 'assets/pulapka.png';
 // const redGateImage = new Image();
 // redGateImage.src = 'assets/czerwona_brama.png';
 
-//punktualny opis kalefkow w labiryncie
+// Punktualny opis kalefków w labiryncie
 export const TILES = {
     EMPTY: 0,
     WALL: 1,
@@ -40,7 +40,7 @@ export const TILES = {
     RED_OPENER: 8
 };
 
-//punktualny opis obrazkow w grze
+// Punktualny opis obrazków w grze
 export const GAME_ASSETS = {
     playerImage: playerImage,
     healImage: healImage,
@@ -52,7 +52,7 @@ export const GAME_ASSETS = {
     // redGateImage: redGateImage
 }
 
-//punktualny opis kolorow w labiryncie
+// Punktualny opis kolorów w labiryncie
 export const COLORS = {
     WALL: '#ffffff',
     EXIT: 'green',

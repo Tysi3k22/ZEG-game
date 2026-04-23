@@ -6,23 +6,23 @@ export let formated_timer;
 
 // Funkcja do uruchamiania timera
 export function startTimer() { 
-    if (interval !== null) return; // żeby nie odpalić drugi raz
+    if (interval !== null) return; // Żeby nie odpalić drugi raz
 
-    // Ustawiamy interwal ktory będzie aktualizowal timer co sekunde
+    // Ustawiamy interwal ktory będzie aktualizował timer co sekundę
     interval = setInterval(function () {
     counter++;
 
-    // obliczanie godzin minut i sekund
+    // Obliczanie godzin minut i sekund
     let hours = Math.floor(counter / 3600);
     let minutes = Math.floor((counter % 3600) / 60);
     let seconds = counter % 60;
 
-    // formatowanie cyfr do 2 cyft (00:00:00)
+    // Formatowanie cyfr do 2 cyfr (00:00:00)
     hours = String(hours).padStart(2, '0');
     minutes = String(minutes).padStart(2, '0');
     seconds = String(seconds).padStart(2, '0');
 
-    // przypisanie timeru do elementów w HTML
+    // Przypisanie timeru do elementów w HTML
     formated_timer = `${hours}:${minutes}:${seconds}`;
 
     main_timer.textContent = formated_timer;
@@ -30,14 +30,14 @@ export function startTimer() {
   }, 1000);
 }
 
-// funkcja resetujaca timer
+// Funkcja resetująca timer
 export function resetTimer() {
   counter = 0;
   main_timer.textContent = "00:00:00";
   paused_timer.textContent = "00:00:00";
 }
 
-// funkcja zatrzymujaca timer
+// Funkcja zatrzymująca timer
 export function stopTimer() {
   if (interval === null) return;
 
@@ -45,7 +45,7 @@ export function stopTimer() {
   interval = null; 
 }
 
-// funkcja wznawiajaca timer
+// Funkcja wznawiająca timer
 export function resumeTimer() {
   if (interval !== null) return; // już działa
 
