@@ -12,8 +12,7 @@ function resizeCanvas() {
     canvas.height = window.innerHeight;
 }
 window.addEventListener('resize', resizeCanvas);
-
-
+resizeCanvas(); // ustawienie początkowego rozmiaru canvasa
 
 export const ctx = canvas.getContext('2d');
 export let total_damage = 0;
