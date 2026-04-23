@@ -1,5 +1,5 @@
 import {ctx, currentMap, currentMapIndex, addDamage} from './main.js';
-import {COLORS, TILES, TILE_SIZE, GAME_ASSETS} from './constants.js';
+import {TILES, TILE_SIZE, GAME_ASSETS} from './constants.js';
 import {player} from './player.js';
 
 //informacje dotyczace przeciwnika

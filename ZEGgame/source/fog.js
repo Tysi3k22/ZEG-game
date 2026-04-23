@@ -39,7 +39,6 @@ export function drawFog() {
 
     // narysowanie mgly z gradientem
     ctx.fillStyle = gradient;
-    ctx.arc(playerCenterX, playerCenterY, visibilityRadius, 0, Math.PI * 2);
     ctx.fill();
 
     ctx.restore();

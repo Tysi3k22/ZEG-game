@@ -1,10 +1,9 @@
 import {maps, placeReward, rewardTypes} from './maps.js';
 import {Draw} from './draw.js';
 import {player, updateUI, message, resetPlayer} from './player.js';
-import {updateEnemies} from './enemies.js'
 import {startTimer, stopTimer, resumeTimer, resetTimer, counter} from './timer.js';
 import {camera, updateCamera, lerp} from './camera.js'
-import {fog, drawFog} from './fog.js';
+import {fog} from './fog.js';
 
 export const canvas = document.getElementById('game'); // pobranie canvasa
 export const ctx = canvas.getContext('2d');
