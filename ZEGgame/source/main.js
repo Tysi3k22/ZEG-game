@@ -151,7 +151,7 @@ export function nextMap() {
     currentMap = cloneMap(maps[currentMapIndex]);
 
     // umieszczenie nagrod na mapie
-    const levelRewards = rewardTypes[currentMapIndex + 1];
+    const levelRewards = rewardTypes[currentMapIndex];
 
     if (levelRewards && levelRewards[0]) {
         // levelRewards[0], bo Twoje nagrody są zamknięte w tablicy: [{3:x, 4:y}]

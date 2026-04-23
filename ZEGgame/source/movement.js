@@ -1,7 +1,6 @@
 import {player, updateUI, message} from './player.js';
 import {currentMap, state, nextMap, addDamage, showMenu, currentMapIndex, pauseGame} from './main.js';
 import {TILES, logic_puzzles, awnsers} from './constants.js';
-import {Draw} from './draw.js';
 
 let isPressed = false;
 export let picked_keys = 0;

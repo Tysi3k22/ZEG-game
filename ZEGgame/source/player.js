@@ -1,6 +1,5 @@
 import {MAX_HP} from './constants.js';
 import {rewardTypes, maps} from './maps.js';
-import {formated_timer} from './timer.js';
 import {currentMapIndex} from './main.js';
 import {picked_keys, picked_heals, trapsCounter} from './movement.js';
 

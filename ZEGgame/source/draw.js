@@ -1,9 +1,7 @@
 import { drawEnemy, updateEnemies, getCurrentEnemy } from './enemies.js';
 import {TILE_SIZE, COLORS, TILES, GAME_ASSETS} from './constants.js';
 import {ctx, currentMap, state} from './main.js';
-import {move} from './movement.js';
 import {player} from './player.js';
-import {drawFog} from './fog.js';
 
 export function Draw() {
     if(state.gameState !== "PLAYING") return; //sprawdzanie czy gracz gra
