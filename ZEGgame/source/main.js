@@ -3,9 +3,18 @@ import {Draw} from './draw.js';
 import {player, updateUI, message, resetPlayer} from './player.js';
 import {startTimer, stopTimer, resumeTimer, resetTimer, counter} from './timer.js';
 import {camera, updateCamera, lerp} from './camera.js'
-import {fog} from './fog.js';
+import {fog, drawFog} from './fog.js';
 
 export const canvas = document.getElementById('game'); // pobranie canvasa
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+
+
+
 export const ctx = canvas.getContext('2d');
 export let total_damage = 0;
 
@@ -184,7 +193,7 @@ function gameLoop() {
     ctx.translate(-camera.renderX, -camera.renderY); //przesunięcie widoku o pozycję kamery, aby śledzić gracza
     
     Draw(); //funkcja rysujaca mape na canvasie
-    //drawFog(); //narywowanie mgly
+    drawFog(); //narywowanie mgly
     ctx.restore();
     if(player.hp <= 0) {
 
@@ -196,6 +205,7 @@ function gameLoop() {
     
     requestAnimationFrame(gameLoop); //zapewnienie płynności animacji poprzez wywolywanie gameLoop przed każdym odświeżeniem ekranu
 }
+
 
 
 gameLoop();

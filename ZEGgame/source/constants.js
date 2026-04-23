@@ -54,7 +54,7 @@ export const GAME_ASSETS = {
 
 //punktualny opis kolorow w labiryncie
 export const COLORS = {
-    WALL: '#222',
+    WALL: '#ffffff',
     EXIT: 'green',
     FOG: 'rgba(0, 0, 0,0.98)',
     RED_GATE: 'red',
