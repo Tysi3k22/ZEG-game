@@ -44,6 +44,7 @@ export function updateUI(currentMapIndex) {
 
     keys_html.innerHTML = parseInt(player.keys);
 
+    document.getElementById('bestTime').innerHTML = localStorage.getItem(`bestTime_map_${currentMapIndex}`);
     document.getElementById('keys').innerHTML = picked_keys + "/" + totalKeys;
     document.getElementById('heals').innerHTML = picked_heals + "/" + totalHeals;
     document.getElementById('traps').innerHTML = trapsCounter;
