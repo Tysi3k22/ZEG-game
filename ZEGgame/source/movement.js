@@ -1,13 +1,13 @@
 import {player, updateUI, message} from './player.js';
 import {currentMap, state, nextMap, addDamage, showMenu, currentMapIndex, pauseGame} from './main.js';
 import {TILES, logic_puzzles, awnsers} from './constants.js';
-import {Draw} from './draw.js';
 
 let isPressed = false;
 export let picked_keys = 0;
 export let picked_heals = 0;
 export let trapsCounter = 0
 
+// Funkcje zwiększające ilość zebranych kluczy, leczeń i pułapek na które gracz wszedł
 function pickedKeys() {
     picked_keys++;
 }
@@ -44,14 +44,14 @@ document.getElementById('submitAwnser').addEventListener('click', () => {
 });
 
 export function move(dx, dy) {
-    if(state.gameState !== "PLAYING") return; // zabezpieczenie przed poruszaniem się w menu
+    if(state.gameState !== "PLAYING") return; // Zabezpieczenie przed poruszaniem się w menu
 
 
     // Obliczenie nowej pozycji gracza
     const px = player.x + dx;
     const py = player.y + dy;
 
-    // Zabezpieczenie przed wyjsciem poza tablice mapy
+    // Zabezpieczenie przed wyjściem poza tablice mapy
     if (!currentMap[py] || currentMap[py][px] === undefined) return;
 
     const tile = currentMap[py][px];
@@ -90,20 +90,19 @@ export function move(dx, dy) {
 
     let animTimeout = null;
 
-    // Zabezpieczenie przed wchodzeniem w sciany
+    // Zabezpieczenie przed wchodzeniem w ściany
     if (tile === TILES.WALL) return;
 
     // Aktualizacja pozycji gracza
     player.x = px;
     player.y = py;
 
-    //
     if (animTimeout) {
         clearTimeout(animTimeout);
         animTimeout = null;
     }
 
-    player.animation.state = "walk"; // ustawienie animacji chodzenia
+    player.animation.state = "walk"; // Ustawienie animacji chodzenia
 
     // Logika przedmiotów i mety
     if (tile === TILES.EXIT) {
@@ -132,12 +131,12 @@ export function move(dx, dy) {
         message("Pułapka!");
     } 
 
-    // funkcja aktualizujaca informacje o graczu
+    // Funkcja aktualizujaca informacje o graczu
     updateUI(currentMapIndex);
 
-    // Powrot do animacji bezczynnosci po 200ms
+    // Powrót do animacji bezczynności po 200ms
     animTimeout = setTimeout(() => {
-        player.animation.state = "idle"; // powrot do animacji bezczynnosci po krotkim czasie
+        player.animation.state = "idle"; // Powrót do animacji bezczynności po krótkim czasie
         animTimeout = null;
     }, 200);
 }
@@ -145,7 +144,7 @@ export function move(dx, dy) {
 let canMove = true;
 
 document.addEventListener('keydown', (e) => {
-    // sterowanie strzałkami oraz wsad'em
+    // Sterowanie strzałkami oraz wsad'em
     if(!canMove) return;
     let dx = 0, dy = 0;
 
@@ -165,5 +164,5 @@ document.addEventListener('keydown', (e) => {
 
     if(["Escape"].includes(e.key)) pauseGame();
 
-    if(state.gameState === "PLAYING") e.preventDefault(); // zablokowanie przyciskow na stronie
+    if(state.gameState === "PLAYING") e.preventDefault(); // Zablokowanie przycisków na stronie
 });

@@ -225,7 +225,7 @@ export const maps = [[
 ]
 ];
 
-// przypisananie nagrod oraz ich ilosci do trudnosci map (zapisujemy tak jak na mapie 3 - klucz, 4 - lecznenie, 6 - pulapka)
+// Przypisanie nagród oraz ich ilości do trudności map (zapisujemy tak jak na mapie 3 - klucz, 4 - leczenie, 6 - pułapka)
 export const rewardTypes = {
         0: [{3: 2, 4: 2, 6: 2}],
         1: [{3: 3, 4: 2, 6: 3}],
@@ -236,11 +236,11 @@ export const rewardTypes = {
         6: [{3: 4, 4: 2, 6: 3}],
         7: [{3: 4, 4: 2, 6: 3}]
     };
-// funkcja do losowego rozmieszczania nagrod na mapie
+// Funkcja do losowego rozmieszczania nagród na mapie
 export function placeReward(map, rewardType) {
     let emptyTiles = [];
 
-    // przeszukujemy mape aby znalezc puste pole i dodajemy je do listy
+    // Przeszukujemy mapę aby znaleść puste pole i dodajemy je do listy
     for(let y = 0; y < map.length; y++) {
         for(let x = 0; x < map[y].length; x++) {
             if(map[y][x] === 0) {
@@ -249,7 +249,7 @@ export function placeReward(map, rewardType) {
         }
     }
 
-    // losowo mieszamy liste pustych pol
+    // Losowo mieszamy listę pustych pól
     for(let i = emptyTiles.length - 1; i > 0; i--) {
         let j = Math.floor(Math.random() * (i + 1));
         [emptyTiles[i], emptyTiles[j]] = [emptyTiles[j], emptyTiles[i]];
@@ -257,20 +257,20 @@ export function placeReward(map, rewardType) {
 
     const rewards = [];
 
-    // tworzymy liste nagrod do umieszczenia na mapie na podstawie podanego typu nagrody
+    // Tworzymy listę nagród do umieszczenia na mapie na podstawie podanego typu nagrody
     for (const type in rewardType) {
         for (let i = 0; i < rewardType[type]; i++) {
             rewards.push(Number(type));
         }
     }
 
-    // losowo mieszamy liste nagrod
+    // Losowo mieszamy listę nagród
     for(let i = rewards.length - 1; i > 0; i--) {
         let j = Math.floor(Math.random() * (i + 1));
         [rewards[i], rewards[j]] = [rewards[j], rewards[i]];
     }
 
-    // umieszczamy nagrody na mapie w losowo wybranych pustych polach
+    // Umieszczamy nagrody na mapie w losowo wybranych pustych polach
     for(let i = 0; i < rewards.length && i < emptyTiles.length; i++) {
         let {x, y} = emptyTiles[i];
         map[y][x] = rewards[i];

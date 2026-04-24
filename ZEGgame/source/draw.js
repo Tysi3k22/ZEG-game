@@ -1,13 +1,11 @@
 import { drawEnemy, updateEnemies, getCurrentEnemy } from './enemies.js';
 import {TILE_SIZE, COLORS, TILES, GAME_ASSETS} from './constants.js';
 import {ctx, currentMap, state} from './main.js';
-import {move} from './movement.js';
 import {player} from './player.js';
-import {drawFog} from './fog.js';
 
 export function Draw() {
-    if(state.gameState !== "PLAYING") return; //sprawdzanie czy gracz gra
-    for(let y = 0; y < currentMap.length; y++){ //petle sprawdzajace indexy w mapie aby ustawic
+    if(state.gameState !== "PLAYING") return; // Sprawdzanie czy gracz gra
+    for(let y = 0; y < currentMap.length; y++){ // Pętle sprawdzające indeksy w mapie aby ustawić odpowiednie kafelki
         for(let x = 0; x < currentMap[y].length; x++){
             const tile = currentMap[y][x];
             if(tile === TILES.WALL) ctx.fillStyle = COLORS.WALL;
@@ -48,7 +46,7 @@ export function Draw() {
     let totalFrames = 2;
     let fps = 6;
 
-    // wybor spirita i ilosci klatek na podstawie animacji
+    // Wybór spirita i ilości klatek na podstawie animacji
     if(animation.state === "walk") {
         sprite = GAME_ASSETS.walkImage;
         totalFrames = 2;
@@ -60,18 +58,18 @@ export function Draw() {
         animation.frame = 0; 
     }
 
-    // aktualizacja klatki animacji na podstawie czasu
+    // Aktualizacja klatki animacji na podstawie czasu
     const now = performance.now();
     if(now - animation.lastTime > 1000 / fps) {
         animation.frame = (animation.frame + 1) % totalFrames;
         animation.lastTime = now;
     }
 
-    // rysowanie gracza
+    // Rysowanie gracza
     ctx.drawImage(sprite, animation.frame * FRAME_WIDTH, 0, FRAME_WIDTH, FRAME_HEIGHT, player.renderX * TILE_SIZE, player.renderY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
     
     
-    const enemy = getCurrentEnemy(); //przypisanie przeciwnika do aktualnej mapy
-    updateEnemies(); //zaladowanie poruszania oraz zadawania obrazen od przeciwnika
-    drawEnemy(enemy); //narywowanie przeciwnika
+    const enemy = getCurrentEnemy(); // Przypisanie przeciwnika do aktualnej mapy
+    updateEnemies(); // Załadowanie poruszania oraz zadawania obrażeń od przeciwnika
+    drawEnemy(enemy); // Narywowanie przeciwnika
 }

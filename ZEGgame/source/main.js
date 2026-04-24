@@ -1,18 +1,26 @@
 import {maps, placeReward, rewardTypes} from './maps.js';
 import {Draw} from './draw.js';
 import {player, updateUI, message, resetPlayer} from './player.js';
-import {updateEnemies} from './enemies.js'
 import {startTimer, stopTimer, resumeTimer, resetTimer, counter} from './timer.js';
 import {camera, updateCamera, lerp} from './camera.js'
 import {fog, drawFog} from './fog.js';
 
-export const canvas = document.getElementById('game'); // pobranie canvasa
+export const canvas = document.getElementById('game'); // Pobranie canvasa
+
+// Dostosowanie rozmiaru canvasa do rozmiaru okna przeglądarki
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas(); // Ustawienie początkowego rozmiaru canvasa
+
 export const ctx = canvas.getContext('2d');
 export let total_damage = 0;
 
-export let currentMapIndex = 0; //zmienna przechowujaca aktualna mape, mozna ja zmieniac aby przechodzic do kolejnych map
+export let currentMapIndex = 0; // Zmienna przechowująca aktualna mape, można ją zmieniać aby przechodzić do kolejnych map
 
-export let currentMap = cloneMap(maps[currentMapIndex]); //pobranie aktualnej mapy z tablicy maps
+export let currentMap = cloneMap(maps[currentMapIndex]); // Pobranie aktualnej mapy z tablicy maps
 
 export const state = {gameState : "MENU"}; //MENU, PLAYING
 
@@ -35,15 +43,15 @@ function saveProgress() {
     }
 }
 
-// funkcja usprawiniajaca system menu
+// Funkcja usprawiniajaca system menu
 export function showMenu(menu) {
     document.querySelectorAll('.overlay').forEach(function(el) {
         el.classList.add('hidden');
-    }); //ukrycie wszystkich nakładek
-    document.getElementById(menu).classList.remove('hidden'); //pokazanie nakładki o podanym id
+    }); // Ukrycie wszystkich nakładek
+    document.getElementById(menu).classList.remove('hidden'); // Pokazanie nakładki o podanym id
 }
 
-//funkcjonalnosc przyciskow w menu
+// Funkcjonalność przycisków w menu
 document.getElementById('pauseGame').addEventListener("click", pauseGame);
 document.getElementById('resumeGame').addEventListener("click", resumeGame);
 document.getElementById('startNewGame').addEventListener("click", function() {
@@ -63,7 +71,7 @@ document.getElementById('backToLobby_Lost').addEventListener("click", function()
     showMenu('overlay');
 });
 
-// funkcja rozpoczynajaca gre
+// Funkcja rozpoczynająca grę
 export function startGame() {
     total_damage = 0;    
     camera.renderX = 0;
@@ -81,7 +89,7 @@ export function startGame() {
     startTimer();
 }
 
-// funkcja resetujaca gre
+// Funkcja resetująca grę
 export function gameOver() {
     player.hp = 100;
     resetPlayer();
@@ -95,7 +103,7 @@ export function gameOver() {
     showMenu('lostGame');
 }
 
-// funkcja wygrywania gry
+// Funkcja wygrywania gry
 function Win() {
     state.gameState = "MENU";
     stopTimer();
@@ -103,7 +111,7 @@ function Win() {
     showMenu('Win');
 }
 
-//funkcja pauzowania gry
+// Funkcja pauzowania gry
 export function pauseGame() {
     if(state.gameState !== "PLAYING") return;
     state.gameState = "MENU";
@@ -112,7 +120,7 @@ export function pauseGame() {
     showMenu('paused');
 }
 
-// funkcja wznawiania gry
+// Funkcja wznawiania gry
 function resumeGame() {
     state.gameState = "PLAYING";
     resumeTimer();
@@ -120,7 +128,7 @@ function resumeGame() {
     showMenu('pauseGame');
 }
 
-// funkcja do klonowania mapy, aby nie modyfikowac oryginalnej mapy w tablicy maps
+// Funkcja do klonowania mapy, aby nie modyfikować oryginalnej mapy w tablicy maps
 function cloneMap(map) {
     const newMap = [];
     // Przejście przez każdy wiersz mapy
@@ -134,12 +142,12 @@ function cloneMap(map) {
     return newMap;
 }
 
-// funkcja przechodzenia do kolejnej mapy
+// Funkcja przechodzenia do kolejnej mapy
 export function nextMap() {
     saveProgress();
     currentMapIndex++;
 
-    // sprawdzenie czy istnieje kolejna mapa, jesli nie to wygrana
+    // Sprawdzenie czy istnieje kolejna mapa, jeśli nie to wygrana
     if (!maps[currentMapIndex]) {
         Win();
         message("Gratulacje! Ukończyłeś wszystkie mapy! (na razie)");
@@ -147,56 +155,57 @@ export function nextMap() {
     }
     localStorage.setItem('savedMapIndex', currentMapIndex);
 
-    // pobranie kolejnej mapy
+    // Pobranie kolejnej mapy
     currentMap = cloneMap(maps[currentMapIndex]);
 
-    // umieszczenie nagrod na mapie
-    const levelRewards = rewardTypes[currentMapIndex + 1];
+    // Umieszczenie nagród na mapie
+    const levelRewards = rewardTypes[currentMapIndex];
 
     if (levelRewards && levelRewards[0]) {
         // levelRewards[0], bo Twoje nagrody są zamknięte w tablicy: [{3:x, 4:y}]
         placeReward(currentMap, levelRewards[0]);
     }
 
-    // zresetowanie pozycji gracza i narysowanie mapy
+    // Zresetowanie pozycji gracza i narysowanie mapy
     resetPlayer();
     Draw();
 }
 
-//petla gry
+// Pętla gry
 function gameLoop() {
     
-    ctx.clearRect(0, 0, canvas.width, canvas.height); //zresetowanie wszelkich rzeczy w canvasie
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Zresetowanie wszelkich rzeczy w canvasie
     
     if (state.gameState === "PLAYING") {
-        player.renderX = lerp(player.renderX, player.x, 0.15); //płynne przejście renderowanej pozycji gracza do jego aktualnej pozycji
+        player.renderX = lerp(player.renderX, player.x, 0.15); // Płynne przejście renderowanej pozycji gracza do jego aktualnej pozycji
         player.renderY = lerp(player.renderY, player.y, 0.15);
 
         fog.renderX = player.renderX;
         fog.renderY = player.renderY;
         
-        updateCamera(player, canvas.width, canvas.height); //aktualizacja pozycji kamery na podstawie pozycji gracza
+        updateCamera(player, canvas.width, canvas.height); // Aktualizacja pozycji kamery na podstawie pozycji gracza
     } else {
         updateCamera(player, canvas.width, canvas.height);
     }
     
-    ctx.save(); //zapisanie aktualnego stanu
+    ctx.save(); // Zapisanie aktualnego stanu
     
-    ctx.translate(-camera.renderX, -camera.renderY); //przesunięcie widoku o pozycję kamery, aby śledzić gracza
+    ctx.translate(-camera.renderX, -camera.renderY); // Przesunięcie widoku o pozycję kamery, aby śledzić gracza
     
-    Draw(); //funkcja rysujaca mape na canvasie
-    //drawFog(); //narywowanie mgly
+    Draw(); // Funkcja rysująca mape na canvasie
+    drawFog(); // Narywowanie mgły
     ctx.restore();
     if(player.hp <= 0) {
 
         
-        gameOver(); //funkcja przegranej, resetuje gre
+        gameOver(); // Funkcja przegranej, resetuje gre
     }
     
-    updateUI(currentMapIndex); //aktualizacja informacji o graczu
+    updateUI(currentMapIndex); // Aktualizacja informacji o graczu
     
-    requestAnimationFrame(gameLoop); //zapewnienie płynności animacji poprzez wywolywanie gameLoop przed każdym odświeżeniem ekranu
+    requestAnimationFrame(gameLoop); // Zapewnienie płynności animacji poprzez wywolywanie gameLoop przed każdym odświeżeniem ekranu
 }
+
 
 
 gameLoop();
