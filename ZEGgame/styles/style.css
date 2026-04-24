@@ -68,13 +68,13 @@ canvas {
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
-    font-size: 16px;
+    font-size: 20px;
     color: #888;
 }
 
 .top-bar h1 {
     color: #eee;
-    font-size: 16px;
+    font-size: 20px;
     letter-spacing: 2px;
     text-transform: uppercase;
 }
@@ -100,7 +100,7 @@ canvas {
 
 /* Nagłówki sekcji w panelach */
 .left-side h2, .right-side h2 {
-    font-size: 20px;
+    font-size: 22px;
     color: #555;
     text-transform: uppercase;
     border-bottom: 2px solid #222;
@@ -110,7 +110,7 @@ canvas {
 
 /* Statystyki */
 .stats div, .info p {
-    font-size: 14px;
+    font-size: 16px;
     padding: 6px 0;
     border-bottom: 1px solid #1a1a1a;
     display: flex;
@@ -166,7 +166,7 @@ canvas {
 }
 
 .overlay h1 {
-    font-size: 22px;
+    font-size: 24px;
     color: #fff;
     margin-bottom: 20px;
     letter-spacing: 2px;
@@ -174,7 +174,7 @@ canvas {
 }
 
 .overlay p {
-    font-size: 14px;
+    font-size: 16px;
     color: #aaa;
     margin-bottom: 15px;
 }
@@ -185,7 +185,7 @@ button {
     border: 3px solid #444;
     color: #888;
     font-family: "Tiny5", sans-serif;
-    font-size: 15px;
+    font-size: 16px;
     padding: 12px 20px;
     cursor: pointer;
     margin: 5px;
@@ -213,7 +213,7 @@ button i {
 
 #puzzles h1 {
     color: #aa66ff;
-    font-size: 16px;
+    font-size: 18px;
 }
 
 #puzzleAwnser {
@@ -221,7 +221,7 @@ button i {
     border: 2px solid #333;
     color: #fff;
     font-family: "Tiny5", sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     padding: 10px;
     width: 80%;
     margin: 15px 0;
